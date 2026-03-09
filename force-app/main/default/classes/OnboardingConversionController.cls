@@ -1,6 +1,10 @@
 /**
  * @description AuraEnabled controller that exposes the OnboardingConversionService
  *              to LWC components. Thin controller — delegates all business logic to the service.
+ * 
+ * @Jhosua Arda
+ * LinkedIn - https://www.linkedin.com/in/jhosua-arda/
+ * @date 2026
  */
 public with sharing class OnboardingConversionController {
 
@@ -47,9 +51,9 @@ public with sharing class OnboardingConversionController {
             return result;
         }
 
-        if (app.Status__c != 'Approved') {
+        if (app.Status__c != 'Submitted') {
             result.put('eligible', false);
-            result.put('reason', 'Only applications with Status "Approved" can be converted. Current status: ' + app.Status__c);
+            result.put('reason', 'Only applications with Status "Submitted" can be converted. Current status: ' + app.Status__c);
             return result;
         }
 

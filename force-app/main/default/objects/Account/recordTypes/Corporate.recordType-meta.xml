@@ -1208,6 +1208,14 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>United Kingdom</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>United States</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Uruguayan</fullName>
             <default>false</default>
         </values>

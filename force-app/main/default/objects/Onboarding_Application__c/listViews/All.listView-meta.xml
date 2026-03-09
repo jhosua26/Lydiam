@@ -3,13 +3,17 @@
     <fullName>All</fullName>
     <columns>NAME</columns>
     <columns>Client_Name__c</columns>
-    <columns>Client_Type__c</columns>
     <columns>Application_Type__c</columns>
-    <columns>Overall_Risk_Rating__c</columns>
-    <columns>Primary_Contact__c</columns>
-    <columns>Services_Required__c</columns>
+    <columns>Client_Type__c</columns>
+    <columns>Current_Step__c</columns>
     <columns>Status__c</columns>
+    <columns>Submitted_Date__c</columns>
     <columns>CREATED_DATE</columns>
     <filterScope>Everything</filterScope>
+    <filters>
+        <field>Status__c</field>
+        <operation>contains</operation>
+        <value>Submitted,Under Review,In Progress,Approved</value>
+    </filters>
     <label>All</label>
 </ListView>

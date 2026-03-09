@@ -50,6 +50,9 @@ $RECYCLE.BIN/
 # Claude Code local settings
 .claude/
 
+# Connected Apps (may contain sensitive config)
+force-app/main/default/connectedApps/
+
 # VS Code settings
 .vscode/
 

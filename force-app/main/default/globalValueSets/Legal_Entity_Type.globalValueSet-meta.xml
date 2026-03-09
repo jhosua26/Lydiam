@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>Limited Company</fullName>
+        <default>false</default>
+        <label>Limited Company</label>
+    </customValue>
+    <customValue>
+        <fullName>Public Quoted Company</fullName>
+        <default>false</default>
+        <label>Public Quoted Company</label>
+    </customValue>
+    <customValue>
+        <fullName>Public Limited Company (PLC)</fullName>
+        <default>false</default>
+        <label>Public Limited Company (PLC)</label>
+    </customValue>
+    <customValue>
+        <fullName>Incorporated Partnership (LLP)</fullName>
+        <default>false</default>
+        <label>Incorporated Partnership (LLP)</label>
+    </customValue>
+    <customValue>
+        <fullName>Unincorporated Partnership</fullName>
+        <default>false</default>
+        <label>Unincorporated Partnership</label>
+    </customValue>
+    <customValue>
+        <fullName>Sole TraderTrust</fullName>
+        <default>false</default>
+        <label>Sole TraderTrust</label>
+    </customValue>
+    <customValue>
+        <fullName>Charity</fullName>
+        <default>false</default>
+        <label>Charity</label>
+    </customValue>
+    <customValue>
+        <fullName>Ltd</fullName>
+        <default>false</default>
+        <label>Ltd</label>
+    </customValue>
+    <customValue>
+        <fullName>Unregistered Partnership</fullName>
+        <default>false</default>
+        <label>Unregistered Partnership</label>
+    </customValue>
+    <customValue>
+        <fullName>Registered Partnership</fullName>
+        <default>false</default>
+        <label>Registered Partnership</label>
+    </customValue>
+    <customValue>
+        <fullName>PLC</fullName>
+        <default>false</default>
+        <label>PLC</label>
+    </customValue>
+    <customValue>
+        <fullName>Sole Trader</fullName>
+        <default>false</default>
+        <label>Sole Trader</label>
+    </customValue>
+    <customValue>
+        <fullName>GMBH</fullName>
+        <default>false</default>
+        <label>GMBH</label>
+    </customValue>
+    <customValue>
+        <fullName>GBr</fullName>
+        <default>false</default>
+        <label>GBr</label>
+    </customValue>
+    <customValue>
+        <fullName>KG</fullName>
+        <default>false</default>
+        <label>KG</label>
+    </customValue>
+    <customValue>
+        <fullName>SARL</fullName>
+        <default>false</default>
+        <label>SARL</label>
+    </customValue>
+    <customValue>
+        <fullName>OHG</fullName>
+        <default>false</default>
+        <label>OHG</label>
+    </customValue>
+    <customValue>
+        <fullName>AG</fullName>
+        <default>false</default>
+        <label>AG</label>
+    </customValue>
+    <customValue>
+        <fullName>Other</fullName>
+        <default>false</default>
+        <label>Other</label>
+    </customValue>
+    <masterLabel>Legal Entity Type</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>

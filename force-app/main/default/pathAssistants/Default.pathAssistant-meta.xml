@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PathAssistant xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>true</active>
+    <entityName>Lead</entityName>
+    <fieldName>Status</fieldName>
+    <masterLabel>Default</masterLabel>
+    <pathAssistantSteps>
+        <info>&lt;p&gt;&lt;strong style=&quot;font-size: 11pt; font-family: Verdana;&quot;&gt;Client onboarded&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 11pt; font-family: Verdana;&quot;&gt;Deliver the client welcome letter to finalise the onboarding process&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 11pt; font-family: Verdana;&quot;&gt;&lt;span class=&quot;ql-cursor&quot;&gt;﻿&lt;/span&gt;Discuss and prepare the first trade with the client&lt;/span&gt;&lt;/p&gt;</info>
+        <picklistValueName>Converted</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Company</fieldNames>
+        <fieldNames>Website</fieldNames>
+        <fieldNames>Industry</fieldNames>
+        <fieldNames>NumberOfEmployees</fieldNames>
+        <info>&lt;p&gt;&lt;strong&gt;Qualify promising leads&lt;/strong&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Delegate the lead to the appropriate sales representative.&lt;/li&gt;&lt;li&gt;Gather and record all relevant contact details from the lead.&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>New</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Name</fieldNames>
+        <fieldNames>Email</fieldNames>
+        <fieldNames>Phone</fieldNames>
+        <fieldNames>Application_Form__c</fieldNames>
+        <fieldNames>Title</fieldNames>
+        <info>&lt;p&gt;&lt;strong style=&quot;font-size: 10pt; font-family: Arial;&quot;&gt; &lt;/strong&gt;&lt;strong&gt;Send Application Form&lt;/strong&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Provide the appropriate application form to the lead at the right stage in the process.&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>Working</picklistValueName>
+    </pathAssistantSteps>
+    <recordTypeName>__MASTER__</recordTypeName>
+</PathAssistant>

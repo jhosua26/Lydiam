@@ -5,5 +5,6 @@
     <description>Indicates whether Enhanced Due Diligence is required based on onboarding risk assessment.</description>
     <label>EDD Required</label>
     <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
     <type>Checkbox</type>
 </CustomField>

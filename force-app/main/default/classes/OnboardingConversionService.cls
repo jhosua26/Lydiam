@@ -10,7 +10,7 @@
  */
 public with sharing class OnboardingConversionService {
 
-    private static final String STATUS_APPROVED = 'Approved';
+    private static final String STATUS_SUBMITTED = 'Submitted';
     private static final String CLIENT_TYPE_CORPORATE = 'Corporate entity';
     private static final String CLIENT_TYPE_PRIVATE = 'Private individual';
     private static final String ROLE_APPLICANT = 'Applicant';
@@ -122,8 +122,8 @@ public with sharing class OnboardingConversionService {
             result.errors.add('Onboarding Application record not found.');
             return;
         }
-        if (app.Status__c != STATUS_APPROVED) {
-            result.errors.add('Only applications with Status "Approved" can be converted. Current status: ' + app.Status__c);
+        if (app.Status__c != STATUS_SUBMITTED) {
+            result.errors.add('Only applications with Status "Submitted" can be converted. Current status: ' + app.Status__c);
         }
     }
 
