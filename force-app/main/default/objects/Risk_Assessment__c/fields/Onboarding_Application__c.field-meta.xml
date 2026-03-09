@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Onboarding_Application__c</fullName>
+    <description>Parent onboarding application this risk assessment belongs to.</description>
+    <label>Onboarding Application</label>
+    <referenceTo>Onboarding_Application__c</referenceTo>
+    <relationshipLabel>Risk Assessments</relationshipLabel>
+    <relationshipName>Risk_Assessments</relationshipName>
+    <relationshipOrder>0</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Client_Type__c</fullName>
+    <description>Client type from onboarding application.</description>
+    <label>Client Type</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Private individual</fullName>
+                <default>false</default>
+                <label>Private individual</label>
+            </value>
+            <value>
+                <fullName>Corporate entity</fullName>
+                <default>false</default>
+                <label>Corporate entity</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

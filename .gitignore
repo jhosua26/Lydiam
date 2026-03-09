@@ -1,0 +1,85 @@
+# This file is used for Git repositories to specify intentionally untracked files that Git should ignore. 
+# If you are not using git, you can delete this file. For more information see: https://git-scm.com/docs/gitignore
+# For useful gitignore templates see: https://github.com/github/gitignore
+
+# Salesforce cache
+.sf/
+.sfdx/
+.localdevserver/
+deploy-options.json
+
+# LWC VSCode autocomplete
+**/lwc/jsconfig.json
+
+# LWC Jest coverage reports
+coverage/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Dependency directories
+node_modules/
+
+# ApexPMD cache
+.pmdCache
+
+# Eslint cache
+.eslintcache
+
+# MacOS system files
+.DS_Store
+
+# Windows system files
+Thumbs.db
+ehthumbs.db
+[Dd]esktop.ini
+$RECYCLE.BIN/
+
+# Local environment variables
+.env
+
+# Python Salesforce Functions
+**/__pycache__/
+**/.venv/
+**/venv/
+
+# Claude Code local settings
+.claude/
+
+# VS Code settings
+.vscode/
+
+# Project documentation
+CLAUDE.md
+docs/
+
+# Husky git hooks
+.husky/
+
+# Scratch org config
+config/
+
+# Debug logs
+debuglogs
+debuglogs.ini
+
+# Binary/document files
+*.docx
+*.pdf
+
+# Local planning and notes files
+FINAL_FIXES_READY_TO_APPLY.md
+IMPLEMENTATION_COMPLETE_SUMMARY.md
+ONBOARDING_DATA_MODEL_DOCUMENTATION.md
+ONBOARDING_FORM_CHANGES_SUMMARY.md
+ONBOARDING_FORM_DATA_FLOW_GUIDE.md
+ONBOARDING_FORM_INTEGRATION_PLAN.md
+TESTING_GUIDE_CORPORATE_WORKFLOW.md
+TESTING_PLAN.md
+UNPOPULATED_FIELDS_ANALYSIS.md
+VALIDATION_IMPLEMENTATION_PLAN.md
+YOUR_CUSTOM_ACTION_PLAN.md

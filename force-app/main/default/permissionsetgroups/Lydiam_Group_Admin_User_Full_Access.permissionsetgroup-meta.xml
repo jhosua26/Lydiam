@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSetGroup xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>This PSG has full access to all necessary objects</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Lydiam Group- Admin User Full Access</label>
+    <permissionSets>LG_Account_Full_Access</permissionSets>
+    <permissionSets>LG_Bank_Account_Full_Access</permissionSets>
+    <permissionSets>LG_Commission_Full_Access</permissionSets>
+    <permissionSets>LG_Contact_Full_Access</permissionSets>
+    <permissionSets>LG_Document_Full_Access</permissionSets>
+    <permissionSets>LG_Lead_Full_Access</permissionSets>
+    <permissionSets>LG_Opportunity_Full_Access</permissionSets>
+    <permissionSets>LG_Payment_Full_Access</permissionSets>
+    <permissionSets>LG_Trades_Full_Access</permissionSets>
+    <permissionSets>LG_Wallet_Full_Access</permissionSets>
+    <status>Updated</status>
+</PermissionSetGroup>

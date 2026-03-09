@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Application_Party_Role_Compact_Layout</fullName>
+    <fields>Onboarding_Application__c</fields>
+    <fields>Name</fields>
+    <fields>Role__c</fields>
+    <fields>Position_or_Role_Description__c</fields>
+    <fields>KYC_Completed__c</fields>
+    <fields>Party__c</fields>
+    <fields>Is_Primary__c</fields>
+    <label>Application Party Role Compact Layout</label>
+</CompactLayout>

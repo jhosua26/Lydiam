@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Commission_Percentage_Exceeds_100</fullName>
+    <active>true</active>
+    <description>Commission percentage can never be more than 100</description>
+    <errorConditionFormula>(
+  BLANKVALUE(Commission_Pecentage_External_Partner_1__c, 0) +
+  BLANKVALUE(Commission_Pecentage_External_Partner_2__c, 0) +
+  BLANKVALUE(Commission_Pecentage_External_Partner_3__c, 0) +
+  BLANKVALUE(Commission_Pecentage_Internal_Partner_1__c, 0) +
+  BLANKVALUE(Commission_Pecentage_Internal_Partner_2__c, 0) +
+  BLANKVALUE(Commission_Pecentage_Internal_Partner_3__c, 0)
+) &gt; 1</errorConditionFormula>
+    <errorMessage>Commission percentages must not exceed 100% for any single field, any two fields combined, or all three fields combined.</errorMessage>
+</ValidationRule>

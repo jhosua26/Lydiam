@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Advisory_Services_Required__c</fullName>
+    <description>Types of advisory services the client requires.</description>
+    <label>Advisory Services Required</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Market_Insights</fullName>
+                <default>false</default>
+                <label>Market Insights</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+            <value>
+                <fullName>Regulatory_Guidance</fullName>
+                <default>false</default>
+                <label>Regulatory Guidance</label>
+            </value>
+            <value>
+                <fullName>Risk_Management</fullName>
+                <default>false</default>
+                <label>Risk Management</label>
+            </value>
+            <value>
+                <fullName>Treasury_Strategy</fullName>
+                <default>false</default>
+                <label>Treasury Strategy</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

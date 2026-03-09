@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Purpose_of_Account__c</fullName>
+    <label>Purpose of Account</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Hedging</fullName>
+                <default>false</default>
+                <label>Hedging</label>
+            </value>
+            <value>
+                <fullName>Speculation</fullName>
+                <default>false</default>
+                <label>Speculation</label>
+            </value>
+            <value>
+                <fullName>Trading for Clients</fullName>
+                <default>false</default>
+                <label>Trading for Clients</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

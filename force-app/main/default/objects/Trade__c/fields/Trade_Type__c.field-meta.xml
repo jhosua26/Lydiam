@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Trade_Type__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(
+    AND(
+        OR(TEXT(Sell__c) = &quot;BTC&quot;, TEXT(Sell__c) = &quot;ETH&quot;, TEXT(Sell__c) = &quot;USDT&quot;),
+        OR(TEXT(Buy__c) = &quot;EUR&quot;, TEXT(Buy__c) = &quot;USD&quot;, TEXT(Buy__c) = &quot;GBP&quot;, TEXT(Buy__c) = &quot;AED&quot;)
+    ),
+    &quot;Crypto Off-ramp&quot;,  /* Selling crypto to buy fiat */
+    
+    IF(
+        AND(
+            OR(TEXT(Sell__c) = &quot;EUR&quot;, TEXT(Sell__c) = &quot;USD&quot;, TEXT(Sell__c) = &quot;GBP&quot;, TEXT(Sell__c) = &quot;AED&quot;),
+            OR(TEXT(Buy__c) = &quot;BTC&quot;, TEXT(Buy__c) = &quot;ETH&quot;, TEXT(Buy__c) = &quot;USDT&quot;)
+        ),
+        &quot;Crypto On-ramp&quot;,   /* Selling fiat to buy crypto */
+        
+        IF(
+            AND(
+                OR(TEXT(Sell__c) = &quot;BTC&quot;, TEXT(Sell__c) = &quot;ETH&quot;, TEXT(Sell__c) = &quot;USDT&quot;),
+                OR(TEXT(Buy__c) = &quot;BTC&quot;, TEXT(Buy__c) = &quot;ETH&quot;, TEXT(Buy__c) = &quot;USDT&quot;)
+            ),
+            &quot;Crypto-to-Crypto&quot;, /* Crypto swap */
+            &quot;FX&quot;                 /* All other cases: fiat-to-fiat */
+        )
+    )
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Trade Type</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Party__c</fullName>
+    <deleteConstraint>Restrict</deleteConstraint>
+    <description>Party playing this role within the application.</description>
+    <label>Party</label>
+    <referenceTo>Party__c</referenceTo>
+    <relationshipLabel>Application Party Roles</relationshipLabel>
+    <relationshipName>Application_Party_Roles_For_Party</relationshipName>
+    <required>true</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

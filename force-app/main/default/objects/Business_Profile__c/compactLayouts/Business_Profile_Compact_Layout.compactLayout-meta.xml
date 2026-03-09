@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Business_Profile_Compact_Layout</fullName>
+    <fields>Onboarding_Application__c</fields>
+    <fields>Name</fields>
+    <fields>High_Risk_Jurisdiction__c</fields>
+    <fields>Expected_Annual_Volume__c</fields>
+    <fields>Expected_Transactions_per_Month__c</fields>
+    <fields>Primary_Source_of_Funds__c</fields>
+    <label>Business Profile Compact Layout</label>
+</CompactLayout>

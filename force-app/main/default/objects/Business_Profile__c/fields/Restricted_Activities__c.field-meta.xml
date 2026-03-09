@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Restricted_Activities__c</fullName>
+    <description>Indicates if the company engages in any restricted or high-risk activities that may require additional compliance review.</description>
+    <label>Restricted Activities</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Adult Content</fullName>
+                <default>false</default>
+                <label>Adult Content</label>
+            </value>
+            <value>
+                <fullName>Cannabis</fullName>
+                <default>false</default>
+                <label>Cannabis</label>
+            </value>
+            <value>
+                <fullName>Gambling</fullName>
+                <default>false</default>
+                <label>Gambling</label>
+            </value>
+            <value>
+                <fullName>Money Service Business</fullName>
+                <default>false</default>
+                <label>Money Service Business</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+            <value>
+                <fullName>Sanctioned Goods</fullName>
+                <default>false</default>
+                <label>Sanctioned Goods</label>
+            </value>
+            <value>
+                <fullName>Weapons</fullName>
+                <default>false</default>
+                <label>Weapons</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>5</visibleLines>
+</CustomField>

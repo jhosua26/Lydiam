@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Payment_Flow_Types__c</fullName>
+    <description>Types of payment flows the company expects to use.</description>
+    <label>Payment Flow Types</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>1st_to_1st</fullName>
+                <default>false</default>
+                <label>1st → 1st Party</label>
+            </value>
+            <value>
+                <fullName>1st_to_3rd</fullName>
+                <default>false</default>
+                <label>1st → 3rd Party</label>
+            </value>
+            <value>
+                <fullName>3rd_to_1st</fullName>
+                <default>false</default>
+                <label>3rd → 1st Party</label>
+            </value>
+            <value>
+                <fullName>3rd_to_3rd</fullName>
+                <default>false</default>
+                <label>3rd → 3rd Party</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

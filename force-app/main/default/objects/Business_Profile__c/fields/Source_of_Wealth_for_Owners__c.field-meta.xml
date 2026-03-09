@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Source_of_Wealth_for_Owners__c</fullName>
+    <description>Source of wealth for the business owners.</description>
+    <label>Source of Wealth for Business Owners</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Inherited_Wealth</fullName>
+                <default>false</default>
+                <label>Inherited Wealth</label>
+            </value>
+            <value>
+                <fullName>Investment_Returns</fullName>
+                <default>false</default>
+                <label>Investment Returns</label>
+            </value>
+            <value>
+                <fullName>Operating_Profits</fullName>
+                <default>false</default>
+                <label>Operating Profits</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+            <value>
+                <fullName>Sale_of_Business</fullName>
+                <default>false</default>
+                <label>Sale of Business</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

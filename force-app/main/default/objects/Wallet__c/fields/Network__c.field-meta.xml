@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Network__c</fullName>
+    <label>Network</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Bitcoin</fullName>
+                <default>false</default>
+                <label>Bitcoin</label>
+            </value>
+            <value>
+                <fullName>Ethereum</fullName>
+                <default>false</default>
+                <label>Ethereum</label>
+            </value>
+            <value>
+                <fullName>Tron</fullName>
+                <default>false</default>
+                <label>Tron</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

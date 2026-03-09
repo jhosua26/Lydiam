@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Address_Type__c</fullName>
+    <description>Classification of the address (residential, registered office, principal place of business, etc.).</description>
+    <label>Address Type</label>
+    <required>true</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Mailing</fullName>
+                <default>false</default>
+                <label>Mailing</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+            <value>
+                <fullName>Principal_Business</fullName>
+                <default>false</default>
+                <label>Principal Place of Business</label>
+            </value>
+            <value>
+                <fullName>Registered</fullName>
+                <default>false</default>
+                <label>Registered Office</label>
+            </value>
+            <value>
+                <fullName>Residential</fullName>
+                <default>true</default>
+                <label>Residential</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

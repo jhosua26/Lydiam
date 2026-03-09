@@ -1,0 +1,86 @@
+<template>
+    <!-- Eligibility Check Phase -->
+    <template lwc:if={isLoading}>
+        <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+    </template>
+
+    <template lwc:if={showEligibilityError}>
+        <div class="slds-box slds-theme_shade slds-m-around_medium">
+            <div class="slds-media slds-media_center">
+                <div class="slds-media__figure">
+                    <lightning-icon icon-name="utility:warning" variant="warning" size="small"></lightning-icon>
+                </div>
+                <div class="slds-media__body">
+                    <p class="slds-text-body_regular">{eligibilityMessage}</p>
+                    <template lwc:if={alreadyConvertedAccountId}>
+                        <p class="slds-m-top_x-small">
+                            <a href={convertedAccountUrl} target="_blank">View Converted Account</a>
+                        </p>
+                    </template>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template lwc:if={showConfirmation}>
+        <div class="slds-box slds-m-around_medium">
+            <div class="slds-text-heading_small slds-m-bottom_small">Convert to Account &amp; Contacts</div>
+            <p class="slds-m-bottom_medium">{eligibilityMessage}</p>
+            <p class="slds-m-bottom_medium slds-text-body_small slds-text-color_weak">
+                This will create an Account and Contact record(s) from the onboarding data.
+                The application status will be updated to "Converted".
+            </p>
+            <div class="slds-m-top_medium">
+                <lightning-button
+                    variant="brand"
+                    label="Convert Now"
+                    onclick={handleConvert}
+                    disabled={isConverting}>
+                </lightning-button>
+            </div>
+        </div>
+    </template>
+
+    <!-- Converting Phase -->
+    <template lwc:if={isConverting}>
+        <div class="slds-box slds-m-around_medium slds-text-align_center">
+            <lightning-spinner alternative-text="Converting" size="medium"></lightning-spinner>
+            <p class="slds-m-top_medium slds-text-body_regular">Converting application to Account &amp; Contacts...</p>
+        </div>
+    </template>
+
+    <!-- Success Phase -->
+    <template lwc:if={showSuccess}>
+        <div class="slds-box slds-theme_success slds-m-around_medium">
+            <div class="slds-media slds-media_center">
+                <div class="slds-media__figure">
+                    <lightning-icon icon-name="utility:success" variant="inverse" size="small"></lightning-icon>
+                </div>
+                <div class="slds-media__body">
+                    <p class="slds-text-heading_small slds-text-color_inverse">Conversion Successful</p>
+                    <p class="slds-text-color_inverse slds-m-top_x-small">{conversionMessage}</p>
+                    <p class="slds-m-top_small">
+                        <a href={newAccountUrl} target="_blank" class="slds-text-color_inverse" style="text-decoration: underline;">
+                            View Account
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- Error Phase -->
+    <template lwc:if={showError}>
+        <div class="slds-box slds-theme_error slds-m-around_medium">
+            <div class="slds-media slds-media_center">
+                <div class="slds-media__figure">
+                    <lightning-icon icon-name="utility:error" variant="inverse" size="small"></lightning-icon>
+                </div>
+                <div class="slds-media__body">
+                    <p class="slds-text-heading_small slds-text-color_inverse">Conversion Failed</p>
+                    <p class="slds-text-color_inverse slds-m-top_x-small">{errorMessage}</p>
+                </div>
+            </div>
+        </div>
+    </template>
+</template>

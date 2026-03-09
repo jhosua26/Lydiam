@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSetGroup xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>This PSG has Create, View and Modify access on all necessary objects</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Lydiam Group Standard User Access</label>
+    <permissionSets>LG_Account_Standard_Access</permissionSets>
+    <permissionSets>LG_Bank_Account_Standard_Access</permissionSets>
+    <permissionSets>LG_Contact_Standard_Access</permissionSets>
+    <permissionSets>LG_Document_Standard_Access</permissionSets>
+    <permissionSets>LG_Lead_Standard_Access</permissionSets>
+    <permissionSets>LG_Opportunity_Standard_Access</permissionSets>
+    <permissionSets>LG_Payment_Standard_Access</permissionSets>
+    <permissionSets>LG_Trades_Standard_Access</permissionSets>
+    <permissionSets>LG_Wallet_Standard_Access</permissionSets>
+    <status>Updated</status>
+</PermissionSetGroup>

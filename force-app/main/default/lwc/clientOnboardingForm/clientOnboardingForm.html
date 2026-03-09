@@ -1,0 +1,2982 @@
+<template>
+    <!-- Loading Overlay -->
+    <template if:true={isSubmitting}>
+        <div class="loading-overlay">
+            <div class="loading-overlay-content">
+                <lightning-spinner alternative-text="Submitting application" size="large"></lightning-spinner>
+                <div class="slds-text-heading_small slds-m-top_medium">Submitting your application...</div>
+                <p class="slds-text-body_regular slds-text-color_weak slds-m-top_small">
+                    Please do not close this page or navigate away.
+                </p>
+            </div>
+        </div>
+    </template>
+    
+    <div class="slds-container_center slds-container_large onboarding-container">
+        <!-- Company Logo Header (visible everywhere except success page) -->
+        <template if:false={showSuccessMessage}>
+            <div class="company-logo-header">
+                <img src={logoUrl} 
+                     alt="Lydiam Logo" 
+                     class="company-logo" />
+            </div>
+        </template>
+        
+        <!-- Progress Indicator -->
+        <div class="progress-indicator-container" if:true={showProgress}>
+            <div class="fancy-progress-wrapper">
+                <!-- Progress Percentage -->
+                <div class="progress-header">
+                    <div class="progress-percentage">
+                        <span class="progress-percentage-value">{progressPercentage}%</span>
+                        <span class="progress-percentage-label">Complete</span>
+                    </div>
+                    <div class="progress-step-counter">
+                        Step {currentStepNumber} of {totalSteps}
+                    </div>
+                </div>
+                
+                <!-- Progress Bar -->
+                <div class="fancy-progress-bar">
+                    <div class="progress-bar-fill"></div>
+                </div>
+                
+                <!-- Step Indicators (Desktop) -->
+                <div class="fancy-progress-steps">
+                    <template for:each={progressSteps} for:item="step">
+                        <div key={step.key} class="fancy-step-wrapper">
+                            <div class={step.stepClass}>
+                                <div class="step-circle">
+                                    <template if:true={step.isCompleted}>
+                                        <lightning-icon 
+                                            icon-name="utility:check" 
+                                            size="x-small" 
+                                            class="step-check-icon">
+                                        </lightning-icon>
+                                    </template>
+                                    <template if:false={step.isCompleted}>
+                                        <span class="step-number">{step.stepNumber}</span>
+                                    </template>
+                                </div>
+                                <div class="step-ripple" if:true={step.isActive}></div>
+                            </div>
+                            <div class="step-label-container">
+                                <span class={step.labelClass}>{step.label}</span>
+                            </div>
+                            <div class="step-connector" if:true={step.showConnector}>
+                                <div class={step.connectorClass}></div>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+                
+                <!-- PHASE 2: Simplified Mobile Progress Dots -->
+                <div class="mobile-simple-progress">
+                    <template for:each={progressSteps} for:item="step">
+                        <div key={step.key} 
+                             class={step.mobileDotClass}>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </div>
+        
+        <!-- PHASE 2: Auto-Save Indicator -->
+        <template if:true={showAutoSaveIndicator}>
+            <div class={autoSaveIndicatorClass}>
+                <div class="auto-save-icon">
+                    <lightning-icon 
+                        icon-name={autoSaveIconName} 
+                        size="x-small">
+                    </lightning-icon>
+                </div>
+                <div class="auto-save-text">{autoSaveMessage}</div>
+            </div>
+        </template>
+
+        <!-- ============================================
+             BANNER SYSTEM - HYBRID APPROACH
+             ============================================ -->
+        
+        <!-- BANNER 1: Agent Banner (Orange) - For Internal Agents -->
+        <template if:true={showAgentBanner}>
+            <div class="slds-box slds-box_small slds-theme_warning slds-m-bottom_medium agent-banner">
+                <div class="slds-media">
+                    <div class="slds-media__figure">
+                        <lightning-icon icon-name="utility:warning" size="small"></lightning-icon>
+                    </div>
+                    <div class="slds-media__body">
+                        <div class="slds-grid slds-grid_vertical-align-center slds-grid_vertical-stretch">
+                            <div class="slds-col slds-size_1-of-1 slds-large-size_7-of-12">
+                                <h3 class="slds-text-heading_small slds-m-bottom_x-small">
+                                    ⚠️ You're continuing a saved application
+                                </h3>
+                                <p class="slds-text-body_small">
+                                    Your progress from a previous session has been restored. You can continue where you left off.
+                                </p>
+                            </div>
+                            <div class="slds-col slds-size_1-of-1 slds-large-size_5-of-12">
+                                <div class="slds-grid slds-wrap slds-grid_vertical-align-center slds-gutters_small">
+                                    <!-- Start New Application Button -->
+                                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                                        <lightning-button 
+                                            variant="neutral" 
+                                            label="Start New Application" 
+                                            title="Discard saved progress and start fresh"
+                                            icon-name="utility:add"
+                                            onclick={handleStartNewApplication}
+                                            class="slds-button_stretch">
+                                        </lightning-button>
+                                    </div>
+                                    <!-- Copy Client Link Button -->
+                                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                                        <lightning-button 
+                                            label="Copy Client Link" 
+                                            icon-name="utility:share"
+                                            variant="neutral"
+                                            onclick={handleCopyClientLink}
+                                            class="slds-button_stretch">
+                                        </lightning-button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+        <!-- BANNER 2: Client Banner (Blue) - For External Clients Returning -->
+        <template if:true={showClientBanner}>
+            <div class="slds-box slds-box_small slds-m-bottom_medium client-banner">
+                <div class="slds-media">
+                    <div class="slds-media__figure">
+                        <lightning-icon icon-name="utility:success" size="small" variant="inverse"></lightning-icon>
+                    </div>
+                    <div class="slds-media__body">
+                        <h3 class="slds-text-heading_small slds-m-bottom_x-small">
+                            👋 Welcome back!
+                        </h3>
+                        <p class="slds-text-body_small">
+                            Your progress has been saved. Continue where you left off, or update any information as needed.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+        <!-- BANNER 3: No Banner (Invisible) - For Clients Reviewing Pre-filled Work -->
+        <!-- When showNoBanner is true, nothing is shown -->
+
+        <!-- Main Form Card -->
+        <lightning-card title={formTitle} icon-name="utility:user">
+            <div class="slds-p-around_large">   
+                
+                <!-- STEP 0: Entry Point -->
+                <template if:true={showEntryStep}>
+                    <div class="slds-text-heading_medium slds-m-bottom_medium">Get Started</div>
+                    <p class="slds-text-body_regular slds-m-bottom_large">
+                        Please provide the following information to begin your onboarding process.
+                    </p>
+
+                    <!-- Q0.1: Services Required -->
+                    <div class="slds-form-element slds-m-bottom_large">
+                        <label class="slds-form-element__label">
+                            <abbr class="slds-required" title="required">*</abbr> Services Required
+                        </label>
+                        <div class="slds-form-element__control">
+                            <lightning-checkbox-group 
+                                name="services"
+                                options={serviceOptions}
+                                value={servicesRequired}
+                                onchange={handleServicesChange}>
+                            </lightning-checkbox-group>
+                        </div>
+                    </div>
+
+                    <!-- Q0.2: Client Type -->
+                    <div class="slds-form-element slds-m-bottom_large">
+                        <label class="slds-form-element__label">
+                            <abbr class="slds-required" title="required">*</abbr> Client Type
+                        </label>
+                        <div class="slds-form-element__control">
+                            <lightning-radio-group 
+                                name="clientType"
+                                options={clientTypeOptions}
+                                value={clientType}
+                                type="radio"
+                                onchange={handleClientTypeChange}>
+                            </lightning-radio-group>
+                        </div>
+                    </div>
+
+                    <!-- Q0.3: Channel -->
+                    <div class="slds-form-element slds-m-bottom_large">
+                        <label class="slds-form-element__label">
+                            Channel
+                        </label>
+                        <div class="slds-form-element__control">
+                            <lightning-combobox
+                                name="channel"
+                                options={channelOptions}
+                                value={channel}
+                                placeholder="Select channel"
+                                onchange={handleChannelChange}>
+                            </lightning-combobox>
+                        </div>
+                    </div>
+
+                    <div class="slds-m-top_large">
+                        <lightning-button 
+                            label="Continue" 
+                            variant="brand" 
+                            onclick={handleContinue}
+                            disabled={isEntryStepDisabled}>
+                        </lightning-button>
+                    </div>
+                </template>
+
+                <!-- PRIVATE CLIENT BRANCH -->
+                <template if:true={showPrivateBranch}>
+                    
+                    <!-- Section 1A: Personal Information & Identity -->
+                    <template if:true={showPersonalInfoStep}>
+                        <div class="slds-text-heading_medium slds-m-bottom_medium">Personal Information & Identity</div>
+                        
+                        <div class="slds-grid slds-gutters slds-m-bottom_medium">
+                            <div class="slds-col slds-size_1-of-5">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label">
+                                        <abbr class="slds-required" title="required">*</abbr> Salutation
+                                    </label>
+                                    <div class="slds-form-element__control">
+                                        <lightning-combobox
+                                            name="salutation"
+                                            value={personalInfo.salutation}
+                                            options={salutationOptions}
+                                            onchange={handlePersonalInfoChange}>
+                                        </lightning-combobox>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_1-of-5">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label">
+                                        <abbr class="slds-required" title="required">*</abbr> First Name
+                                    </label>
+                                    <div class="slds-form-element__control">
+                                        <lightning-input
+                                            type="text"
+                                            name="firstName"
+                                            value={personalInfo.firstName}
+                                            onchange={handlePersonalInfoChange}>
+                                        </lightning-input>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_1-of-5">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label">Middle Name</label>
+                                    <div class="slds-form-element__control">
+                                        <lightning-input
+                                            type="text"
+                                            name="middleName"
+                                            value={personalInfo.middleName}
+                                            onchange={handlePersonalInfoChange}>
+                                        </lightning-input>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_1-of-5">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label">
+                                        <abbr class="slds-required" title="required">*</abbr> Last Name
+                                    </label>
+                                    <div class="slds-form-element__control">
+                                        <lightning-input
+                                            type="text"
+                                            name="lastName"
+                                            value={personalInfo.lastName}
+                                            onchange={handlePersonalInfoChange}>
+                                        </lightning-input>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_1-of-5">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label">Suffix</label>
+                                    <div class="slds-form-element__control">
+                                        <lightning-input
+                                            type="text"
+                                            name="suffix"
+                                            value={personalInfo.suffix}
+                                            placeholder="Jr., Sr., III, etc."
+                                            onchange={handlePersonalInfoChange}>
+                                        </lightning-input>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="slds-grid slds-gutters slds-m-bottom_medium">
+                            <div class="slds-col slds-size_1-of-3">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label">
+                                        <abbr class="slds-required" title="required">*</abbr> Date of Birth
+                                    </label>
+                                    <div class="slds-form-element__control">
+                                        <lightning-input
+                                            type="date"
+                                            name="dateOfBirth"
+                                            value={personalInfo.dateOfBirth}
+                                            onchange={handlePersonalInfoChange}>
+                                        </lightning-input>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_1-of-3">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label">
+                                        <abbr class="slds-required" title="required">*</abbr> Nationality (Country)
+                                    </label>
+                                    <div class="slds-form-element__control">
+                                        <lightning-combobox
+                                            name="nationality"
+                                            value={personalInfo.nationality}
+                                            options={countryPicklistOptions}
+                                            onchange={handlePersonalInfoChange}>
+                                        </lightning-combobox>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_1-of-3">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label">
+                                        <abbr class="slds-required" title="required">*</abbr> Country of Residence
+                                    </label>
+                                    <div class="slds-form-element__control">
+                                        <lightning-combobox
+                                            name="countryOfResidence"
+                                            value={personalInfo.countryOfResidence}
+                                            options={countryPicklistOptions}
+                                            onchange={handlePersonalInfoChange}>
+                                        </lightning-combobox>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="slds-grid slds-gutters slds-m-bottom_medium">
+                            <div class="slds-col slds-size_1-of-2">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label">
+                                        <abbr class="slds-required" title="required">*</abbr> Government Identification Number
+                                    </label>
+                                    <div class="slds-form-element__control">
+                                        <lightning-input
+                                            type="text"
+                                            name="governmentIdNumber"
+                                            value={personalInfo.governmentIdNumber}
+                                            onchange={handlePersonalInfoChange}>
+                                        </lightning-input>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="slds-grid slds-gutters slds-m-bottom_medium">
+                            <div class="slds-col slds-size_1-of-2">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label">
+                                        <abbr class="slds-required" title="required">*</abbr> Email
+                                    </label>
+                                    <div class="slds-form-element__control">
+                                        <lightning-input
+                                            type="email"
+                                            name="email"
+                                            value={personalInfo.email}
+                                            onchange={handlePersonalInfoChange}>
+                                        </lightning-input>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_1-of-2">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label">Mobile</label>
+                                    <div class="slds-form-element__help">
+                                        Format: {phoneFormatHint}
+                                    </div>
+                                    <div class="slds-form-element__control">
+                                        <lightning-input
+                                            type="tel"
+                                            name="mobile"
+                                            value={personalInfo.mobile}
+                                            placeholder={phonePlaceholder}
+                                            pattern={phonePattern}
+                                            message-when-pattern-mismatch={phonePatternError}
+                                            onchange={handlePersonalInfoChange}>
+                                        </lightning-input>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="slds-grid slds-gutters slds-m-bottom_medium">
+                            <div class="slds-col slds-size_1-of-2">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label">Phone</label>
+                                    <div class="slds-form-element__help">
+                                        Format: {phoneFormatHint}
+                                    </div>
+                                    <div class="slds-form-element__control">
+                                        <lightning-input
+                                            type="tel"
+                                            name="phone"
+                                            value={personalInfo.phone}
+                                            placeholder={phonePlaceholder}
+                                            pattern={phonePattern}
+                                            message-when-pattern-mismatch={phonePatternError}
+                                            onchange={handlePersonalInfoChange}>
+                                        </lightning-input>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_1-of-2">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label">Website</label>
+                                    <div class="slds-form-element__control">
+                                        <lightning-input
+                                            type="url"
+                                            name="website"
+                                            value={personalInfo.website}
+                                            onchange={handlePersonalInfoChange}>
+                                        </lightning-input>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="slds-form-element slds-m-bottom_medium">
+                            <label class="slds-form-element__label">
+                                <abbr class="slds-required" title="required">*</abbr> Politically Exposed Person (PEP)?
+                                <lightning-helptext
+                                    content="A PEP is someone who holds or has held a prominent public role, such as a government official, senior politician, or military leader. This also includes their immediate family and close business associates.">
+                                </lightning-helptext>
+                            </label>
+                            <div class="slds-form-element__control">
+                                <lightning-radio-group
+                                    name="isPEP"
+                                    options={yesNoOptions}
+                                    value={personalInfo.isPEP}
+                                    type="radio"
+                                    onchange={handlePersonalInfoChange}>
+                                </lightning-radio-group>
+                            </div>
+                        </div>
+
+
+                        <div class="slds-m-top_large">
+                            <lightning-button 
+                                label="Back" 
+                                class="slds-m-right_small" 
+                                onclick={handleBack}>
+                            </lightning-button>
+                            <lightning-button 
+                                label="Continue" 
+                                variant="brand" 
+                                onclick={handleContinue}
+                                disabled={isPersonalInfoStepDisabled}>
+                            </lightning-button>
+                        </div>
+                    </template>
+
+                    <!-- Section 1B: Address -->
+                    <template if:true={showAddressStep}>
+                        <div class="slds-text-heading_medium slds-m-bottom_medium">Address</div>
+                        
+                        <!-- Street Address -->
+                        <div class="slds-form-element slds-m-bottom_medium">
+                            <label class="slds-form-element__label">
+                                <abbr class="slds-required" title="required">*</abbr> Street
+                            </label>
+                            <div class="slds-form-element__control">
+                                <lightning-textarea
+                                    name="street"
+                                    value={addressInfo.street}
+                                    rows="3"
+                                    onchange={handleAddressChange}>
+                                </lightning-textarea>
+                            </div>
+                        </div>
+
+                        <!-- City and State/Province -->
+                        <div class="slds-grid slds-gutters slds-m-bottom_medium">
+                            <div class="slds-col slds-size_1-of-2">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label">
+                                        <abbr class="slds-required" title="required">*</abbr> City
+                                    </label>
+                                    <div class="slds-form-element__control">
+                                        <lightning-input
+                                            type="text"
+                                            name="city"
+                                            value={addressInfo.city}
+                                            onchange={handleAddressChange}>
+                                        </lightning-input>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_1-of-2">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label">
+                                        <abbr class="slds-required" title="required">*</abbr> State/Province
+                                    </label>
+                                    <div class="slds-form-element__control">
+                                        <lightning-input
+                                            type="text"
+                                            name="state"
+                                            value={addressInfo.state}
+                                            onchange={handleAddressChange}>
+                                        </lightning-input>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Zip/Postal Code and Country -->
+                        <div class="slds-grid slds-gutters slds-m-bottom_medium">
+                            <div class="slds-col slds-size_1-of-2">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label">
+                                        <abbr class="slds-required" title="required">*</abbr> Zip/Postal Code
+                                    </label>
+                                    <div class="slds-form-element__control">
+                                        <lightning-input
+                                            type="text"
+                                            name="postalCode"
+                                            value={addressInfo.postalCode}
+                                            onchange={handleAddressChange}>
+                                        </lightning-input>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_1-of-2">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label">
+                                        <abbr class="slds-required" title="required">*</abbr> Country
+                                    </label>
+                                    <div class="slds-form-element__control">
+                                        <lightning-combobox
+                                            name="country"
+                                            value={addressInfo.country}
+                                            options={countryPicklistOptions}
+                                            onchange={handleAddressChange}>
+                                        </lightning-combobox>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Address Type / Verification -->
+                        <div class="slds-grid slds-gutters slds-m-bottom_medium">
+                            <div class="slds-col slds-size_1-of-3">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label">
+                                        Address Type
+                                    </label>
+                                    <div class="slds-form-element__control">
+                                        <lightning-combobox
+                                            name="addressType"
+                                            value={addressInfo.addressType}
+                                            options={addressTypeOptions}
+                                            onchange={handleAddressChange}>
+                                        </lightning-combobox>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Proof of Address Upload -->
+
+                        <div class="slds-m-top_large">
+                            <lightning-button 
+                                label="Back" 
+                                class="slds-m-right_small" 
+                                onclick={handleBack}>
+                            </lightning-button>
+                            <lightning-button 
+                                label="Continue" 
+                                variant="brand" 
+                                onclick={handleContinue}
+                                disabled={isAddressStepDisabled}>
+                            </lightning-button>
+                        </div>
+                    </template>
+
+                    <!-- Section 1C: Service Assessment -->
+                    <template if:true={showRiskStep}>
+                        <div class="slds-text-heading_medium slds-m-bottom_medium">Service Assessment</div>
+                        <p class="slds-text-body_regular slds-m-bottom_large slds-text-color_weak">
+                            Additional information required to assess your service requirements.
+                        </p>
+
+                        <div class="slds-grid slds-gutters slds-m-bottom_medium">
+                            <div class="slds-col slds-size_1-of-2">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label">
+                                        Expected Monthly Transaction Volume
+                                    </label>
+                                    <div class="slds-form-element__control">
+                                        <lightning-input
+                                            type="number"
+                                            name="expectedMonthlyVolume"
+                                            value={riskInfo.expectedMonthlyVolume}
+                                            formatter="currency"
+                                            step="0.01"
+                                            onchange={handleRiskInfoChange}>
+                                        </lightning-input>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_1-of-2">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label">
+                                        <abbr class="slds-required" title="required">*</abbr> Estimated Number of Transactions per Month
+                                    </label>
+                                    <div class="slds-form-element__control">
+                                        <lightning-input
+                                            type="number"
+                                            name="estimatedTransactionsPerMonth"
+                                            value={riskInfo.estimatedTransactionsPerMonth}
+                                            onchange={handleRiskInfoChange}>
+                                        </lightning-input>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="slds-grid slds-gutters slds-m-bottom_medium">
+                            <div class="slds-col slds-size_1-of-2">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label">
+                                        <abbr class="slds-required" title="required">*</abbr> Source of Wealth
+                                    </label>
+                                    <div class="slds-form-element__control">
+                                        <lightning-combobox
+                                            name="sourceOfWealth"
+                                            value={riskInfo.sourceOfWealth}
+                                            options={sourceOfWealthOptions}
+                                            onchange={handleRiskInfoChange}>
+                                        </lightning-combobox>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_1-of-2">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label">
+                                        <abbr class="slds-required" title="required">*</abbr> Geographic Exposure - Countries
+                                    </label>
+                                    <div class="slds-form-element__control">
+                                        <lightning-dual-listbox
+                                            name="geographicExposure"
+                                            source-label="Available Countries"
+                                            selected-label="Selected Countries"
+                                            options={countryPicklistOptions}
+                                            value={riskInfo.geographicExposure}
+                                            onchange={handleRiskInfoChange}>
+                                        </lightning-dual-listbox>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="slds-form-element slds-m-bottom_medium">
+                            <label class="slds-form-element__label">
+                                <abbr class="slds-required" title="required">*</abbr> Source of Wealth - Explanation
+                            </label>
+                            <div class="slds-form-element__control">
+                                <lightning-textarea
+                                    name="sourceOfWealthExplanation"
+                                    value={riskInfo.sourceOfWealthExplanation}
+                                    onchange={handleRiskInfoChange}>
+                                </lightning-textarea>
+                            </div>
+                        </div>
+
+                        <div class="slds-form-element slds-m-bottom_medium">
+                            <label class="slds-form-element__label">
+                                <abbr class="slds-required" title="required">*</abbr> Intended Use of Account
+                            </label>
+                            <div class="slds-form-element__control">
+                                <lightning-textarea
+                                    name="intendedUseOfAccount"
+                                    value={riskInfo.intendedUseOfAccount}
+                                    onchange={handleRiskInfoChange}>
+                                </lightning-textarea>
+                            </div>
+                        </div>
+
+
+                        <!-- Service-Specific Questions for Private Clients -->
+                        <template if:true={hasFXService}>
+                            <div class="slds-box slds-m-bottom_large">
+                                <div class="slds-text-heading_small slds-m-bottom_small">Foreign Exchange (FX) Service Details</div>
+                                
+                                <!-- Currencies Grid -->
+                                <div class="slds-grid slds-gutters slds-m-bottom_medium">
+                                    <div class="slds-col slds-size_1-of-2">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label">
+                                                <abbr class="slds-required" title="required">*</abbr> Currencies You Will Send
+                                            </label>
+                                            <div class="slds-form-element__control">
+                                                <lightning-dual-listbox
+                                                    name="currenciesToSend"
+                                                    source-label="Available"
+                                                    selected-label="Selected"
+                                                    options={currencyOptions}
+                                                    value={serviceSpecific.currenciesToSend}
+                                                    onchange={handleServiceSpecificChange}>
+                                                </lightning-dual-listbox>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-2">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label">
+                                                <abbr class="slds-required" title="required">*</abbr> Currencies You Will Receive
+                                            </label>
+                                            <div class="slds-form-element__control">
+                                                <lightning-dual-listbox
+                                                    name="currenciesToReceive"
+                                                    source-label="Available"
+                                                    selected-label="Selected"
+                                                    options={currencyOptions}
+                                                    value={serviceSpecific.currenciesToReceive}
+                                                    onchange={handleServiceSpecificChange}>
+                                                </lightning-dual-listbox>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Countries Grid -->
+                                <div class="slds-grid slds-gutters slds-m-bottom_medium">
+                                    <div class="slds-col slds-size_1-of-2">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label">
+                                                <abbr class="slds-required" title="required">*</abbr> Countries Funds Will Be Sent To
+                                            </label>
+                                            <div class="slds-form-element__control">
+                                                <lightning-dual-listbox
+                                                    name="countriesFundsSentTo"
+                                                    source-label="Available"
+                                                    selected-label="Selected"
+                                                    options={countryPicklistOptions}
+                                                    value={serviceSpecific.countriesFundsSentTo}
+                                                    onchange={handleServiceSpecificChange}>
+                                                </lightning-dual-listbox>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-2">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label">
+                                                <abbr class="slds-required" title="required">*</abbr> Countries Funds Will Be Received From
+                                            </label>
+                                            <div class="slds-form-element__control">
+                                                <lightning-dual-listbox
+                                                    name="countriesFundsReceivedFrom"
+                                                    source-label="Available"
+                                                    selected-label="Selected"
+                                                    options={countryPicklistOptions}
+                                                    value={serviceSpecific.countriesFundsReceivedFrom}
+                                                    onchange={handleServiceSpecificChange}>
+                                                </lightning-dual-listbox>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="slds-form-element slds-m-bottom_medium">
+                                    <label class="slds-form-element__label">
+                                        <abbr class="slds-required" title="required">*</abbr> Forward Contracts Required?
+                                    </label>
+                                    <div class="slds-form-element__control">
+                                        <lightning-radio-group
+                                            name="fxForwardContractsRequired"
+                                            value={serviceSpecific.fxForwardContractsRequired}
+                                            options={yesNoOptions}
+                                            type="radio"
+                                            onchange={handleServiceSpecificChange}>
+                                        </lightning-radio-group>
+                                    </div>
+                                </div>
+
+                                <template if:true={showHedgingNeeds}>
+                                    <div class="slds-form-element slds-m-bottom_medium">
+                                        <label class="slds-form-element__label">
+                                            <abbr class="slds-required" title="required">*</abbr> Hedging Needs
+                                        </label>
+                                        <div class="slds-form-element__control">
+                                            <lightning-textarea
+                                                name="fxHedgingNeeds"
+                                                value={serviceSpecific.fxHedgingNeeds}
+                                                onchange={handleServiceSpecificChange}>
+                                            </lightning-textarea>
+                                        </div>
+                                    </div>
+                                </template>
+
+                            </div>
+                        </template>
+
+                        <!-- Crypto Service Questions -->
+                        <template if:true={hasCryptoService}>
+                            <div class="slds-box slds-m-bottom_large">
+                                <div class="slds-text-heading_small slds-m-bottom_small">Cryptocurrency Service Details</div>
+                                
+                                <div class="slds-form-element slds-m-bottom_medium">
+                                    <label class="slds-form-element__label">
+                                        <abbr class="slds-required" title="required">*</abbr> Digital Assets to Buy/Sell/Hold
+                                    </label>
+                                    <div class="slds-form-element__control">
+                                        <lightning-checkbox-group
+                                            name="digitalAssets"
+                                            options={digitalAssetOptions}
+                                            value={serviceSpecific.digitalAssets}
+                                            onchange={handleServiceSpecificChange}>
+                                        </lightning-checkbox-group>
+                                    </div>
+                                </div>
+
+                                <div class="slds-grid slds-gutters slds-m-bottom_medium">
+                                    <div class="slds-col slds-size_1-of-2">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label">
+                                                <abbr class="slds-required" title="required">*</abbr> Expected Monthly Digital Asset Transaction Volume
+                                            </label>
+                                            <div class="slds-form-element__control">
+                                                <lightning-input
+                                                    type="number"
+                                                    name="expectedMonthlyCryptoVolume"
+                                                    value={serviceSpecific.expectedMonthlyCryptoVolume}
+                                                    formatter="currency"
+                                                    step="0.01"
+                                                    onchange={handleServiceSpecificChange}>
+                                                </lightning-input>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-2">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label">
+                                                <abbr class="slds-required" title="required">*</abbr> Average Digital Asset Transaction Size
+                                            </label>
+                                            <div class="slds-form-element__control">
+                                                <lightning-input
+                                                    type="number"
+                                                    name="averageCryptoTransactionSize"
+                                                    value={serviceSpecific.averageCryptoTransactionSize}
+                                                    formatter="currency"
+                                                    step="0.01"
+                                                    onchange={handleServiceSpecificChange}>
+                                                </lightning-input>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- VASP question removed - regulatory status captured in Company Info step -->
+                            </div>
+                        </template>
+
+                        <!-- Advisory Service Questions -->
+                        <template if:true={hasAdvisoryService}>
+                            <div class="slds-box slds-m-bottom_large">
+                                <div class="slds-text-heading_small slds-m-bottom_small">Advisory Service Details</div>
+                                
+                                <div class="slds-form-element slds-m-bottom_medium">
+                                    <label class="slds-form-element__label">
+                                        <abbr class="slds-required" title="required">*</abbr> Advisory Services Required
+                                    </label>
+                                    <div class="slds-form-element__control">
+                                        <lightning-checkbox-group
+                                            name="advisoryServicesRequired"
+                                            options={advisoryServicesOptions}
+                                            value={serviceSpecific.advisoryServicesRequired}
+                                            onchange={handleServiceSpecificChange}>
+                                        </lightning-checkbox-group>
+                                    </div>
+                                </div>
+
+                                <div class="slds-form-element slds-m-bottom_medium">
+                                    <label class="slds-form-element__label">
+                                        <abbr class="slds-required" title="required">*</abbr> Investment Objectives
+                                    </label>
+                                    <div class="slds-form-element__control">
+                                        <lightning-checkbox-group
+                                            name="investmentObjectives"
+                                            options={investmentObjectivesOptions}
+                                            value={serviceSpecific.investmentObjectives}
+                                            onchange={handleServiceSpecificChange}>
+                                        </lightning-checkbox-group>
+                                    </div>
+                                </div>
+
+                                <div class="slds-form-element slds-m-bottom_medium">
+                                    <label class="slds-form-element__label">
+                                        <abbr class="slds-required" title="required">*</abbr> Risk Appetite
+                                    </label>
+                                    <div class="slds-form-element__control">
+                                        <lightning-radio-group
+                                            name="riskAppetite"
+                                            options={riskAppetiteOptions}
+                                            value={serviceSpecific.riskAppetite}
+                                            type="radio"
+                                            onchange={handleServiceSpecificChange}>
+                                        </lightning-radio-group>
+                                    </div>
+                                </div>
+
+                                <div class="slds-grid slds-gutters slds-m-bottom_medium">
+                                    <div class="slds-col slds-size_1-of-2">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label">Time Horizon for Investment Decisions (Years)</label>
+                                            <div class="slds-form-element__control">
+                                                <lightning-input
+                                                    type="number"
+                                                    name="timeHorizon"
+                                                    value={serviceSpecific.timeHorizon}
+                                                    onchange={handleServiceSpecificChange}>
+                                                </lightning-input>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label">Existing Advisory Relationships</label>
+                                    <div class="slds-form-element__control">
+                                        <lightning-textarea
+                                            name="existingAdvisoryRelationships"
+                                            value={serviceSpecific.existingAdvisoryRelationships}
+                                            onchange={handleServiceSpecificChange}>
+                                        </lightning-textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+
+                        <div class="slds-m-top_large">
+                            <lightning-button 
+                                label="Back" 
+                                class="slds-m-right_small" 
+                                onclick={handleBack}>
+                            </lightning-button>
+                            <lightning-button 
+                                label="Continue" 
+                                variant="brand" 
+                                onclick={handleContinue}
+                                disabled={isRiskStepDisabled}>
+                            </lightning-button>
+                        </div>
+                    </template>
+                </template>
+
+                <!-- CORPORATE CLIENT BRANCH -->
+                <template if:true={showCorporateBranch}>
+                    
+                    <!-- Section 2A: Shareholders/Directors -->
+                    <template if:true={showShareholdersStep}>
+                        <div class="slds-text-heading_medium slds-m-bottom_medium">Shareholders/Directors</div>
+                        <p class="slds-text-body_regular slds-m-bottom_large slds-text-color_weak">
+                            Please provide details for all shareholders (beneficial owners with 25% or more ownership) and directors.
+                        </p>
+
+                        <!-- Shareholders/Directors Section -->
+                        <div class="slds-text-heading_small slds-m-bottom_medium">Shareholders/Directors</div>
+                        <template for:each={shareholdersWithComputedFields} for:item="shareholder">
+                            <div key={shareholder.id} class="slds-box slds-m-bottom_medium">
+                                <div class="slds-grid slds-grid_vertical-align-start slds-m-bottom_small">
+                                    <div class="slds-col slds-has-flexi-truncate">
+                                        <span class="slds-text-title_caps slds-text-color_weak">Shareholder/Director</span>
+                                    </div>
+                                    <div class="slds-col slds-no-flex">
+                                        <lightning-button-icon
+                                            icon-name="utility:close"
+                                            alternative-text="Remove shareholder/director"
+                                            variant="bare"
+                                            size="small"
+                                            class="slds-float_right"
+                                            data-id={shareholder.id}
+                                            onclick={handleRemoveShareholder}>
+                                        </lightning-button-icon>
+                                    </div>
+                                </div>
+                                <!-- Type field hidden - defaults to Individual. Kept for future Corporate shareholder support -->
+                                
+                                <!-- Role Selection Checkboxes -->
+                                <div class="slds-grid slds-gutters slds-m-bottom_small">
+                                    <div class="slds-col slds-size_1-of-1">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label">
+                                                <abbr class="slds-required" title="required">*</abbr> Role(s)
+                                            </label>
+                                            <div class="slds-form-element__control">
+                                                <lightning-checkbox-group
+                                                    name="roles"
+                                                    data-id={shareholder.id}
+                                                    options={roleOptions}
+                                                    value={shareholder.selectedRoles}
+                                                    onchange={handleShareholderRoleChange}>
+                                                </lightning-checkbox-group>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Individual Name Fields (shown only for Individual type) -->
+                                <template if:true={shareholder.isIndividual}>
+                                <div class="slds-grid slds-gutters">
+                                        <div class="slds-col slds-size_1-of-3">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label">
+                                                    <abbr class="slds-required" title="required">*</abbr> First Name
+                                            </label>
+                                            <div class="slds-form-element__control">
+                                                <lightning-input
+                                                    type="text"
+                                                        name="firstName"
+                                                    data-id={shareholder.id}
+                                                        value={shareholder.firstName}
+                                                        pattern="[A-Za-z\s\-'.]+"
+                                                        message-when-pattern-mismatch="Names should only contain letters"
+                                                    onchange={handleShareholderChange}>
+                                                </lightning-input>
+                                            </div>
+                                        </div>
+                                    </div>
+                                        <div class="slds-col slds-size_1-of-3">
+                                            <div class="slds-form-element">
+                                                <label class="slds-form-element__label">Middle Name</label>
+                                                <div class="slds-form-element__control">
+                                                    <lightning-input
+                                                        type="text"
+                                                        name="middleName"
+                                                        data-id={shareholder.id}
+                                                        value={shareholder.middleName}
+                                                        pattern="[A-Za-z\s\-'.]+"
+                                                        message-when-pattern-mismatch="Names should only contain letters"
+                                                        onchange={handleShareholderChange}>
+                                                    </lightning-input>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-3">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label">
+                                                    <abbr class="slds-required" title="required">*</abbr> Last Name
+                                            </label>
+                                            <div class="slds-form-element__control">
+                                                    <lightning-input
+                                                        type="text"
+                                                        name="lastName"
+                                                    data-id={shareholder.id}
+                                                        value={shareholder.lastName}
+                                                        pattern="[A-Za-z\s\-'.]+"
+                                                        message-when-pattern-mismatch="Names should only contain letters"
+                                                    onchange={handleShareholderChange}>
+                                                    </lightning-input>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                </template>
+                                
+                                <!-- Corporate Name Field (shown only for Corporate type) -->
+                                <template if:true={shareholder.isCorporate}>
+                                    <div class="slds-grid slds-gutters">
+                                        <div class="slds-col slds-size_1-of-1">
+                                            <div class="slds-form-element">
+                                                <label class="slds-form-element__label">
+                                                    <abbr class="slds-required" title="required">*</abbr> Legal Entity Name
+                                                </label>
+                                                <div class="slds-form-element__control">
+                                                    <lightning-input
+                                                        type="text"
+                                                        name="legalEntityName"
+                                                        data-id={shareholder.id}
+                                                        value={shareholder.legalEntityName}
+                                                        onchange={handleShareholderChange}>
+                                                    </lightning-input>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </template>
+                                <div class="slds-grid slds-gutters">
+                                    <!-- Ownership % - Show only if Shareholder role is selected -->
+                                    <template if:true={shareholder.isShareholder}>
+                                        <div class="slds-col slds-size_1-of-3">
+                                            <div class="slds-form-element">
+                                                <label class="slds-form-element__label">
+                                                    <abbr class="slds-required" title="required">*</abbr> Ownership %
+                                                </label>
+                                                <div class="slds-form-element__control">
+                                                    <lightning-input
+                                                        type="number"
+                                                        name="ownershipPercentage"
+                                                        data-id={shareholder.id}
+                                                        value={shareholder.ownershipPercentage}
+                                                        min="0"
+                                                        max="100"
+                                                        onchange={handleShareholderChange}>
+                                                    </lightning-input>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </template>
+                                    
+                                    <div class="slds-col slds-size_1-of-3">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label">
+                                                <abbr class="slds-required" title="required">*</abbr> PEP?
+                                                <lightning-helptext
+                                                    content="A PEP is someone who holds or has held a prominent public role, such as a government official, senior politician, or military leader. This also includes their immediate family and close business associates.">
+                                                </lightning-helptext>
+                                            </label>
+                                            <div class="slds-form-element__control">
+                                                <lightning-radio-group
+                                                    name={shareholder.pepRadioName}
+                                                    data-field="isPEP"
+                                                    data-id={shareholder.id}
+                                                    options={yesNoOptions}
+                                                    value={shareholder.isPEP}
+                                                    type="radio"
+                                                    onchange={handleShareholderChange}>
+                                                </lightning-radio-group>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Additional shareholder KYC fields -->
+                                <div class="slds-grid slds-gutters slds-m-top_small">
+                                    <div class="slds-col slds-size_1-of-3">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label">
+                                                <abbr class="slds-required" title="required">*</abbr> Date of Birth
+                                            </label>
+                                            <div class="slds-form-element__control">
+                                                <lightning-input
+                                                    type="date"
+                                                    name="dateOfBirthOrIncorporation"
+                                                    data-id={shareholder.id}
+                                                    value={shareholder.dateOfBirthOrIncorporation}
+                                                    onchange={handleShareholderChange}>
+                                                </lightning-input>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-3">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label">
+                                                <abbr class="slds-required" title="required">*</abbr> Country of Residence
+                                            </label>
+                                            <div class="slds-form-element__control">
+                                                <lightning-combobox
+                                                    name="countryOfResidenceOrIncorporation"
+                                                    data-id={shareholder.id}
+                                                    value={shareholder.countryOfResidenceOrIncorporation}
+                                                    options={countryPicklistOptions}
+                                                    onchange={handleShareholderChange}>
+                                                </lightning-combobox>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-3">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label">
+                                                <abbr class="slds-required" title="required">*</abbr> Nationality
+                                            </label>
+                                            <div class="slds-form-element__control">
+                                                <lightning-combobox
+                                                    name="nationalityOrCountryOfIncorporation"
+                                                    data-id={shareholder.id}
+                                                    value={shareholder.nationalityOrCountryOfIncorporation}
+                                                    options={countryPicklistOptions}
+                                                    onchange={handleShareholderChange}>
+                                                </lightning-combobox>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="slds-grid slds-gutters slds-m-top_small">
+                                    <div class="slds-col slds-size_1-of-3">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label">
+                                                <abbr class="slds-required" title="required">*</abbr> Passport Number
+                                                <lightning-helptext
+                                                    content="If you don't have a passport number, a government-issued ID number will suffice.">
+                                                </lightning-helptext>
+                                            </label>
+                                            <div class="slds-form-element__control">
+                                                <lightning-input
+                                                    type="text"
+                                                    name="governmentIdOrRegistrationNumber"
+                                                    data-id={shareholder.id}
+                                                    value={shareholder.governmentIdOrRegistrationNumber}
+                                                    onchange={handleShareholderChange}>
+                                                </lightning-input>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-3">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label">
+                                                Source of Wealth
+                                            </label>
+                                            <div class="slds-form-element__control">
+                                                <lightning-combobox
+                                                    name="sourceOfWealth"
+                                                    data-id={shareholder.id}
+                                                    value={shareholder.sourceOfWealth}
+                                                    options={sourceOfWealthOptions}
+                                                    onchange={handleShareholderChange}>
+                                                </lightning-combobox>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-3">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label">
+                                                Source of Wealth Explanation
+                                            </label>
+                                            <div class="slds-form-element__control">
+                                                <lightning-textarea
+                                                    name="sourceOfWealthExplanation"
+                                                    data-id={shareholder.id}
+                                                    value={shareholder.sourceOfWealthExplanation}
+                                                    onchange={handleShareholderChange}>
+                                                </lightning-textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Email and Mobile Number fields -->
+                                <div class="slds-grid slds-gutters slds-m-top_small">
+                                    <div class="slds-col slds-size_1-of-2">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label">
+                                                <abbr class="slds-required" title="required">*</abbr> Email
+                                            </label>
+                                            <div class="slds-form-element__control">
+                                                <lightning-input
+                                                    type="email"
+                                                    name="email"
+                                                    data-id={shareholder.id}
+                                                    value={shareholder.email}
+                                                    onchange={handleShareholderChange}>
+                                                </lightning-input>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-2">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label">
+                                                Mobile Number
+                                            </label>
+                                            <div class="slds-form-element__control">
+                                                <lightning-input
+                                                    type="tel"
+                                                    name="mobile"
+                                                    data-id={shareholder.id}
+                                                    value={shareholder.mobile}
+                                                    placeholder="+1234567890"
+                                                    pattern="[\+]?[0-9\s\-\(\)]{10,20}"
+                                                    message-when-pattern-mismatch="Please enter a valid phone number with country code (e.g., +1234567890)"
+                                                    onchange={handleShareholderChange}>
+                                                </lightning-input>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- ADD: Phone, Website, Position Fields -->
+                                <div class="slds-grid slds-gutters slds-m-top_small">
+                                    <div class="slds-col slds-size_1-of-3">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label">
+                                                Phone Number
+                                            </label>
+                                            <div class="slds-form-element__control">
+                                                <lightning-input
+                                                    type="tel"
+                                                    name="phone"
+                                                    data-id={shareholder.id}
+                                                    value={shareholder.phone}
+                                                    placeholder="+1234567890"
+                                                    pattern="[\+]?[0-9\s\-\(\)]{10,20}"
+                                                    message-when-pattern-mismatch="Please enter a valid phone number with country code (e.g., +1234567890)"
+                                                    onchange={handleShareholderChange}>
+                                                </lightning-input>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Website field for Corporate shareholders -->
+                                    <template if:true={shareholder.isCorporate}>
+                                        <div class="slds-col slds-size_1-of-3">
+                                            <div class="slds-form-element">
+                                                <label class="slds-form-element__label">
+                                                    Website
+                                                </label>
+                                                <div class="slds-form-element__control">
+                                                    <lightning-input
+                                                        type="url"
+                                                        name="website"
+                                                        data-id={shareholder.id}
+                                                        value={shareholder.website}
+                                                        placeholder="https://example.com"
+                                                        onchange={handleShareholderChange}>
+                                                    </lightning-input>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </template>
+                                </div>
+                                
+                                <!-- Address Section -->
+                                <div class="slds-grid slds-gutters slds-wrap slds-m-top_medium">
+                                    <div class="slds-col slds-size_1-of-1 slds-m-bottom_small">
+                                        <div class="slds-text-heading_small">Address Information</div>
+                                    </div>
+                                    
+                                    <!-- Street Address -->
+                                    <div class="slds-col slds-size_1-of-1">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label">
+                                                Street Address
+                                            </label>
+                                            <div class="slds-form-element__control">
+                                                <lightning-input
+                                                    type="text"
+                                                    name="street"
+                                                    data-id={shareholder.id}
+                                                    value={shareholder.street}
+                                                    placeholder="Street address"
+                                                    onchange={handleShareholderChange}>
+                                                </lightning-input>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- City -->
+                                    <div class="slds-col slds-size_1-of-3">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label">
+                                                City
+                                            </label>
+                                            <div class="slds-form-element__control">
+                                                <lightning-input
+                                                    type="text"
+                                                    name="city"
+                                                    data-id={shareholder.id}
+                                                    value={shareholder.city}
+                                                    placeholder="City"
+                                                    onchange={handleShareholderChange}>
+                                                </lightning-input>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- State/Province -->
+                                    <div class="slds-col slds-size_1-of-3">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label">
+                                                State / Province
+                                            </label>
+                                            <div class="slds-form-element__control">
+                                                <lightning-input
+                                                    type="text"
+                                                    name="state"
+                                                    data-id={shareholder.id}
+                                                    value={shareholder.state}
+                                                    placeholder="State or Province"
+                                                    onchange={handleShareholderChange}>
+                                                </lightning-input>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Postal Code -->
+                                    <div class="slds-col slds-size_1-of-3">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label">
+                                                Postal Code
+                                            </label>
+                                            <div class="slds-form-element__control">
+                                                <lightning-input
+                                                    type="text"
+                                                    name="postalCode"
+                                                    data-id={shareholder.id}
+                                                    value={shareholder.postalCode}
+                                                    placeholder="Postal Code"
+                                                    onchange={handleShareholderChange}>
+                                                </lightning-input>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Country -->
+                                    <div class="slds-col slds-size_1-of-1">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label">
+                                                Country
+                                            </label>
+                                            <div class="slds-form-element__control">
+                                                <lightning-input
+                                                    type="text"
+                                                    name="country"
+                                                    data-id={shareholder.id}
+                                                    value={shareholder.country}
+                                                    placeholder="Country"
+                                                    onchange={handleShareholderChange}>
+                                                </lightning-input>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                        <lightning-button 
+                            label="+ Add Another Shareholder/Director" 
+                            variant="neutral"
+                            icon-name="utility:add"
+                            onclick={handleAddShareholder}
+                            class="slds-m-bottom_large">
+                        </lightning-button>
+
+                        <!-- Authorised Users Section -->
+                        <div class="slds-text-heading_small slds-m-bottom_medium slds-m-top_large">Authorised Users</div>
+                        <template for:each={authorisedUsersWithComputedFields} for:item="user">
+                            <div key={user.id} class="slds-box slds-m-bottom_medium">
+                                <div class="slds-grid slds-grid_vertical-align-start slds-m-bottom_small">
+                                    <div class="slds-col slds-has-flexi-truncate">
+                                        <span class="slds-text-title_caps slds-text-color_weak">Authorised User</span>
+                                    </div>
+                                    <div class="slds-col slds-no-flex">
+                                        <lightning-button-icon
+                                            icon-name="utility:close"
+                                            alternative-text="Remove authorised user"
+                                            variant="bare"
+                                            size="small"
+                                            class="slds-float_right"
+                                            data-id={user.id}
+                                            onclick={handleRemoveAuthorisedUser}>
+                                        </lightning-button-icon>
+                                    </div>
+                                </div>
+                                <!-- Copy from Shareholder Dropdown (always visible) -->
+                                <div class="slds-form-element slds-m-bottom_medium">
+                                    <label class="slds-form-element__label">
+                                        Copy details from shareholder (optional)
+                                    </label>
+                                    <div class="slds-form-element__control">
+                                        <lightning-combobox
+                                            name="selectedShareholderId"
+                                            data-id={user.id}
+                                            value={user.selectedShareholderId}
+                                            options={shareholderOptionsWithNone}
+                                            placeholder="-- Enter manually or select shareholder --"
+                                            disabled={shareholderCopyDisabled}
+                                            onchange={handleAuthorisedUserChange}>
+                                        </lightning-combobox>
+                                    </div>
+                                    <div class="slds-form-element__help">
+                                        Select a shareholder to auto-fill name, DOB, residence, ID, PEP, email, and mobile. Select "None" to enter manually.
+                                    </div>
+                                </div>
+                                <!-- Authorized User Name Fields (split) -->
+                                <div class="slds-grid slds-gutters slds-m-bottom_small">
+                                    <div class="slds-col slds-size_1-of-3">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label">
+                                                <abbr class="slds-required" title="required">*</abbr> First Name
+                                            </label>
+                                            <div class="slds-form-element__control">
+                                    <lightning-input
+                                                    type="text"
+                                                    name="firstName"
+                                        data-id={user.id}
+                                                    value={user.firstName}
+                                                    pattern="[A-Za-z\s\-'.]+"
+                                                    message-when-pattern-mismatch="Names should only contain letters"
+                                                    disabled={user.isCopiedFromShareholder}
+                                        onchange={handleAuthorisedUserChange}>
+                                    </lightning-input>
+                                </div>
+                                        </div>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-3">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label">Middle Name</label>
+                                            <div class="slds-form-element__control">
+                                                <lightning-input
+                                                    type="text"
+                                                    name="middleName"
+                                                    data-id={user.id}
+                                                    value={user.middleName}
+                                                    pattern="[A-Za-z\s\-'.]+"
+                                                    message-when-pattern-mismatch="Names should only contain letters"
+                                                    disabled={user.isCopiedFromShareholder}
+                                                    onchange={handleAuthorisedUserChange}>
+                                                </lightning-input>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-3">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label">
+                                                <abbr class="slds-required" title="required">*</abbr> Last Name
+                                            </label>
+                                            <div class="slds-form-element__control">
+                                                <lightning-input
+                                                    type="text"
+                                                    name="lastName"
+                                                    data-id={user.id}
+                                                    value={user.lastName}
+                                                    pattern="[A-Za-z\s\-'.]+"
+                                                    message-when-pattern-mismatch="Names should only contain letters"
+                                                    disabled={user.isCopiedFromShareholder}
+                                                    onchange={handleAuthorisedUserChange}>
+                                                </lightning-input>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-gutters">
+                                    <div class="slds-col slds-size_1-of-2">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label">
+                                                <abbr class="slds-required" title="required">*</abbr> Position/Role
+                                            </label>
+                                            <div class="slds-form-element__control">
+                                                <lightning-input
+                                                    type="text"
+                                                    name="position"
+                                                    data-id={user.id}
+                                                    value={user.position}
+                                                    onchange={handleAuthorisedUserChange}>
+                                                </lightning-input>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-gutters">
+                                    <div class="slds-col slds-size_1-of-2">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label">
+                                                <abbr class="slds-required" title="required">*</abbr> Email
+                                            </label>
+                                            <div class="slds-form-element__control">
+                                                <lightning-input
+                                                    type="email"
+                                                    name="email"
+                                                    data-id={user.id}
+                                                    value={user.email}
+                                                    disabled={user.isCopiedFromShareholder}
+                                                    onchange={handleAuthorisedUserChange}>
+                                                </lightning-input>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-2">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label">
+                                                <abbr class="slds-required" title="required">*</abbr> Mobile Number
+                                            </label>
+                                            <div class="slds-form-element__control">
+                                                <lightning-input
+                                                    type="tel"
+                                                    name="mobileNumber"
+                                                    data-id={user.id}
+                                                    value={user.mobileNumber}
+                                                    placeholder="+1234567890"
+                                                    pattern="[\+]?[0-9\s\-\(\)]{10,20}"
+                                                    message-when-pattern-mismatch="Please enter a valid phone number with country code (e.g., +1234567890)"
+                                                    disabled={user.isCopiedFromShareholder}
+                                                    onchange={handleAuthorisedUserChange}>
+                                                </lightning-input>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-gutters slds-m-top_small">
+                                    <div class="slds-col slds-size_1-of-2">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label">
+                                                <abbr class="slds-required" title="required">*</abbr> Date of Birth
+                                            </label>
+                                            <div class="slds-form-element__control">
+                                                <lightning-input
+                                                    type="date"
+                                                    name="dateOfBirth"
+                                                    data-id={user.id}
+                                                    value={user.dateOfBirth}
+                                                    disabled={user.isCopiedFromShareholder}
+                                                    onchange={handleAuthorisedUserChange}>
+                                                </lightning-input>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-2">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label">
+                                                <abbr class="slds-required" title="required">*</abbr> Country of Residence
+                                            </label>
+                                            <div class="slds-form-element__control">
+                                                <lightning-combobox
+                                                    name="countryOfResidence"
+                                                    data-id={user.id}
+                                                    value={user.countryOfResidence}
+                                                    options={countryPicklistOptions}
+                                                    disabled={user.isCopiedFromShareholder}
+                                                    onchange={handleAuthorisedUserChange}>
+                                                </lightning-combobox>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- ADD: Nationality and Phone fields -->
+                                <div class="slds-grid slds-gutters slds-m-top_small">
+                                    <div class="slds-col slds-size_1-of-2">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label">
+                                                <abbr class="slds-required" title="required">*</abbr> Nationality
+                                            </label>
+                                            <div class="slds-form-element__control">
+                                                <lightning-combobox
+                                                    name="nationality"
+                                                    data-id={user.id}
+                                                    value={user.nationality}
+                                                    options={countryPicklistOptions}
+                                                    disabled={user.isCopiedFromShareholder}
+                                                    onchange={handleAuthorisedUserChange}>
+                                                </lightning-combobox>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-2">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label">
+                                                Phone Number
+                                            </label>
+                                            <div class="slds-form-element__control">
+                                                <lightning-input
+                                                    type="tel"
+                                                    name="phone"
+                                                    data-id={user.id}
+                                                    value={user.phone}
+                                                    placeholder="+1234567890"
+                                                    pattern="[\+]?[0-9\s\-\(\)]{10,20}"
+                                                    message-when-pattern-mismatch="Please enter a valid phone number with country code (e.g., +1234567890)"
+                                                    disabled={user.isCopiedFromShareholder}
+                                                    onchange={handleAuthorisedUserChange}>
+                                                </lightning-input>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="slds-grid slds-gutters slds-m-top_small">
+                                    <div class="slds-col slds-size_1-of-2">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label">
+                                                <abbr class="slds-required" title="required">*</abbr> Government ID Number
+                                            </label>
+                                            <div class="slds-form-element__control">
+                                                <lightning-input
+                                                    type="text"
+                                                    name="governmentIdNumber"
+                                                    data-id={user.id}
+                                                    value={user.governmentIdNumber}
+                                                    disabled={user.isCopiedFromShareholder}
+                                                    onchange={handleAuthorisedUserChange}>
+                                                </lightning-input>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-2">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label">
+                                                PEP?
+                                                <lightning-helptext
+                                                    content="A PEP is someone who holds or has held a prominent public role, such as a government official, senior politician, or military leader. This also includes their immediate family and close business associates.">
+                                                </lightning-helptext>
+                                            </label>
+                                            <div class="slds-form-element__control">
+                                                <lightning-radio-group
+                                                    name="isPEP"
+                                                    data-id={user.id}
+                                                    options={yesNoOptions}
+                                                    value={user.isPEP}
+                                                    type="radio"
+                                                    disabled={user.isCopiedFromShareholder}
+                                                    onchange={handleAuthorisedUserChange}>
+                                                </lightning-radio-group>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <template if:true={showTradingExperience}>
+                                    <div class="slds-form-element slds-m-bottom_small">
+                                        <label class="slds-form-element__label">Trading Experience</label>
+                                        <div class="slds-form-element__control">
+                                            <lightning-checkbox-group
+                                                name="tradingExperience"
+                                                data-id={user.id}
+                                                options={tradingExperienceOptions}
+                                                value={user.tradingExperience}
+                                                onchange={handleAuthorisedUserChange}>
+                                            </lightning-checkbox-group>
+                                        </div>
+                                    </div>
+                                    <div class="slds-form-element">
+                                        <label class="slds-form-element__label">
+                                            <abbr class="slds-required" title="required">*</abbr> Frequency of Trades
+                                        </label>
+                                        <div class="slds-form-element__control">
+                                            <lightning-combobox
+                                                name="tradeFrequency"
+                                                data-id={user.id}
+                                                value={user.tradeFrequency}
+                                                options={tradeFrequencyOptions}
+                                                onchange={handleAuthorisedUserChange}>
+                                            </lightning-combobox>
+                                        </div>
+                                    </div>
+                                </template>
+                                
+                                <!-- Address Section -->
+                                <div class="slds-grid slds-gutters slds-wrap slds-m-top_medium">
+                                    <div class="slds-col slds-size_1-of-1 slds-m-bottom_small">
+                                        <div class="slds-text-heading_small">Address Information</div>
+                                    </div>
+                                    
+                                    <!-- Street Address -->
+                                    <div class="slds-col slds-size_1-of-1">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label">Street Address</label>
+                                            <div class="slds-form-element__control">
+                                                <lightning-input
+                                                    type="text"
+                                                    name="street"
+                                                    data-id={user.id}
+                                                    value={user.street}
+                                                    placeholder="Street address"
+                                                    disabled={user.isCopiedFromShareholder}
+                                                    onchange={handleAuthorisedUserChange}>
+                                                </lightning-input>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- City -->
+                                    <div class="slds-col slds-size_1-of-3">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label">City</label>
+                                            <div class="slds-form-element__control">
+                                                <lightning-input
+                                                    type="text"
+                                                    name="city"
+                                                    data-id={user.id}
+                                                    value={user.city}
+                                                    placeholder="City"
+                                                    disabled={user.isCopiedFromShareholder}
+                                                    onchange={handleAuthorisedUserChange}>
+                                                </lightning-input>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- State/Province -->
+                                    <div class="slds-col slds-size_1-of-3">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label">State / Province</label>
+                                            <div class="slds-form-element__control">
+                                                <lightning-input
+                                                    type="text"
+                                                    name="state"
+                                                    data-id={user.id}
+                                                    value={user.state}
+                                                    placeholder="State or Province"
+                                                    disabled={user.isCopiedFromShareholder}
+                                                    onchange={handleAuthorisedUserChange}>
+                                                </lightning-input>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Postal Code -->
+                                    <div class="slds-col slds-size_1-of-3">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label">Postal Code</label>
+                                            <div class="slds-form-element__control">
+                                                <lightning-input
+                                                    type="text"
+                                                    name="postalCode"
+                                                    data-id={user.id}
+                                                    value={user.postalCode}
+                                                    placeholder="Postal Code"
+                                                    disabled={user.isCopiedFromShareholder}
+                                                    onchange={handleAuthorisedUserChange}>
+                                                </lightning-input>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Country -->
+                                    <div class="slds-col slds-size_1-of-1">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label">Country</label>
+                                            <div class="slds-form-element__control">
+                                                <lightning-input
+                                                    type="text"
+                                                    name="country"
+                                                    data-id={user.id}
+                                                    value={user.country}
+                                                    placeholder="Country"
+                                                    disabled={user.isCopiedFromShareholder}
+                                                    onchange={handleAuthorisedUserChange}>
+                                                </lightning-input>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                        <lightning-button 
+                            label="+ Add Another Authorised User" 
+                            variant="neutral"
+                            icon-name="utility:add"
+                            onclick={handleAddAuthorisedUser}
+                            class="slds-m-bottom_large">
+                        </lightning-button>
+
+                        <!-- Additional Parties section removed - now handled in Shareholders/Directors -->
+
+                        <div class="slds-m-top_large">
+                            <lightning-button 
+                                label="Back" 
+                                class="slds-m-right_small" 
+                                onclick={handleBack}>
+                            </lightning-button>
+                            <lightning-button 
+                                label="Continue" 
+                                variant="brand" 
+                                onclick={handleContinue}
+                                disabled={isShareholdersStepDisabled}>
+                            </lightning-button>
+                        </div>
+                    </template>
+
+                    <!-- Section 2B: Company Information -->
+                    <template if:true={showCompanyInfoStep}>
+                        <div class="slds-text-heading_medium slds-m-bottom_medium">Company Information</div>
+                        
+                        <div class="slds-grid slds-gutters slds-m-bottom_medium">
+                            <div class="slds-col slds-size_1-of-2">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label">
+                                        <abbr class="slds-required" title="required">*</abbr> Legal Entity Name
+                                    </label>
+                                    <div class="slds-form-element__control">
+                                        <lightning-input
+                                            type="text"
+                                            name="legalEntityName"
+                                            value={companyInfo.legalEntityName}
+                                            onchange={handleCompanyInfoChange}>
+                                        </lightning-input>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_1-of-2">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label">Trading Name (if different)</label>
+                                    <div class="slds-form-element__control">
+                                        <lightning-input
+                                            type="text"
+                                            name="tradingName"
+                                            value={companyInfo.tradingName}
+                                            onchange={handleCompanyInfoChange}>
+                                        </lightning-input>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="slds-grid slds-gutters slds-m-bottom_medium">
+                            <div class="slds-col slds-size_1-of-3">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label">
+                                        <abbr class="slds-required" title="required">*</abbr> Legal Entity Type
+                                    </label>
+                                    <div class="slds-form-element__control">
+                                        <lightning-combobox
+                                            name="legalEntityType"
+                                            value={companyInfo.legalEntityType}
+                                            options={legalEntityTypeOptions}
+                                            onchange={handleCompanyInfoChange}>
+                                        </lightning-combobox>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_1-of-3">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label">
+                                        <abbr class="slds-required" title="required">*</abbr> Date of Incorporation
+                                    </label>
+                                    <div class="slds-form-element__control">
+                                        <lightning-input
+                                            type="date"
+                                            name="dateOfIncorporation"
+                                            value={companyInfo.dateOfIncorporation}
+                                            onchange={handleCompanyInfoChange}>
+                                        </lightning-input>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_1-of-3">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label">
+                                        <abbr class="slds-required" title="required">*</abbr> Country of Incorporation
+                                    </label>
+                                    <div class="slds-form-element__control">
+                                        <lightning-combobox
+                                            name="countryOfIncorporation"
+                                            value={companyInfo.countryOfIncorporation}
+                                            options={countryPicklistOptions}
+                                            onchange={handleCompanyInfoChange}>
+                                        </lightning-combobox>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="slds-form-element slds-m-bottom_medium">
+                            <label class="slds-form-element__label">
+                                <abbr class="slds-required" title="required">*</abbr> Registration Number / Company Number
+                            </label>
+                            <div class="slds-form-element__control">
+                                <lightning-input
+                                    type="text"
+                                    name="registrationNumber"
+                                    value={companyInfo.registrationNumber}
+                                    onchange={handleCompanyInfoChange}>
+                                </lightning-input>
+                            </div>
+                        </div>
+
+                        <!-- Registered Business Address -->
+                        <div class="slds-text-heading_small slds-m-top_medium slds-m-bottom_small">
+                            <abbr class="slds-required" title="required">*</abbr> Registered Business Address
+                        </div>
+                        <div class="slds-grid slds-gutters slds-wrap slds-m-bottom_medium">
+                            <div class="slds-col slds-size_1-of-1">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label">
+                                        <abbr class="slds-required" title="required">*</abbr> Street Address
+                                    </label>
+                                    <div class="slds-form-element__control">
+                                        <lightning-input
+                                            type="text"
+                                            name="registeredStreet"
+                                            value={companyInfo.registeredStreet}
+                                            placeholder="Street address"
+                                            onchange={handleCompanyInfoChange}>
+                                        </lightning-input>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="slds-col slds-size_1-of-3">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label">
+                                        <abbr class="slds-required" title="required">*</abbr> City
+                                    </label>
+                                    <div class="slds-form-element__control">
+                                        <lightning-input
+                                            type="text"
+                                            name="registeredCity"
+                                            value={companyInfo.registeredCity}
+                                            placeholder="City"
+                                            onchange={handleCompanyInfoChange}>
+                                        </lightning-input>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="slds-col slds-size_1-of-3">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label">State / Province</label>
+                                    <div class="slds-form-element__control">
+                                        <lightning-input
+                                            type="text"
+                                            name="registeredState"
+                                            value={companyInfo.registeredState}
+                                            placeholder="State or Province"
+                                            onchange={handleCompanyInfoChange}>
+                                        </lightning-input>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="slds-col slds-size_1-of-3">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label">Postal Code</label>
+                                    <div class="slds-form-element__control">
+                                        <lightning-input
+                                            type="text"
+                                            name="registeredPostalCode"
+                                            value={companyInfo.registeredPostalCode}
+                                            placeholder="Postal Code"
+                                            onchange={handleCompanyInfoChange}>
+                                        </lightning-input>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="slds-col slds-size_1-of-1">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label">
+                                        <abbr class="slds-required" title="required">*</abbr> Country
+                                    </label>
+                                    <div class="slds-form-element__control">
+                                        <lightning-input
+                                            type="text"
+                                            name="registeredCountry"
+                                            value={companyInfo.registeredCountry}
+                                            placeholder="Country"
+                                            onchange={handleCompanyInfoChange}>
+                                        </lightning-input>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="slds-form-element slds-m-bottom_medium">
+                            <label class="slds-form-element__label">
+                                <abbr class="slds-required" title="required">*</abbr> Are you a regulated company?
+                            </label>
+                            <div class="slds-form-element__control">
+                                <lightning-radio-group
+                                    name="isRegulatedFinancialInstitution"
+                                    options={yesNoOptions}
+                                    value={companyInfo.isRegulatedFinancialInstitution}
+                                    type="radio"
+                                    onchange={handleCompanyInfoChange}>
+                                </lightning-radio-group>
+                            </div>
+                            <div class="slds-form-element__help slds-text-color_weak">
+                                If your company is regulated by a financial authority, please select Yes and provide the details below.
+                            </div>
+                        </div>
+
+                        <template if:true={showRegulatoryDetails}>
+                            <div class="slds-grid slds-gutters slds-m-bottom_medium">
+                                <div class="slds-col slds-size_1-of-3">
+                                    <div class="slds-form-element">
+                                        <label class="slds-form-element__label">
+                                            <abbr class="slds-required" title="required">*</abbr> Name of Regulator
+                                        </label>
+                                        <div class="slds-form-element__control">
+                                            <lightning-input
+                                                type="text"
+                                                name="regulatorName"
+                                                value={companyInfo.regulatorName}
+                                                onchange={handleCompanyInfoChange}>
+                                            </lightning-input>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-col slds-size_1-of-3">
+                                    <div class="slds-form-element">
+                                        <label class="slds-form-element__label">
+                                            <abbr class="slds-required" title="required">*</abbr> Regulatory Licence Number
+                                        </label>
+                                        <div class="slds-form-element__control">
+                                            <lightning-input
+                                                type="text"
+                                                name="regulatoryLicenceNumber"
+                                                value={companyInfo.regulatoryLicenceNumber}
+                                                onchange={handleCompanyInfoChange}>
+                                            </lightning-input>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-col slds-size_1-of-3">
+                                    <div class="slds-form-element">
+                                        <label class="slds-form-element__label">
+                                            <abbr class="slds-required" title="required">*</abbr> Jurisdiction of Regulatory Supervision
+                                        </label>
+                                        <div class="slds-form-element__control">
+                                            <lightning-combobox
+                                                name="regulatoryJurisdiction"
+                                                value={companyInfo.regulatoryJurisdiction}
+                                                options={countryPicklistOptions}
+                                                onchange={handleCompanyInfoChange}>
+                                            </lightning-combobox>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+
+                        <div class="slds-form-element slds-m-bottom_medium">
+                            <label class="slds-form-element__label">Website (URL)</label>
+                            <div class="slds-form-element__control">
+                                <lightning-input
+                                    type="url"
+                                    name="website"
+                                    value={companyInfo.website}
+                                    onchange={handleCompanyInfoChange}>
+                                </lightning-input>
+                            </div>
+                        </div>
+
+                        <div class="slds-grid slds-gutters slds-m-bottom_medium">
+                            <div class="slds-col slds-size_1-of-2">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label">
+                                        <abbr class="slds-required" title="required">*</abbr> Corporate Email
+                                    </label>
+                                    <div class="slds-form-element__control">
+                                        <lightning-input
+                                            type="email"
+                                            name="email"
+                                            value={companyInfo.email}
+                                            onchange={handleCompanyInfoChange}>
+                                        </lightning-input>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_1-of-2">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label">Corporate Phone</label>
+                                    <div class="slds-form-element__help">
+                                        Format: {corporatePhoneFormatHint}
+                                    </div>
+                                    <div class="slds-form-element__control">
+                                        <lightning-input
+                                            type="tel"
+                                            name="phone"
+                                            value={companyInfo.phone}
+                                            placeholder={corporatePhonePlaceholder}
+                                            pattern={corporatePhonePattern}
+                                            message-when-pattern-mismatch={corporatePhonePatternError}
+                                            onchange={handleCompanyInfoChange}>
+                                        </lightning-input>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Nature of Business field removed - captured in Business Context step as "Products and Services" -->
+                        <!-- Restricted Activities field removed - compliance info captured elsewhere -->
+
+                        <div class="slds-form-element slds-m-bottom_large">
+                            <label class="slds-form-element__label">Expected Number of Employees</label>
+                            <div class="slds-form-element__control">
+                                <lightning-input
+                                    type="number"
+                                    name="expectedNumberOfEmployees"
+                                    value={companyInfo.expectedNumberOfEmployees}
+                                    onchange={handleCompanyInfoChange}>
+                                </lightning-input>
+                            </div>
+                        </div>
+
+                        <div class="slds-m-top_large">
+                            <lightning-button 
+                                label="Back" 
+                                class="slds-m-right_small" 
+                                onclick={handleBack}>
+                            </lightning-button>
+                            <lightning-button 
+                                label="Continue" 
+                                variant="brand" 
+                                onclick={handleContinue}
+                                disabled={isCompanyInfoStepDisabled}>
+                            </lightning-button>
+                        </div>
+                    </template>
+
+                    <!-- Section 2C: Business & Transaction Context -->
+                    <template if:true={showBusinessContextStep}>
+                        <div class="slds-text-heading_medium slds-m-bottom_medium">Business & Transaction Context</div>
+                        
+                        <div class="slds-form-element slds-m-bottom_medium">
+                            <label class="slds-form-element__label">
+                                <abbr class="slds-required" title="required">*</abbr> Purpose of the Account
+                            </label>
+                            <div class="slds-form-element__control">
+                                <lightning-textarea
+                                    name="purposeOfAccount"
+                                    value={businessContext.purposeOfAccount}
+                                    placeholder="Explain why the account is being opened (e.g. hedging FX, managing cross-border payments, investing in digital assets, seeking advisory)"
+                                    onchange={handleBusinessContextChange}>
+                                </lightning-textarea>
+                            </div>
+                        </div>
+
+                        <div class="slds-form-element slds-m-bottom_medium">
+                            <label class="slds-form-element__label">
+                                <abbr class="slds-required" title="required">*</abbr> Industry
+                            </label>
+                            <div class="slds-form-element__control">
+                                <lightning-combobox
+                                    name="industry"
+                                    value={businessContext.industry}
+                                    placeholder="Select an industry..."
+                                    options={industryOptions}
+                                    onchange={handleBusinessContextChange}>
+                                </lightning-combobox>
+                            </div>
+                        </div>
+
+                        <div class="slds-form-element slds-m-bottom_medium">
+                            <label class="slds-form-element__label">
+                                <abbr class="slds-required" title="required">*</abbr> Describe the Company's Products and Services
+                            </label>
+                            <div class="slds-form-element__control">
+                                <lightning-textarea
+                                    name="productsAndServices"
+                                    value={businessContext.productsAndServices}
+                                    placeholder="e.g., We are a software company that provides cloud-based solutions to retail businesses..."
+                                    onchange={handleBusinessContextChange}>
+                                </lightning-textarea>
+                            </div>
+                            <div class="slds-form-element__help slds-text-color_weak">
+                                Briefly describe what your company does, the products or services you offer, and who your typical customers are.
+                            </div>
+                        </div>
+
+                        <div class="slds-form-element slds-m-bottom_medium">
+                            <label class="slds-form-element__label">
+                                <abbr class="slds-required" title="required">*</abbr> Payment Flow Types
+                            </label>
+                            <div class="slds-form-element__control">
+                                <lightning-checkbox-group
+                                    name="paymentFlowTypes"
+                                    options={paymentFlowTypeOptions}
+                                    value={businessContext.paymentFlowTypes}
+                                    onchange={handleBusinessContextChange}>
+                                </lightning-checkbox-group>
+                            </div>
+                            <div class="slds-form-element__help slds-text-color_weak">
+                                Select how funds typically flow through your account. 1st Party = Your company. 3rd Party = External parties (customers, suppliers, etc.)
+                            </div>
+                        </div>
+
+                        <div class="slds-grid slds-gutters slds-m-bottom_medium">
+                            <div class="slds-col slds-size_1-of-3">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label">
+                                        <abbr class="slds-required" title="required">*</abbr> Expected Transactions per Month
+                                    </label>
+                                    <div class="slds-form-element__control">
+                                        <lightning-input
+                                            type="number"
+                                            name="expectedTransactionsPerMonth"
+                                            value={businessContext.expectedTransactionsPerMonth}
+                                            onchange={handleBusinessContextChange}>
+                                        </lightning-input>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_1-of-3">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label">
+                                        <abbr class="slds-required" title="required">*</abbr> Expected Annual Transaction Volume
+                                    </label>
+                                    <div class="slds-form-element__control">
+                                        <lightning-input
+                                            type="number"
+                                            name="expectedAnnualVolume"
+                                            value={businessContext.expectedAnnualVolume}
+                                            formatter="currency"
+                                            step="0.01"
+                                            onchange={handleBusinessContextChange}>
+                                        </lightning-input>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_1-of-3">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label">
+                                        <abbr class="slds-required" title="required">*</abbr> Typical Value per Transaction
+                                    </label>
+                                    <div class="slds-form-element__control">
+                                        <lightning-input
+                                            type="number"
+                                            name="typicalValuePerTransaction"
+                                            value={businessContext.typicalValuePerTransaction}
+                                            formatter="currency"
+                                            step="0.01"
+                                            onchange={handleBusinessContextChange}>
+                                        </lightning-input>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Currencies: Only show if FX service selected -->
+                        <template if:true={hasFXService}>
+                            <div class="slds-grid slds-gutters slds-m-bottom_medium">
+                                <div class="slds-col slds-size_1-of-2">
+                                    <div class="slds-form-element">
+                                        <label class="slds-form-element__label">
+                                            <abbr class="slds-required" title="required">*</abbr> Currencies You Will Send
+                                        </label>
+                                        <div class="slds-form-element__control">
+                                            <lightning-dual-listbox
+                                                name="currenciesToSend"
+                                                source-label="Available"
+                                                selected-label="Selected"
+                                                options={currencyOptions}
+                                                value={businessContext.currenciesToSend}
+                                                onchange={handleBusinessContextChange}>
+                                            </lightning-dual-listbox>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2">
+                                    <div class="slds-form-element">
+                                        <label class="slds-form-element__label">
+                                            <abbr class="slds-required" title="required">*</abbr> Currencies You Will Receive
+                                        </label>
+                                        <div class="slds-form-element__control">
+                                            <lightning-dual-listbox
+                                                name="currenciesToReceive"
+                                                source-label="Available"
+                                                selected-label="Selected"
+                                                options={currencyOptions}
+                                                value={businessContext.currenciesToReceive}
+                                                onchange={handleBusinessContextChange}>
+                                            </lightning-dual-listbox>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+
+                        <div class="slds-grid slds-gutters slds-m-bottom_medium">
+                            <div class="slds-col slds-size_1-of-2">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label">
+                                        <abbr class="slds-required" title="required">*</abbr> Countries Funds Will Be Sent To
+                                    </label>
+                                    <div class="slds-form-element__control">
+                                        <lightning-dual-listbox
+                                            name="countriesFundsSentTo"
+                                            source-label="Available"
+                                            selected-label="Selected"
+                                            options={countryPicklistOptions}
+                                            value={businessContext.countriesFundsSentTo}
+                                            onchange={handleBusinessContextChange}>
+                                        </lightning-dual-listbox>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_1-of-2">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label">
+                                        <abbr class="slds-required" title="required">*</abbr> Countries Funds Will Be Received From
+                                    </label>
+                                    <div class="slds-form-element__control">
+                                        <lightning-dual-listbox
+                                            name="countriesFundsReceivedFrom"
+                                            source-label="Available"
+                                            selected-label="Selected"
+                                            options={countryPicklistOptions}
+                                            value={businessContext.countriesFundsReceivedFrom}
+                                            onchange={handleBusinessContextChange}>
+                                        </lightning-dual-listbox>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="slds-form-element slds-m-bottom_medium">
+                            <label class="slds-form-element__label">Largest Single Transaction Expected</label>
+                            <div class="slds-form-element__control">
+                                <lightning-input
+                                    type="number"
+                                    name="largestSingleTransaction"
+                                    value={businessContext.largestSingleTransaction}
+                                    formatter="currency"
+                                    step="0.01"
+                                    onchange={handleBusinessContextChange}>
+                                </lightning-input>
+                            </div>
+                        </div>
+
+                        <div class="slds-form-element slds-m-bottom_medium">
+                            <label class="slds-form-element__label">
+                                <abbr class="slds-required" title="required">*</abbr> Primary Source of Funds
+                            </label>
+                            <div class="slds-form-element__control">
+                                <lightning-combobox
+                                    name="primarySourceOfFunds"
+                                    value={businessContext.primarySourceOfFunds}
+                                    options={sourceOfFundsOptions}
+                                    onchange={handleBusinessContextChange}>
+                                </lightning-combobox>
+                            </div>
+                        </div>
+                        <!-- Source of Wealth for Business Owners field removed - captured in Explanation field -->
+
+                        <div class="slds-form-element slds-m-bottom_medium">
+                            <label class="slds-form-element__label">
+                                <abbr class="slds-required" title="required">*</abbr> Source of Wealth - Explanation
+                            </label>
+                            <div class="slds-form-element__control">
+                                <lightning-textarea
+                                    name="sourceOfWealthExplanation"
+                                    value={businessContext.sourceOfWealthExplanation}
+                                    onchange={handleBusinessContextChange}>
+                                </lightning-textarea>
+                            </div>
+                        </div>
+
+                        <!-- Service-Specific Requirements (Merged from Service Step) -->
+                        <div class="slds-m-top_x-large slds-m-bottom_medium">
+                            <div class="slds-text-heading_medium slds-m-bottom_small">Service-Specific Requirements</div>
+                            <p class="slds-text-body_small slds-text-color_weak slds-m-bottom_medium">
+                                Please provide additional details based on the services you selected.
+                            </p>
+                        </div>
+
+                        <!-- FX Service Questions -->
+                        <template if:true={hasFXService}>
+                            <div class="slds-box slds-m-bottom_medium">
+                                <div class="slds-text-heading_small slds-m-bottom_small">Foreign Exchange (FX)</div>
+                                
+                                <div class="slds-form-element slds-m-bottom_medium">
+                                    <label class="slds-form-element__label">
+                                        <abbr class="slds-required" title="required">*</abbr> Forward Contracts/Hedging Required?
+                                    </label>
+                                    <div class="slds-form-element__control">
+                                        <lightning-radio-group
+                                            name="fxForwardContractsRequired"
+                                            options={yesNoOptions}
+                                            value={serviceSpecific.fxForwardContractsRequired}
+                                            type="radio"
+                                            onchange={handleServiceSpecificChange}>
+                                        </lightning-radio-group>
+                                    </div>
+                                </div>
+
+                                <template if:true={showHedgingDetails}>
+                                    <div class="slds-form-element slds-m-bottom_medium">
+                                        <label class="slds-form-element__label">
+                                            <abbr class="slds-required" title="required">*</abbr> Describe Hedging Needs
+                                        </label>
+                                        <div class="slds-form-element__control">
+                                            <lightning-textarea
+                                                name="fxHedgingNeeds"
+                                                value={serviceSpecific.fxHedgingNeeds}
+                                                onchange={handleServiceSpecificChange}>
+                                            </lightning-textarea>
+                                        </div>
+                                    </div>
+                                </template>
+                            </div>
+                        </template>
+
+                        <!-- Crypto Service Questions -->
+                        <template if:true={hasCryptoService}>
+                            <div class="slds-box slds-m-bottom_medium">
+                                <div class="slds-text-heading_small slds-m-bottom_small">Crypto / Digital Assets</div>
+                                
+                                <div class="slds-form-element slds-m-bottom_medium">
+                                    <label class="slds-form-element__label">
+                                        <abbr class="slds-required" title="required">*</abbr> Digital Assets to Buy/Sell/Hold
+                                    </label>
+                                    <div class="slds-form-element__control">
+                                        <lightning-checkbox-group
+                                            name="digitalAssets"
+                                            options={digitalAssetOptions}
+                                            value={serviceSpecific.digitalAssets}
+                                            onchange={handleServiceSpecificChange}>
+                                        </lightning-checkbox-group>
+                                    </div>
+                                </div>
+
+                                <div class="slds-grid slds-gutters slds-m-bottom_medium">
+                                    <div class="slds-col slds-size_1-of-2">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label">
+                                                <abbr class="slds-required" title="required">*</abbr> Expected Monthly Digital Asset Transaction Volume
+                                            </label>
+                                            <div class="slds-form-element__control">
+                                                <lightning-input
+                                                    type="number"
+                                                    name="expectedMonthlyCryptoVolume"
+                                                    value={serviceSpecific.expectedMonthlyCryptoVolume}
+                                                    formatter="currency"
+                                                    step="0.01"
+                                                    onchange={handleServiceSpecificChange}>
+                                                </lightning-input>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-2">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label">
+                                                <abbr class="slds-required" title="required">*</abbr> Average Digital Asset Transaction Size
+                                            </label>
+                                            <div class="slds-form-element__control">
+                                                <lightning-input
+                                                    type="number"
+                                                    name="averageCryptoTransactionSize"
+                                                    value={serviceSpecific.averageCryptoTransactionSize}
+                                                    formatter="currency"
+                                                    step="0.01"
+                                                    onchange={handleServiceSpecificChange}>
+                                                </lightning-input>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- VASP question removed - regulatory status captured in Company Info step -->
+                            </div>
+                        </template>
+
+                        <!-- Advisory Service Questions -->
+                        <template if:true={hasAdvisoryService}>
+                            <div class="slds-box slds-m-bottom_medium">
+                                <div class="slds-text-heading_small slds-m-bottom_small">Advisory Services</div>
+                                
+                                <div class="slds-form-element slds-m-bottom_medium">
+                                    <label class="slds-form-element__label">
+                                        <abbr class="slds-required" title="required">*</abbr> Advisory Services Required
+                                    </label>
+                                    <div class="slds-form-element__control">
+                                        <lightning-checkbox-group
+                                            name="advisoryServicesRequired"
+                                            options={advisoryServicesOptions}
+                                            value={serviceSpecific.advisoryServicesRequired}
+                                            onchange={handleServiceSpecificChange}>
+                                        </lightning-checkbox-group>
+                                    </div>
+                                </div>
+
+                                <div class="slds-form-element slds-m-bottom_medium">
+                                    <label class="slds-form-element__label">
+                                        <abbr class="slds-required" title="required">*</abbr> Investment Objectives
+                                    </label>
+                                    <div class="slds-form-element__control">
+                                        <lightning-checkbox-group
+                                            name="investmentObjectives"
+                                            options={investmentObjectivesOptions}
+                                            value={serviceSpecific.investmentObjectives}
+                                            onchange={handleServiceSpecificChange}>
+                                        </lightning-checkbox-group>
+                                    </div>
+                                </div>
+
+                                <div class="slds-form-element slds-m-bottom_medium">
+                                    <label class="slds-form-element__label">
+                                        <abbr class="slds-required" title="required">*</abbr> Risk Appetite
+                                    </label>
+                                    <div class="slds-form-element__control">
+                                        <lightning-radio-group
+                                            name="riskAppetite"
+                                            options={riskAppetiteOptions}
+                                            value={serviceSpecific.riskAppetite}
+                                            type="radio"
+                                            onchange={handleServiceSpecificChange}>
+                                        </lightning-radio-group>
+                                    </div>
+                                </div>
+
+                                <div class="slds-grid slds-gutters slds-m-bottom_medium">
+                                    <div class="slds-col slds-size_1-of-2">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label">Time Horizon for Investment Decisions (Years)</label>
+                                            <div class="slds-form-element__control">
+                                                <lightning-input
+                                                    type="number"
+                                                    name="timeHorizon"
+                                                    value={serviceSpecific.timeHorizon}
+                                                    onchange={handleServiceSpecificChange}>
+                                                </lightning-input>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label">Existing Advisory Relationships</label>
+                                    <div class="slds-form-element__control">
+                                        <lightning-textarea
+                                            name="existingAdvisoryRelationships"
+                                            value={serviceSpecific.existingAdvisoryRelationships}
+                                            onchange={handleServiceSpecificChange}>
+                                        </lightning-textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+
+                        <div class="slds-m-top_large">
+                            <lightning-button 
+                                label="Back" 
+                                class="slds-m-right_small" 
+                                onclick={handleBack}>
+                            </lightning-button>
+                            <lightning-button 
+                                label="Continue" 
+                                variant="brand" 
+                                onclick={handleContinue}
+                                disabled={isBusinessContextStepDisabled}>
+                            </lightning-button>
+                        </div>
+                    </template>
+
+                    <!-- Service step merged into Business Context step above -->
+                    <!-- Regulatory & Compliance Risk and Document Uploads steps removed per requirements -->
+                </template>
+
+                <!-- STEP 3: Declarations & Submission (All Clients) -->
+                <template if:true={showDeclarationsStep}>
+                    <div class="slds-text-heading_medium slds-m-bottom_medium">Declarations & Submission</div>
+                    
+                    <!-- Initial Declarations -->
+                    <div class="slds-m-bottom_large">
+                        <p class="slds-text-body_regular slds-m-bottom_small">
+                            By signing and returning this form, I/we confirm for and on behalf of the applicant that:
+                        </p>
+                        <ul class="slds-list_dotted slds-m-left_medium">
+                            <li class="slds-text-body_regular">I have read, understood and accurately completed the application form to open a trading account.</li>
+                            <li class="slds-text-body_regular">I have read, understood and accurately completed the Lydiam Group Ltd Professional Electronic Trading Agreement and all other agreements herein.</li>
+                            <li class="slds-text-body_regular">I have read, understood and accurately completed the nature and risks of the products intended to trade through this account.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Applicant Authorization -->
+                    <div class="slds-m-bottom_large">
+                        <p class="slds-text-body_regular">
+                            As the applicant, I have authorization to act on all matters regarding opening and operating the trading account with Lydiam Group including but not limited to deposits, withdrawals, trading and investment instruments.
+                        </p>
+                    </div>
+
+                    <!-- Terms of Business -->
+                    <div class="slds-m-bottom_large">
+                        <div class="slds-text-heading_small slds-m-bottom_small">TERMS OF BUSINESS</div>
+                        <p class="slds-text-body_regular">
+                            Please follow this link to view our Terms of Business: 
+                            <a href="https://ability-customization-4283--partial.sandbox.my.salesforce.com/sfc/p/#Ae00000AaBf7/a/Ae000000L65d/TCtUzikYJJWLzmxC03A3txNZ7rZEgqpH.nnd.oBX3c4" 
+                               target="_blank" 
+                               class="slds-text-link">
+                                Click here
+                            </a>
+                        </p>
+                    </div>
+
+                    <!-- Electronic Signature and Adoption -->
+                    <div class="slds-m-bottom_large">
+                        <div class="slds-text-heading_small slds-m-bottom_small">ELECTRONIC SIGNATURE AND ADOPTION</div>
+                        <p class="slds-text-body_regular">
+                            By using a keypad, mouse, or other device to select an item, button, icon or similar act/action, you are signing this Agreement electronically. You agree that your electronic signature is the legal equivalent of your manual signature on this Agreement. By selecting "I Agree" using any device, means or action, you consent to be legally bound by this Agreement's terms and conditions. You further agree that your identity cannot be reasonably questioned based on the foregoing and that the foregoing satisfies any requirement for a "signature" under any applicable law including, without limitation, the Electronic Signatures in Global and National Commerce Act, Uniform Electronic Transactions Act, and any other law based on the Uniform Electronic Transactions Act or similar act. You further agree that no certification authority or other third-party verification is necessary to validate your E-Signature and that the lack of such certification or third-party verification will not in any way affect the enforceability of your E-Signature or this Agreement. You also agree that each use of your E-Signature in executing this Agreement constitutes your adoption of such signature as your own, with the intent to acknowledge or sign, and that such signature is logically associated with the document or record to which it relates.
+                        </p>
+                    </div>
+
+                    <!-- Supporting Documentation Uploading (Corporate Only) -->
+                    <template if:true={isCorporateClient}>
+                        <div class="slds-m-bottom_large">
+                            <div class="slds-text-heading_small slds-m-bottom_small">Supporting Documentation Uploading</div>
+                            <ul class="slds-list_dotted slds-m-left_medium">
+                                <li class="slds-text-body_regular">All corporate formation documents</li>
+                                <li class="slds-text-body_regular">Corporate formation documents and clear ownership structure for any corporate/entity shareholders</li>
+                                <li class="slds-text-body_regular">Most recent bank statement in the name of the company (no screenshots - actual statement required, or only if it's a new account, a welcome letter from the bank showing the account name and number)</li>
+                                <li class="slds-text-body_regular">Register of Shareholders and Directors</li>
+                                <li class="slds-text-body_regular">Individual verification of Directors (copy of passport and a bank statement or a utility bill less than 90 days old - gas, electric, water, cable, landline phone. We cannot accept credit cards, cellular bills, insurance, or a driver's license.)</li>
+                                <li class="slds-text-body_regular">Individual verification of Shareholders/Beneficial Owners with a 25% or greater interest in the Company (copy of passport and a bank statement or a utility bill - gas, electric, water, cable, landline phone. We cannot accept credit cards, cellular bills, insurance, or a driver's license.)</li>
+                                <li class="slds-text-body_regular">If the entity handles client funds of any type, an up to date AML/KYC policy.</li>
+                                <li class="slds-text-body_regular">Company Structure Chart (A company structure chart is a visualization of the ownership, governance, and management relationships among legal entities of a single enterprise - a collection of companies)</li>
+                            </ul>
+                        </div>
+                    </template>
+
+                    <!-- Signatures Section -->
+                    <div class="slds-m-bottom_large">
+                        <div class="slds-text-heading_small slds-m-bottom_small">Signatures</div>
+                        <p class="slds-text-body_regular">
+                            By electronically signing, the applicant represents that all information is true and accurate, agrees to be bound by the agreement, and confirms they are not a third party. Documentation verifying identity and authority may be requested.
+                        </p>
+                    </div>
+
+                    <!-- Risk Disclosure -->
+                    <div class="slds-m-bottom_large">
+                        <p class="slds-text-body_regular slds-text-color_error">
+                            <strong>Risk Disclosure:</strong> Trading FX, Digital Assets, CFDs, and other Financial Market Products and Instruments carries a high level of risk and may not be suitable for all investors. The high degree of leverage can work against you as well as for you. Before deciding to trade, you should carefully consider your investment objectives, level of experience, and risk appetite. The possibility exists that you could sustain a loss of some or all of your initial investment and therefore you should not invest money that you cannot afford to lose. You should be aware of all the risks associated with trading and seek advice from an independent financial advisor if you have any doubts.
+                        </p>
+                    </div>
+
+                    <!-- Notes, Corrections, or Missing Information -->
+                    <div class="slds-m-bottom_large">
+                        <div class="slds-text-heading_small slds-m-bottom_small">Notes, Corrections, or Missing Information</div>
+                        <p class="slds-text-body_small slds-text-color_weak slds-m-bottom_small">
+                            If you found any errors in the pre-filled information, have additional details to add, or need to clarify anything, please let us know below:
+                        </p>
+                        <div class="slds-form-element">
+                            <div class="slds-form-element__control">
+                                <lightning-textarea
+                                    name="clientNotes"
+                                    placeholder="Example: The registered address is incorrect - should be 123 New Street... OR Shareholder John Smith's ownership is 30%, not 25%... OR Please note we also have operations in Singapore..."
+                                    value={declarations.clientNotes}
+                                    onchange={handleDeclarationsChange}
+                                    max-length="5000">
+                                </lightning-textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Required Terms and Conditions -->
+                    <div class="slds-m-bottom_large">
+                        <div class="slds-text-heading_small slds-m-bottom_small">Terms and Conditions are required*</div>
+                        <div class="slds-form-element slds-m-bottom_medium">
+                            <div class="slds-form-element__control">
+                                <lightning-input
+                                    type="checkbox"
+                                    name="agreeToTerms"
+                                    label="I agree to Terms & Conditions & above declaration"
+                                    checked={declarations.agreeToTerms}
+                                    onchange={handleDeclarationsChange}>
+                                </lightning-input>
+                            </div>
+                        </div>
+
+                        <div class="slds-grid slds-gutters">
+                            <div class="slds-col slds-size_1-of-2">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label">
+                                        <abbr class="slds-required" title="required">*</abbr> Signatory First Name
+                                    </label>
+                                    <div class="slds-form-element__control">
+                                        <lightning-input
+                                            type="text"
+                                            name="signatoryFirstName"
+                                            value={declarations.signatoryFirstName}
+                                            onchange={handleDeclarationsChange}>
+                                        </lightning-input>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_1-of-2">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label">
+                                        <abbr class="slds-required" title="required">*</abbr> Signatory Last Name
+                                    </label>
+                                    <div class="slds-form-element__control">
+                                        <lightning-input
+                                            type="text"
+                                            name="signatoryLastName"
+                                            value={declarations.signatoryLastName}
+                                            onchange={handleDeclarationsChange}>
+                                        </lightning-input>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="slds-m-top_large">
+                        <lightning-button 
+                            label="Back" 
+                            class="slds-m-right_small" 
+                            onclick={handleBack}
+                            disabled={isSubmitting}>
+                        </lightning-button>
+                        <lightning-button 
+                            label="Submit Application" 
+                            variant="brand" 
+                            onclick={handleSubmit}
+                            disabled={isSubmitButtonDisabled}>
+                        </lightning-button>
+                    </div>
+                    
+                    <!-- Error Message with Retry Option -->
+                    <template if:true={submissionError}>
+                        <div class="slds-box slds-theme_error slds-text-align_center slds-p-around_large slds-m-top_medium">
+                            <lightning-icon icon-name="utility:error" size="large" class="slds-m-bottom_medium"></lightning-icon>
+                            <div class="slds-text-heading_medium slds-m-bottom_small">Submission Failed</div>
+                            <p class="slds-text-body_regular slds-m-bottom_medium">
+                                {submissionError.message}
+                            </p>
+                            <template if:true={showRetryButton}>
+                                <lightning-button 
+                                    label="Retry Submission" 
+                                    variant="brand" 
+                                    onclick={handleRetrySubmission}
+                                    class="slds-m-right_small">
+                                </lightning-button>
+                                <lightning-button 
+                                    label="Review Form" 
+                                    variant="neutral" 
+                                    onclick={handleBack}>
+                                </lightning-button>
+                            </template>
+                        </div>
+                    </template>
+                </template>
+
+                <!-- Success Message - Mobile App Style Animated -->
+                <template if:true={showSuccessMessage}>
+                    <div class="success-container">
+                        <!-- Animated Confetti Particles -->
+                        <div class="confetti-container">
+                            <div class="confetti confetti-1"></div>
+                            <div class="confetti confetti-2"></div>
+                            <div class="confetti confetti-3"></div>
+                            <div class="confetti confetti-4"></div>
+                            <div class="confetti confetti-5"></div>
+                            <div class="confetti confetti-6"></div>
+                            <div class="confetti confetti-7"></div>
+                            <div class="confetti confetti-8"></div>
+                            <div class="confetti confetti-9"></div>
+                            <div class="confetti confetti-10"></div>
+                            <div class="confetti confetti-11"></div>
+                            <div class="confetti confetti-12"></div>
+                        </div>
+
+                        <!-- Floating Background Elements -->
+                        <div class="floating-shapes">
+                            <div class="shape shape-1"></div>
+                            <div class="shape shape-2"></div>
+                            <div class="shape shape-3"></div>
+                        </div>
+
+                        <!-- Company Logo with bounce -->
+                        <div class="success-logo">
+                            <img src={logoUrl} 
+                                 alt="Lydiam Logo" 
+                                 style="width: 100%; height: auto;" />
+                        </div>
+
+                        <!-- Animated Success Checkmark with pulse -->
+                        <div class="success-animation-wrapper">
+                            <div class="success-checkmark">
+                                <div class="checkmark-circle">
+                                    <div class="checkmark-glow"></div>
+                                    <div class="checkmark-icon">
+                                        <div class="checkmark-check"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Success Heading with gradient -->
+                        <h1 class="success-heading">
+                            <span class="heading-text">Application Submitted</span>
+                            <span class="heading-emoji">🎉</span>
+                        </h1>
+
+                        <!-- Success Message -->
+                        <p class="success-message">
+                            Thank you for submitting your onboarding application.<br/>
+                            Our team will review your information and contact you shortly.
+                        </p>
+
+                        <!-- Animated Info Cards -->
+                        <div class="success-cards">
+                            <div class="success-card card-1">
+                                <div class="card-icon-wrapper">
+                                    <lightning-icon icon-name="utility:date_time" 
+                                                    size="small" 
+                                                    class="card-icon">
+                                    </lightning-icon>
+                                </div>
+                                <div class="card-content">
+                                    <div class="card-label">Submitted On</div>
+                                    <div class="card-value">{submissionDate}</div>
+                                </div>
+                            </div>
+
+                            <div class="success-card card-2">
+                                <div class="card-icon-wrapper">
+                                    <lightning-icon icon-name="utility:clock" 
+                                                    size="small" 
+                                                    class="card-icon">
+                                    </lightning-icon>
+                                </div>
+                                <div class="card-content">
+                                    <div class="card-label">Response Time</div>
+                                    <div class="card-value">2-3 Business Days</div>
+                                </div>
+                            </div>
+
+                            <div class="success-card card-3">
+                                <div class="card-icon-wrapper">
+                                    <lightning-icon icon-name="utility:email" 
+                                                    size="small" 
+                                                    class="card-icon">
+                                    </lightning-icon>
+                                </div>
+                                <div class="card-content">
+                                    <div class="card-label">We'll Contact You</div>
+                                    <div class="card-value">Via Email</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Footer with contact -->
+                        <div class="success-footer">
+                            <div class="footer-icon">
+                                <lightning-icon icon-name="utility:chat" 
+                                                size="x-small">
+                                </lightning-icon>
+                            </div>
+                            <p class="success-footer-text">
+                                Need help? Contact us at 
+                                <strong class="contact-email"> info@lydiamgroup.com</strong>
+                            </p>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </lightning-card>
+        
+        <!-- PHASE 2: Mobile Sticky Navigation Bar -->
+        <template if:true={showMobileNavigation}>
+            <div class="mobile-navigation-bar">
+                <template if:false={isFirstStep}>
+                    <div class="mobile-nav-button">
+                        <lightning-button 
+                            label="Back" 
+                            variant="neutral"
+                            icon-name="utility:back"
+                            onclick={handleBack}>
+                        </lightning-button>
+                    </div>
+                </template>
+                <div class="mobile-nav-button">
+                    <lightning-button 
+                        label={mobileNavNextLabel} 
+                        variant="brand"
+                        icon-name={mobileNavNextIcon}
+                        icon-position="right"
+                        onclick={handleMobileNavNext}
+                        disabled={isSubmitting}>
+                    </lightning-button>
+                </div>
+            </div>
+        </template>
+    </div>
+</template>

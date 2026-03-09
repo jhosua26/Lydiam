@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Application_Form__c</fullName>
+    <inlineHelpText>Select the form that needs to be sent to the Client for completion</inlineHelpText>
+    <label>Application Form</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Alternative Assets - Corporate</fullName>
+                <default>false</default>
+                <label>Alternative Assets - Corporate</label>
+            </value>
+            <value>
+                <fullName>Alternative Assets - Private</fullName>
+                <default>false</default>
+                <label>Alternative Assets - Private</label>
+            </value>
+            <value>
+                <fullName>Corporate - Fx</fullName>
+                <default>false</default>
+                <label>Corporate - Fx</label>
+            </value>
+            <value>
+                <fullName>Partnership Account</fullName>
+                <default>false</default>
+                <label>Partnership Account</label>
+            </value>
+            <value>
+                <fullName>Private - Fx</fullName>
+                <default>false</default>
+                <label>Private - Fx</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

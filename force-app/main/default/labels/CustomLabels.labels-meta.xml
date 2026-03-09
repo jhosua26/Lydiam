@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
+    <labels>
+        <fullName>Base_URL</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Base URL</shortDescription>
+        <value>https://ability-customization-4283.my.site.com</value>
+    </labels>
+    <labels>
+        <fullName>Error_in_PaidOut_Payment_Trigger</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Error in PaidOut Payment Trigger</shortDescription>
+        <value>No</value>
+    </labels>
+    <labels>
+        <fullName>Error_in_Payment_Trigger</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Error in Payment Trigger</shortDescription>
+        <value>No</value>
+    </labels>
+    <labels>
+        <fullName>Error_in_Received_Payment_Trigger</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Error in Received Payment Trigger</shortDescription>
+        <value>No</value>
+    </labels>
+    <labels>
+        <fullName>Error_in_Trade_Trigger</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Error in Trade Trigger</shortDescription>
+        <value>No</value>
+    </labels>
+</CustomLabels>

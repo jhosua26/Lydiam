@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Same_As_Party__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Indicates that this role&apos;s data was prefilled from another party (for &apos;Same as shareholder&apos; UX).</description>
+    <label>Same As Party</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

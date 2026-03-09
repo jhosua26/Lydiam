@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Related_Party__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Party this document belongs to (if applicable - e.g. passport belongs to a specific shareholder).</description>
+    <label>Related Party</label>
+    <referenceTo>Party__c</referenceTo>
+    <relationshipLabel>Document Submissions</relationshipLabel>
+    <relationshipName>Document_Submissions</relationshipName>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

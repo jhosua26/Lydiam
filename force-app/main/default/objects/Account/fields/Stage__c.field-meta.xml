@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Stage__c</fullName>
+    <label>Stage</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Lead</fullName>
+                <default>false</default>
+                <label>Lead</label>
+            </value>
+            <value>
+                <fullName>Opportunity</fullName>
+                <default>false</default>
+                <label>Opportunity</label>
+            </value>
+            <value>
+                <fullName>Paperwork sent</fullName>
+                <default>false</default>
+                <label>Paperwork sent</label>
+            </value>
+            <value>
+                <fullName>Paperwork received</fullName>
+                <default>false</default>
+                <label>Paperwork received</label>
+            </value>
+            <value>
+                <fullName>Client onboarding</fullName>
+                <default>false</default>
+                <label>Client onboarding</label>
+            </value>
+            <value>
+                <fullName>Client coded</fullName>
+                <default>false</default>
+                <label>Client coded</label>
+            </value>
+            <value>
+                <fullName>Trading</fullName>
+                <default>false</default>
+                <label>Trading</label>
+            </value>
+            <value>
+                <fullName>Closed</fullName>
+                <default>false</default>
+                <label>Closed</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Traded_in_the_past_12_months__c</fullName>
+    <label>Traded in the past 12 months</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetName>Traded_in_the_past_12_months</valueSetName>
+    </valueSet>
+    <visibleLines>6</visibleLines>
+</CustomField>

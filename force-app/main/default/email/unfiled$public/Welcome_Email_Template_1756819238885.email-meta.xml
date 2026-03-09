@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Welcome Email Template</name>
+    <style>none</style>
+    <subject>Welcome to Lydiam</subject>
+    <textOnly>[Image alt text: Lydiam Logo]
+
+. [Image alt text: Welcome Banner] . [Image alt text: Private and Confidential] .
+
+Dear {{RecipientName}},
+
+Welcome to Lydiam Group.
+
+We are delighted to confirm your successful onboarding into our digital asset and foreign exchange services. It is our pleasure to support your trading and treasury requirements through our institutional-grade platform, offering seamless access to global liquidity, competitive pricing, and end-to-end execution support.
+
+Your unique Lydiam Group Reference Number is: {{ReferenceNumber}}
+
+(Please reference this number when making payments. Deal tickets will be formatted as {{ReferenceNumber}}-01, where the suffix corresponds to each specific deal booked.)
+
+..
+
+**On-Ramping (Fiat to Crypto)
+----------------------------------------------------
+
+ - Settlement instructions will be provided by your Lydiam Group representative.
+ - Clients must whitelist wallet addresses before submitting instructions.
+ - We may request proof of payment (e.g., MT103, FPT, bank transfer confirmation).
+ - Only authorized individuals per the OTC Trading Counterparty Agreement may issue instructions.
+
+Required Details:
+
+1. Fiat Funding Bank Account (Currency, Country)
+
+2. Receiving Wallet Address &amp; Token Ticker Symbol (e.g., BTC, ETH, USDT)
+
+**Off-Ramping (Crypto to Fiat)
+----------------------------------------------------
+
+ - Instructions will be verified over a secure call with the authorized party.
+ - No funds to third parties unless approved during onboarding.
+ - Supporting documentation may be required depending on jurisdiction and size.
+
+Required Details:
+
+1. Transferring Wallet Address &amp; Token Ticker Symbol
+
+2. Beneficiary Bank Details (Currency, IBAN/SWIFT, Account Holder Name)
+
+..
+
+Lydiam Group provides regulated deliverable FX solutions across a wide range of currencies to meet your international payment and hedging requirements.
+
+**On-Ramping (Fiat to Fiat / FX Conversion)
+----------------------------------------------------
+
+ - Settlement instructions and payment references will be provided.
+ - Clients are encouraged to send payment confirmations.
+ - Only designated signatories can initiate transactions.
+
+Required Details:
+
+1. Source Currency &amp; Funding Bank
+
+2. Target Currency &amp; Beneficiary Account Details
+
+3. Desired FX Amount &amp; Currency Pair (e.g., AED to EUR)
+
+**Off-Ramping (Cross-Border Payouts)
+----------------------------------------------------
+
+ - Payouts will be verified directly before release.
+ - Funds will not be sent to unapproved third-party accounts.
+ - Trade confirmation and settlement summary issued per transaction.
+
+Required Details:
+
+1. Pay-Out Currency &amp; Amount
+
+2. Beneficiary Bank Name, IBAN/SWIFT, Country
+
+3. Purpose of Payment or Invoice Reference
+
+..
+
+Introductory Conference Call:
+
+Please schedule a call with your account representative to review trading preferences, limits, and process flow.
+
+Deposit Wallets (Crypto Only):
+
+For BTC, ETH, USDT, or other token deposits, please email us at dealing@lydiamgroup.com &lt; mailto:dealing@lydiamgroup.com &gt; to receive your segregated wallet address.
+
+Trading Communication Channels:
+
+Execution, balance updates, and settlements will be securely conducted via Telegram or Email.
+
+Settlements &amp; Authorizations:
+
+Updates to wallet or bank details must be initiated by approved individuals only. No instructions will be actioned without verification.
+
+Warm regards,
+
+Ayaz Khan
+
+CEO &amp; Director
+
+Lydiam Group
+
+www.lydiamgroup.com &lt; https://www.lydiamgroup.com &gt; 
+
+.
+
+.
+
+Lydiam Group. All rights reserved. Lydiam Group 17 Hannover Square, London, W1S 1BN
+
+This email is intended for the named recipient only. It may contain privileged and confidential information. If you are not the intended recipient, notify the sender immediately and destroy this email. You must not copy, distribute or take action in reliance upon it.
+
+Whilst all efforts are made to safeguard emails, we cannot guarantee that attachments are virus free or compatible with your systems and does not accept liability in respect of viruses or computer problems experienced. We reserve the right to monitor all email communications through its internal and external networks.</textOnly>
+    <type>custom</type>
+    <uiType>SFX</uiType>
+</EmailTemplate>

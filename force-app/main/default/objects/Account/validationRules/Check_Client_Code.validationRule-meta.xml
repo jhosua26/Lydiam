@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Check_Client_Code</fullName>
+    <active>true</active>
+    <description>Client code can&apos;t be null to make the stage Client Coded</description>
+    <errorConditionFormula>AND(
+    ISPICKVAL(Stage__c, &quot;Client Coded&quot;),
+    ISBLANK(Client_Code__c)
+)</errorConditionFormula>
+    <errorDisplayField>Client_Code__c</errorDisplayField>
+    <errorMessage>Client code can not be empty</errorMessage>
+</ValidationRule>

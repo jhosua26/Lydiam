@@ -1,0 +1,46 @@
+<template>
+    <lightning-card title="Send Application Link">
+        <div class="slds-p-around_medium">
+            <!-- Step 1: Selection -->
+            <template if:true={isSelectionStep}>
+                <lightning-checkbox-group
+                    name="formCheckboxes"
+                    label="Select a form to send"
+                    options={formOptions}
+                    value={selectedForms}
+                    onchange={handleCheckboxChange}>
+                </lightning-checkbox-group>
+
+                <div class="slds-m-top_medium">
+                    <lightning-button 
+                        label="Next" 
+                        variant="brand" 
+                        onclick={goToConfirmStep}
+                        disabled={isNextDisabled}>
+                    </lightning-button>
+                </div>
+            </template>
+
+            <!-- Step 2: Confirmation -->
+            <template if:true={isConfirmationStep}>
+                <p>You are about to send the following form:</p>
+                <ul class="slds-m-top_small slds-m-bottom_medium">
+                    <template for:each={selectedLabels} for:item="label">
+                        <li key={label}>• {label}</li>
+                    </template>
+                </ul>
+
+                <lightning-button 
+                    label="Back" 
+                    class="slds-m-right_small" 
+                    onclick={goToSelectStep}>
+                </lightning-button>
+                <lightning-button 
+                    label="Send" 
+                    variant="brand" 
+                    onclick={sendForm}>
+                </lightning-button>
+            </template>
+        </div>
+    </lightning-card>
+</template>

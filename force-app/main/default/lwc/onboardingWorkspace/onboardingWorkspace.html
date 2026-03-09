@@ -1,0 +1,201 @@
+<template>
+    <lightning-card title="Onboarding Workspace" icon-name="standard:task">
+        <div class="slds-p-around_medium">
+            <template if:true={isLoading}>
+                <lightning-spinner alternative-text="Loading workspace" size="small"></lightning-spinner>
+            </template>
+
+            <template if:true={errorMessage}>
+                <div class="slds-notify slds-notify_alert slds-theme_error slds-m-bottom_medium" role="alert">
+                    <span class="slds-assistive-text">Error</span>
+                    <h2>{errorMessage}</h2>
+                </div>
+                <lightning-button
+                    label="Retry"
+                    variant="neutral"
+                    onclick={handleRefresh}
+                    class="slds-m-bottom_medium">
+                </lightning-button>
+            </template>
+
+            <template if:true={hasWorkspace}>
+                <div class="slds-grid slds-wrap slds-gutters slds-m-bottom_medium">
+                    <div class="slds-col slds-size_1-of-1 slds-large-size_2-of-3">
+                        <p class="slds-text-title_caps">Application</p>
+                        <p class="slds-text-heading_medium">
+                            <a href={workspace.applicationUrl} target="_blank" rel="noopener">{workspace.applicationName}</a>
+                        </p>
+                        <p class="slds-text-body_regular">{workspace.clientName}</p>
+                    </div>
+                    <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-3 slds-text-align_right">
+                        <span class={statusBadgeClass}>{workspace.status}</span>
+                    </div>
+                </div>
+
+                <div class="slds-grid slds-wrap slds-gutters slds-m-bottom_large">
+                    <div class="slds-col slds-size_1-of-2 slds-large-size_1-of-5">
+                        <p class="slds-text-title">Client Type</p>
+                        <p>{workspace.clientType}</p>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2 slds-large-size_1-of-5">
+                        <p class="slds-text-title">Services</p>
+                        <p>{workspace.servicesRequired}</p>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2 slds-large-size_1-of-5">
+                        <p class="slds-text-title">Risk Rating</p>
+                        <p>{workspace.riskRating}</p>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2 slds-large-size_1-of-5">
+                        <p class="slds-text-title">EDD Required</p>
+                        <p>{workspace.eddRequired}</p>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2 slds-large-size_1-of-5">
+                        <p class="slds-text-title">Missing Documents</p>
+                        <p>{workspace.missingDocumentsCount}</p>
+                    </div>
+                </div>
+
+                <div class="slds-grid slds-wrap slds-gutters slds-m-bottom_medium">
+                    <div class="slds-col slds-size_1-of-1 slds-large-size_3-of-4">
+                        <lightning-button-group>
+                            <template if:true={workspace.actions.showStartReview}>
+                                <lightning-button
+                                    label="Start Review"
+                                    variant="brand"
+                                    data-action="START_REVIEW"
+                                    disabled={isSaving}
+                                    onclick={handleStatusAction}>
+                                </lightning-button>
+                            </template>
+                            <template if:true={workspace.actions.showApprove}>
+                                <lightning-button
+                                    label="Approve"
+                                    variant="success"
+                                    data-action="APPROVE"
+                                    disabled={isSaving}
+                                    onclick={handleStatusAction}>
+                                </lightning-button>
+                            </template>
+                            <template if:true={workspace.actions.showReject}>
+                                <lightning-button
+                                    label="Reject / Request Info"
+                                    variant="destructive"
+                                    data-action="REJECT"
+                                    disabled={isSaving}
+                                    onclick={handleStatusAction}>
+                                </lightning-button>
+                            </template>
+                            <template if:true={workspace.actions.showReturnToInProgress}>
+                                <lightning-button
+                                    label="Return To In Progress"
+                                    variant="neutral"
+                                    data-action="RETURN_TO_IN_PROGRESS"
+                                    disabled={isSaving}
+                                    onclick={handleStatusAction}>
+                                </lightning-button>
+                            </template>
+                        </lightning-button-group>
+                    </div>
+                    <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-4 slds-text-align_right">
+                        <lightning-button
+                            label="Refresh"
+                            icon-name="utility:refresh"
+                            onclick={handleRefresh}
+                            disabled={isRefreshDisabled}>
+                        </lightning-button>
+                    </div>
+                </div>
+
+                <div class="slds-box slds-theme_default slds-m-bottom_large">
+                    <p class="slds-text-title_caps slds-m-bottom_small">Quick Links</p>
+                    <div class="slds-grid slds-wrap slds-gutters">
+                        <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-4">
+                            <p class="slds-text-title">Onboarding Record</p>
+                            <a href={workspace.applicationUrl} target="_blank" rel="noopener">{workspace.applicationName}</a>
+                        </div>
+                        <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-4">
+                            <p class="slds-text-title">Applicant</p>
+                            <template if:true={workspace.applicant}>
+                                <a href={workspace.applicant.url} target="_blank" rel="noopener">{workspace.applicant.name}</a>
+                            </template>
+                            <template if:false={workspace.applicant}>
+                                <span>-</span>
+                            </template>
+                        </div>
+                        <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-4">
+                            <p class="slds-text-title">Business Profile</p>
+                            <template if:true={workspace.businessProfile}>
+                                <a href={workspace.businessProfile.url} target="_blank" rel="noopener">{workspace.businessProfile.name}</a>
+                            </template>
+                            <template if:false={workspace.businessProfile}>
+                                <span>-</span>
+                            </template>
+                        </div>
+                        <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-4">
+                            <p class="slds-text-title">Converted Account</p>
+                            <template if:true={workspace.convertedAccountId}>
+                                <a href={workspace.convertedAccountUrl} target="_blank" rel="noopener">{workspace.convertedAccountName}</a>
+                            </template>
+                            <template if:false={workspace.convertedAccountId}>
+                                <span>-</span>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+
+                <template if:true={hasBlockers}>
+                    <div class="slds-box slds-theme_warning slds-m-bottom_large">
+                        <p class="slds-text-title_caps slds-m-bottom_small">What Needs Attention</p>
+                        <ul class="slds-list_dotted slds-p-left_medium">
+                            <template for:each={workspace.blockers} for:item="blocker">
+                                <li key={blocker}>{blocker}</li>
+                            </template>
+                        </ul>
+                    </div>
+                </template>
+
+                <lightning-card title="Parties" icon-name="standard:people" class="slds-m-bottom_large">
+                    <div class="slds-p-around_small">
+                        <lightning-datatable
+                            key-field="partyId"
+                            data={workspace.parties}
+                            columns={partyColumns}
+                            hide-checkbox-column>
+                        </lightning-datatable>
+                    </div>
+                </lightning-card>
+
+                <lightning-card title="Declarations" icon-name="standard:document" class="slds-m-bottom_large">
+                    <div class="slds-p-around_small">
+                        <lightning-datatable
+                            key-field="declarationId"
+                            data={workspace.declarations}
+                            columns={declarationColumns}
+                            hide-checkbox-column>
+                        </lightning-datatable>
+                    </div>
+                </lightning-card>
+
+                <lightning-card title="Documents" icon-name="standard:file" class="slds-m-bottom_large">
+                    <div class="slds-p-around_small">
+                        <lightning-datatable
+                            key-field="documentId"
+                            data={workspace.documents}
+                            columns={documentColumns}
+                            hide-checkbox-column>
+                        </lightning-datatable>
+                    </div>
+                </lightning-card>
+
+                <template if:true={showConvertSection}>
+                    <lightning-card title="Conversion" icon-name="standard:account">
+                        <div class="slds-p-around_small">
+                            <c-onboarding-convert-button record-id={recordId}></c-onboarding-convert-button>
+                        </div>
+                    </lightning-card>
+                </template>
+            </template>
+        </div>
+    </lightning-card>
+</template>
+

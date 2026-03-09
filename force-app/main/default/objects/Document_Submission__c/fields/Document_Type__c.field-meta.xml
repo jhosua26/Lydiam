@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Document_Type__c</fullName>
+    <description>Type of KYC/AML document required or submitted.</description>
+    <label>Document Type</label>
+    <required>true</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>AML_KYC_Policy</fullName>
+                <default>false</default>
+                <label>AML/KYC Policy</label>
+            </value>
+            <value>
+                <fullName>Certificate_of_Incorporation</fullName>
+                <default>false</default>
+                <label>Certificate of Incorporation</label>
+            </value>
+            <value>
+                <fullName>Financial_Statements</fullName>
+                <default>false</default>
+                <label>Financial Statements</label>
+            </value>
+            <value>
+                <fullName>Govt_ID</fullName>
+                <default>false</default>
+                <label>Government ID</label>
+            </value>
+            <value>
+                <fullName>Memorandum_and_Articles</fullName>
+                <default>false</default>
+                <label>Memorandum &amp; Articles of Association</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+            <value>
+                <fullName>Passport</fullName>
+                <default>false</default>
+                <label>Passport</label>
+            </value>
+            <value>
+                <fullName>Proof_of_Address</fullName>
+                <default>false</default>
+                <label>Proof of Address</label>
+            </value>
+            <value>
+                <fullName>Proof_of_Beneficial_Ownership</fullName>
+                <default>false</default>
+                <label>Proof of Beneficial Ownership</label>
+            </value>
+            <value>
+                <fullName>Proof_of_Registered_Address</fullName>
+                <default>false</default>
+                <label>Proof of Registered Address</label>
+            </value>
+            <value>
+                <fullName>Signatory_ID</fullName>
+                <default>false</default>
+                <label>Signatory Identity Documents</label>
+            </value>
+            <value>
+                <fullName>Source_of_Wealth_Evidence</fullName>
+                <default>false</default>
+                <label>Source of Wealth Evidence</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

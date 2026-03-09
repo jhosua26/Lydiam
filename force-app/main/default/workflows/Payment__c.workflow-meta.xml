@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <alerts>
+        <fullName>Payment_Sent</fullName>
+        <description>Payment Sent</description>
+        <protected>false</protected>
+        <recipients>
+            <field>Account_Notification_Email__c</field>
+            <type>email</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/Payment_Sent</template>
+    </alerts>
+    <alerts>
+        <fullName>Received_Payment</fullName>
+        <description>Received Payment</description>
+        <protected>false</protected>
+        <recipients>
+            <field>Account_Notification_Email__c</field>
+            <type>email</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/Funds_Received_2</template>
+    </alerts>
+</Workflow>

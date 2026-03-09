@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Declaration_Type__c</fullName>
+    <description>Type of legal declaration or terms accepted.</description>
+    <label>Declaration Type</label>
+    <required>true</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Accuracy_Declaration</fullName>
+                <default>false</default>
+                <label>Accuracy Declaration</label>
+            </value>
+            <value>
+                <fullName>AML_Consent</fullName>
+                <default>false</default>
+                <label>AML/KYC Consent</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+            <value>
+                <fullName>Risk_Disclosure</fullName>
+                <default>false</default>
+                <label>Risk Disclosure</label>
+            </value>
+            <value>
+                <fullName>Terms_of_Business</fullName>
+                <default>false</default>
+                <label>Terms of Business</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

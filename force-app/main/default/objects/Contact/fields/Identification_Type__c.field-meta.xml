@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Identification_Type__c</fullName>
+    <label>Identification Type</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Passport</fullName>
+                <default>false</default>
+                <label>Passport</label>
+            </value>
+            <value>
+                <fullName>Drivers Licence</fullName>
+                <default>false</default>
+                <label>Drivers Licence</label>
+            </value>
+            <value>
+                <fullName>National ID</fullName>
+                <default>false</default>
+                <label>National ID</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>
