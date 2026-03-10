@@ -55,8 +55,7 @@ docs/
 .husky/
 # Scratch org config
 config/project-scratch-def.json
-# Private JWT keys - NEVER commit these
-config/branches/.jwt/
+# Local user config
 config/user/
 # Debug logs
 debuglogs
