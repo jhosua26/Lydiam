@@ -13,4 +13,14 @@ package.xml
 **/connectedApps/**
 **/certs/**
 **/profilePasswordPolicies/**
-**SfdxHardisDeferSharingRecalc**
+**SfdxHardisDeferSharingRecalc
+# Salesforce DevOps Center internal objects (not deployable)
+**/objects/DevopsEnvironment*
+**/objects/DevopsRequestInfo*
+**/objects/UserDevopsPreference*
+# Layouts with managed package dependencies
+**/layouts/Event-Event Layout*
+**/layouts/Task-Task Layout*
+# QuickActions with invalid label values
+**/quickActions/GuestCommunityCase*
+**/quickActions/NewCommunityCase***
