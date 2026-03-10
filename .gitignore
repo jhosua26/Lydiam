@@ -37,7 +37,6 @@ $RECYCLE.BIN/
 **/venv/
 # Claude Code local settings
 .claude/
-
 # Other CI/CD platform files (not used - using GitHub Actions)
 .gitlab-ci-config.yml
 .gitlab-ci.yml
@@ -56,7 +55,6 @@ docs/
 .husky/
 # Scratch org config
 config/project-scratch-def.json
-
 # Private JWT keys - NEVER commit these
 config/branches/.jwt/
 config/user/
@@ -79,7 +77,6 @@ UNPOPULATED_FIELDS_ANALYSIS.md
 VALIDATION_IMPLEMENTATION_PLAN.md
 YOUR_CUSTOM_ACTION_PLAN.md
 .cache/
-config/user/
 hardis-report/
 tmp/
 **/__tests__/**
