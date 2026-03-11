@@ -60,8 +60,9 @@ docs/
 # Husky git hooks
 .husky/
 
-# Scratch org config
-config/
+# Scratch org and user-specific config (but NOT Hardis branch config)
+config/project-scratch-def.json
+config/user/
 
 # Debug logs
 debuglogs
@@ -70,6 +71,17 @@ debuglogs.ini
 # Binary/document files
 *.docx
 *.pdf
+
+# Connected Apps — contain org-specific OAuth secrets, never commit
+force-app/main/default/connectedApps/
+
+# CI/CD platform files for platforms we do not use (we use GitHub Actions only)
+.gitlab-ci-config.yml
+.gitlab-ci.yml
+Jenkinsfile
+azure-pipelines-checks.yml
+azure-pipelines-deployment.yml
+bitbucket-pipelines.yml
 
 # Local planning and notes files
 FINAL_FIXES_READY_TO_APPLY.md
