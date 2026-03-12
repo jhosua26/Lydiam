@@ -298,19 +298,6 @@ public class TradeTriggerHandler {
             Trade__c oldT = oldMap.get(t.Id);
             if (shouldSendEmailUpdate(t, oldT)) {
                 toEmail.add(t);
-            } else {
-                System.debug('Email not sent for Trade ' + t.Id + '. Reasons:');
-                System.debug('- Account__c: ' + (t.Account__c != null ? 'OK' : 'MISSING'));
-                System.debug('- Buy__c: ' + (t.Buy__c != null ? 'OK' : 'MISSING'));
-                System.debug('- Sell__c: ' + (t.Sell__c != null ? 'OK' : 'MISSING'));
-                System.debug('- Number_of_Tokens__c: ' + (t.Number_of_Tokens__c != null ? 'OK' : 'MISSING'));
-                System.debug('- Total_Amount__c: ' + (t.Total_Amount__c != null ? 'OK' : 'MISSING'));
-                if (oldT != null) {
-                    System.debug('- Buy__c changed: ' + (t.Buy__c != oldT.Buy__c));
-                    System.debug('- Sell__c changed: ' + (t.Sell__c != oldT.Sell__c));
-                    System.debug('- Number_of_Tokens__c changed: ' + (t.Number_of_Tokens__c != oldT.Number_of_Tokens__c));
-                    System.debug('- Total_Amount__c changed: ' + (t.Total_Amount__c != oldT.Total_Amount__c));
-                }
             }
         }
         if (!toEmail.isEmpty()) sendTradeNotification(toEmail, false);
@@ -340,11 +327,7 @@ public class TradeTriggerHandler {
 
     public static void sendTradeNotification(List<Trade__c> trades, Boolean isInsert) {
         Set<Id> accountIds = new Set<Id>();
-        Set<Id> tradeIds = new Set<Id>();
-        for (Trade__c t : trades) {
-            if (t.Account__c != null) accountIds.add(t.Account__c);
-            tradeIds.add(t.Id);
-        }
+        for (Trade__c t : trades) if (t.Account__c != null) accountIds.add(t.Account__c);
 
         Map<Id, Account> accountMap = new Map<Id, Account>(
             [SELECT Id, Name, Email_for_Notifications__c, Client_Code__c 
@@ -353,90 +336,45 @@ public class TradeTriggerHandler {
 
         Map<Id, Trade__c> tradeMap = new Map<Id, Trade__c>(
             [SELECT Id, Name, Account__c, Buy__c, Sell__c, Number_of_Tokens__c, 
-                    Total_Amount__c, Trade_Type__c, Deal_Date__c, Transaction_Fee__c, CurrencyIsoCode,
-                    Price__c, Trade_Reference_Number__c, CreatedDate
-             FROM Trade__c WHERE Id IN :tradeIds]
+                    Total_Amount__c, Trade_Type__c, Deal_Date__c, Transaction_Fee__c,CurrencyIsoCode,
+                    Price__c
+             FROM Trade__c WHERE Id IN :trades]
         );
 
-        Map<Id, Payment__c> paymentMap = new Map<Id, Payment__c>();
-        List<Payment__c> payments = [
-            SELECT Id, Trade__c, Date_Receivd__c
-            FROM Payment__c
-            WHERE Trade__c IN :tradeIds
-            ORDER BY CreatedDate DESC
-        ];
-        for (Payment__c p : payments) {
-            if (!paymentMap.containsKey(p.Trade__c)) {
-                paymentMap.put(p.Trade__c, p);
-            }
-        }
-
-        EmailTemplate tmpl;
-        try {
-            tmpl = [
+        // Fetch template
+        EmailTemplate tmpl = [
             SELECT HtmlValue, Subject 
             FROM EmailTemplate 
-            WHERE DeveloperName = 'Trade_Confirmation_Email_Template_New_1768818566664'
+            WHERE DeveloperName = 'Trade_Confirmation_Email_Template_1756826551851'
             LIMIT 1
         ];
-        } catch (Exception e) {
-            System.debug('ERROR: Email template not found: ' + e.getMessage());
-            return;
-        }
-        
-        if (tmpl == null) {
-            System.debug('ERROR: Email template with DeveloperName "Trade_Confirmation_Email_Template_New_1768818566664" not found');
-            return;
-        }
 
         List<Messaging.SingleEmailMessage> emails = new List<Messaging.SingleEmailMessage>();
 
         for (Trade__c t : trades) {
             Trade__c trade = tradeMap.get(t.Id);
             Account acc = accountMap.get(trade.Account__c);
-            if (acc == null) {
-                System.debug('Email not sent: Account not found for Trade ' + trade.Id);
-                continue;
-            }
-            if (String.isBlank(acc.Email_for_Notifications__c)) {
-                System.debug('Email not sent: Email_for_Notifications__c is blank for Account ' + acc.Id);
-                continue;
-            }
-
-            Payment__c payment = paymentMap.get(trade.Id);
+            if (acc == null || String.isBlank(acc.Email_for_Notifications__c)) continue;
 
             Boolean isSameCurrency = trade.Buy__c == trade.Sell__c;
             String subject = isSameCurrency
                 ? 'Same Currency Payment Confirmed'
                 : 'Foreign Currency Payment Confirmed';
 
+            // Replace placeholders
             String body = tmpl.HtmlValue;
-            
-            body = replacePlaceholder(body, '{{ClientName}}', acc.Name);
-            body = replacePlaceholder(body, '{{AccountId}}', acc.Id);
-            body = replacePlaceholder(body, '{{ClientRefNumber}}', acc.Client_Code__c);
-            
-            body = replacePlaceholder(body, '{{DealReference}}', trade.Trade_Reference_Number__c);
-            body = replacePlaceholder(body, '{{OrderDateTime}}', formatDateTime(trade.CreatedDate));
-            body = replacePlaceholder(body, '{{PaymentDueDate}}', payment != null && payment.Date_Receivd__c != null ? payment.Date_Receivd__c.format() : null);
-            body = replacePlaceholder(body, '{{SettlementDate}}', trade.Deal_Date__c != null ? trade.Deal_Date__c.format() : null);
-            
-            body = replacePlaceholder(body, '{{ContractType}}', trade.Trade_Type__c);
-            body = replacePlaceholder(body, '{{Instrument}}', trade.CurrencyIsoCode);
-            
-            body = replacePlaceholder(body, '{{ClientSells}}', trade.Sell__c);
-            body = replacePlaceholder(body, '{{ClientBuys}}', trade.Buy__c);
-            
-            body = replacePlaceholder(body, '{{Amount}}', trade.Total_Amount__c != null ? trade.Total_Amount__c.setScale(2).format() : null);
-            body = replacePlaceholder(body, '{{TickerSell}}', trade.Sell__c);
-            body = replacePlaceholder(body, '{{TickerBuy}}', trade.Buy__c);
-            body = replacePlaceholder(body, '{{ExchangeRate}}', trade.Price__c != null ? String.valueOf(trade.Price__c) : null);
-            body = replacePlaceholder(body, '{{TransactionFee}}', trade.Transaction_Fee__c != null ? String.valueOf(trade.Transaction_Fee__c) : null);
-            body = replacePlaceholder(body, '{{TransactionFees}}', trade.Transaction_Fee__c != null ? String.valueOf(trade.Transaction_Fee__c) : null);
-            body = replacePlaceholder(body, '{{Ticker}}', trade.CurrencyIsoCode);
-            body = replacePlaceholder(body, '{{BuyAmount}}', trade.Number_of_Tokens__c != null ? trade.Number_of_Tokens__c.setScale(2).format() : null);
-            body = replacePlaceholder(body, '{{BuyTicker}}', trade.Buy__c);
-            body = replacePlaceholder(body, '{{ClientDealNumber}}', acc.Client_Code__c);
+            body = body.replace('{{ClientName}}', acc.Name != null ? acc.Name : 'N/A');
+            body = body.replace('{{ClientRefNumber}}', acc.Client_Code__c != null ? acc.Client_Code__c : 'N/A');
+            body = body.replace('{{Amount}}', trade.Total_Amount__c != null ? trade.Total_Amount__c.setScale(2).format() : '0.00');
+            body = body.replace('{{TickerSell}}', trade.Sell__c != null ? trade.Sell__c : 'N/A');
+            body = body.replace('{{TickerBuy}}', trade.Buy__c != null ? trade.Buy__c : 'N/A');
+            body = body.replace('{{ExchangeRate}}', trade.Price__c != null ? String.valueOf(trade.Price__c) : 'N/A');
+            body = body.replace('{{TransactionFee}}', trade.Transaction_Fee__c != null ? String.valueOf(trade.Transaction_Fee__c) : '0.00');
+            body = body.replace('{{Ticker}}', trade.CurrencyIsoCode != null ? String.valueOf(trade.CurrencyIsoCode) : '0.00');
+            body = body.replace('{{SettlementDate}}', trade.Deal_Date__c != null ? trade.Deal_Date__c.format() : 'N/A');
+            body = body.replace('{{BuyAmount}}', trade.Number_of_Tokens__c != null ? trade.Number_of_Tokens__c.setScale(2).format() : '0.00');
+            body = body.replace('{{BuyTicker}}', trade.Buy__c != null ? trade.Buy__c : 'N/A');
+            body = body.replace('{{ClientDealNumber}}', acc.Client_Code__c != null ? acc.Client_Code__c : 'N/A');
 
             Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
             mail.setToAddresses(new String[] { acc.Email_for_Notifications__c });
@@ -448,17 +386,5 @@ public class TradeTriggerHandler {
         if (!emails.isEmpty()) {
             Messaging.sendEmail(emails, false);
         }
-    }
-
-    private static String replacePlaceholder(String body, String placeholder, String value) {
-        if (String.isBlank(value)) {
-            return body.replace(placeholder, 'N/A');
-        }
-        return body.replace(placeholder, value);
-    }
-
-    private static String formatDateTime(Datetime dt) {
-        if (dt == null) return 'N/A';
-        return dt.format('dd MMM yyyy, HH:mm');
     }
 }

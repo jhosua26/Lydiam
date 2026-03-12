@@ -1,31 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
     <customValue>
-        <fullName>Never</fullName>
+        <fullName>Less than 1 Trade per Month</fullName>
         <default>false</default>
-        <label>Never</label>
+        <label>Less than 1 Trade per Month</label>
     </customValue>
     <customValue>
-        <fullName>Weekly</fullName>
+        <fullName>1-10 Trades per Month</fullName>
         <default>false</default>
-        <label>Weekly</label>
+        <label>1-10 Trades per Month</label>
     </customValue>
     <customValue>
-        <fullName>Monthly</fullName>
+        <fullName>30-100 Trades per Month</fullName>
         <default>false</default>
-        <label>Monthly</label>
+        <label>30-100 Trades per Month</label>
     </customValue>
     <customValue>
-        <fullName>Quarterly</fullName>
+        <fullName>100-500 Trades per Month</fullName>
         <default>false</default>
-        <label>Quarterly</label>
+        <label>100-500 Trades per Month</label>
     </customValue>
     <customValue>
-        <fullName>Annually</fullName>
+        <fullName>500+ Trades per Month</fullName>
         <default>false</default>
-        <label>Annually</label>
+        <label>500+ Trades per Month</label>
     </customValue>
-    <description>Estimated trade frequency for authorised users on Contact records.</description>
     <masterLabel>Estimated Trade Frequency</masterLabel>
-    <sorted>true</sorted>
+    <sorted>false</sorted>
 </GlobalValueSet>

@@ -376,57 +376,6 @@
         </values>
     </picklistValues>
     <picklistValues>
-        <picklist>Legal_Entity_Type__c</picklist>
-        <values>
-            <fullName>AG</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>GBr</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>GMBH</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>KG</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Ltd</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>OHG</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Other</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>PLC</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Registered Partnership</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>SARL</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Sole Trader</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Unregistered Partnership</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
         <picklist>Nationality__c</picklist>
         <values>
             <fullName>Afghanistan</fullName>

@@ -186,6 +186,7 @@ private class BrdgeBeneficiaryServiceTest {
             'bankName' => 'Lloyds',
             'bankAccountNumber' => '99887766',
             'bankCountry' => 'United Kingdom',
+            'sortCode' => '12-34-56',
             'clientCode' => 'NONEXISTENT'
         };
         req.requestBody = Blob.valueOf(JSON.serialize(body));

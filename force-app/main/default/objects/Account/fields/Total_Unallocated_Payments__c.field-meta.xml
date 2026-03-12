@@ -10,5 +10,6 @@
     </summaryFilterItems>
     <summaryForeignKey>Payment__c.Account__c</summaryForeignKey>
     <summaryOperation>sum</summaryOperation>
+    <trackHistory>false</trackHistory>
     <type>Summary</type>
 </CustomField>

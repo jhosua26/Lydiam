@@ -14,20 +14,26 @@
                 <collectionElements>
                     <stringValue>jhosuaarda@gmail.com</stringValue>
                 </collectionElements>
+                <collectionElements>
+                    <stringValue>sales@lydiamgroup.com</stringValue>
+                </collectionElements>
+                <collectionElements>
+                    <stringValue>joshua.flanagan@lydiamgroup.com</stringValue>
+                </collectionElements>
             </value>
         </inputParameters>
         <inputParameters>
             <name>senderType</name>
             <value>
                 <inputConfiguratorMode>Custom</inputConfiguratorMode>
-                <stringValue>CurrentUser</stringValue>
+                <stringValue>OrgWideEmailAddress</stringValue>
             </value>
         </inputParameters>
         <inputParameters>
             <name>senderAddress</name>
             <value>
                 <inputConfiguratorMode>Custom</inputConfiguratorMode>
-                <stringValue></stringValue>
+                <stringValue>itdev@lydiamgroup.com</stringValue>
             </value>
         </inputParameters>
         <inputParameters>
@@ -46,7 +52,7 @@
             <name>emailBody</name>
             <value>
                 <inputConfiguratorMode>Custom</inputConfiguratorMode>
-                <stringValue>&lt;p&gt;Dear Team,&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Please find below the details of the newly created Salesforce record:&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Onboarding record number:  &lt;a href=&quot;{!newOnboardingLink}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;{!$Record.Client_Name__c}&lt;/a&gt;&lt;/p&gt;</stringValue>
+                <stringValue>&lt;p&gt;Dear Team,&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Please find below the details of the newly created Salesforce record:&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Onboarding record:&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;{!newOnboardingLink}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;{!$Record.Client_Name__c}&lt;/a&gt;&lt;/p&gt;</stringValue>
             </value>
         </inputParameters>
         <inputParameters>
@@ -132,7 +138,6 @@
         <connector>
             <targetReference>Is_form_was_submitted</targetReference>
         </connector>
-        <doesRequireRecordChangedToMeetCriteria>true</doesRequireRecordChangedToMeetCriteria>
         <filterLogic>and</filterLogic>
         <filters>
             <field>Status__c</field>

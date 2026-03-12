@@ -5,5 +5,6 @@
     <summarizedField>Trade__c.Est_Net_Profit__c</summarizedField>
     <summaryForeignKey>Trade__c.Account__c</summaryForeignKey>
     <summaryOperation>sum</summaryOperation>
+    <trackHistory>false</trackHistory>
     <type>Summary</type>
 </CustomField>
