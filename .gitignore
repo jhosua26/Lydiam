@@ -1,88 +1,67 @@
-# This file is used for Git repositories to specify intentionally untracked files that Git should ignore. 
+# This file is used for Git repositories to specify intentionally untracked files that Git should ignore.
 # If you are not using git, you can delete this file. For more information see: https://git-scm.com/docs/gitignore
 # For useful gitignore templates see: https://github.com/github/gitignore
-
 # Salesforce cache
 .sf/
 .sfdx/
 .localdevserver/
 deploy-options.json
-
 # LWC VSCode autocomplete
 **/lwc/jsconfig.json
-
 # LWC Jest coverage reports
 coverage/
-
 # Logs
 logs
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
 # Dependency directories
 node_modules/
-
 # ApexPMD cache
 .pmdCache
-
 # Eslint cache
 .eslintcache
-
 # MacOS system files
 .DS_Store
-
 # Windows system files
 Thumbs.db
 ehthumbs.db
 [Dd]esktop.ini
 $RECYCLE.BIN/
-
 # Local environment variables
 .env
-
 # Python Salesforce Functions
 **/__pycache__/
 **/.venv/
 **/venv/
-
 # Claude Code local settings
 .claude/
-
-# VS Code settings
-.vscode/
-
-# Project documentation
-CLAUDE.md
-docs/
-
-# Husky git hooks
-.husky/
-
-# Scratch org and user-specific config (but NOT Hardis branch config)
-config/project-scratch-def.json
-config/user/
-
-# Debug logs
-debuglogs
-debuglogs.ini
-
-# Binary/document files
-*.docx
-*.pdf
-
-# Connected Apps — contain org-specific OAuth secrets, never commit
-force-app/main/default/connectedApps/
-
-# CI/CD platform files for platforms we do not use (we use GitHub Actions only)
+# Other CI/CD platform files (not used - using GitHub Actions)
 .gitlab-ci-config.yml
 .gitlab-ci.yml
 Jenkinsfile
 azure-pipelines-checks.yml
 azure-pipelines-deployment.yml
 bitbucket-pipelines.yml
-
+# Connected Apps (may contain sensitive config)
+force-app/main/default/connectedApps/
+# VS Code settings
+.vscode/
+# Project documentation
+CLAUDE.md
+docs/
+# Husky git hooks
+.husky/
+# Scratch org and user-specific config (but NOT Hardis branch config)
+config/project-scratch-def.json
+config/user/
+# Debug logs
+debuglogs
+debuglogs.ini
+# Binary/document files
+*.docx
+*.pdf
 # Local planning and notes files
 FINAL_FIXES_READY_TO_APPLY.md
 IMPLEMENTATION_COMPLETE_SUMMARY.md
@@ -95,3 +74,12 @@ TESTING_PLAN.md
 UNPOPULATED_FIELDS_ANALYSIS.md
 VALIDATION_IMPLEMENTATION_PLAN.md
 YOUR_CUSTOM_ACTION_PLAN.md
+.cache/
+hardis-report/
+tmp/
+**/__tests__/**
+**/cleanDataServices/
+**/siteDotComSites/*.site
+**/data/**/source/**
+**/data/**/target/**
+force-app/main/default/appMenus/AppSwitcher.appMenu-meta.xml

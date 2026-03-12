@@ -817,6 +817,8 @@ private class OnboardingFormControllerTest {
             shareholder.type = 'Individual';
             shareholder.firstName = 'Shareholder';
             shareholder.lastName = String.valueOf(i);
+            shareholder.isShareholder = true;
+            shareholder.isDirector = false;
             shareholder.dateOfBirthOrIncorporation = '1980-01-01';
             shareholder.nationalityOrCountryOfIncorporation = 'US';
             shareholder.countryOfResidenceOrIncorporation = 'United States';

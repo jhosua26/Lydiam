@@ -411,19 +411,7 @@
     <picklistValues>
         <picklist>Legal_Entity_Type__c</picklist>
         <values>
-            <fullName>AG</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Charity</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>GBr</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>GMBH</fullName>
             <default>false</default>
         </values>
         <values>
@@ -431,27 +419,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>KG</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Limited Company</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Ltd</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>OHG</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Other</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>PLC</fullName>
             <default>false</default>
         </values>
         <values>
@@ -463,27 +431,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Registered Partnership</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>SARL</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Sole Trader</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Sole TraderTrust</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>Unincorporated Partnership</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Unregistered Partnership</fullName>
             <default>false</default>
         </values>
     </picklistValues>

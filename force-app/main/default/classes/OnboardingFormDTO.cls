@@ -380,4 +380,3 @@ public class OnboardingFormDTO {
         @AuraEnabled public Map<String, Object> debugInfo; // Debug information for troubleshooting (what Apex received)
     }
 }
-
