@@ -7,6 +7,9 @@
         <locationY>0</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
+        <faultConnector>
+            <targetReference>Handle_Email_Fault</targetReference>
+        </faultConnector>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>recipientAddresses</name>
@@ -67,6 +70,19 @@
     </actionCalls>
     <apiVersion>65.0</apiVersion>
     <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <assignments>
+        <name>Handle_Email_Fault</name>
+        <label>Handle Email Fault</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>onboardingId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>onboardingId</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
     <assignments>
         <name>assign_onboarding_record_ID</name>
         <label>assign onboarding record ID</label>
