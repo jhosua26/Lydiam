@@ -705,6 +705,7 @@ public without sharing class OnboardingFormController {
             requireText(formData.personalInfo.countryOfResidence, 'Country of residence is required', result.errors);
             requireText(formData.personalInfo.governmentIdNumber, 'Government ID number is required', result.errors);
             requireText(formData.personalInfo.email, 'Email is required', result.errors);
+            requireText(formData.personalInfo.mobile, 'Mobile is required', result.errors);
             requireText(formData.personalInfo.isPEP, 'PEP response is required', result.errors);
         }
 
@@ -791,6 +792,12 @@ public without sharing class OnboardingFormController {
             requireText(holder.governmentIdOrRegistrationNumber, prefix + 'Government ID/registration number is required', errors);
             requireText(holder.isPEP, prefix + 'PEP response is required', errors);
             requireText(holder.email, prefix + 'Email is required', errors);
+            requireText(holder.mobile, prefix + 'Mobile number is required', errors);
+            requireText(holder.street, prefix + 'Street address is required', errors);
+            requireText(holder.city, prefix + 'City is required', errors);
+            requireText(holder.state, prefix + 'State/province is required', errors);
+            requireText(holder.postalCode, prefix + 'Postal code is required', errors);
+            requireText(holder.country, prefix + 'Country is required', errors);
             if (holder.isShareholder == true) {
                 requireText(holder.ownershipPercentage, prefix + 'Ownership percentage is required for shareholder role', errors);
             }
@@ -822,6 +829,12 @@ public without sharing class OnboardingFormController {
             requireText(user.nationality, prefix + 'Nationality is required', errors);
             requireText(user.governmentIdNumber, prefix + 'Government ID number is required', errors);
             requireText(user.email, prefix + 'Email is required', errors);
+            requireText(user.mobileNumber, prefix + 'Mobile number is required', errors);
+            requireText(user.street, prefix + 'Street address is required', errors);
+            requireText(user.city, prefix + 'City is required', errors);
+            requireText(user.state, prefix + 'State/province is required', errors);
+            requireText(user.postalCode, prefix + 'Postal code is required', errors);
+            requireText(user.country, prefix + 'Country is required', errors);
             if (requiresTradingFrequency) {
                 requireText(user.tradeFrequency, prefix + 'Trade frequency is required for FX/Crypto services', errors);
             }
@@ -3395,4 +3408,3 @@ public without sharing class OnboardingFormController {
         }
     }
 }
-

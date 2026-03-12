@@ -1,6 +1,10 @@
 /**
  * @description AuraEnabled controller that exposes the OnboardingConversionService
  *              to LWC components. Thin controller — delegates all business logic to the service.
+ * 
+ * @Jhosua Arda
+ * LinkedIn - https://www.linkedin.com/in/jhosua-arda/
+ * @date 2026
  */
 public with sharing class OnboardingConversionController {
 
