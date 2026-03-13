@@ -826,6 +826,12 @@ private class OnboardingFormControllerTest {
             shareholder.governmentIdOrRegistrationNumber = '000-00-000' + i;
             shareholder.isPEP = 'No';
             shareholder.email = 'shareholder' + i + '@test.com';
+            shareholder.mobile = '+1234567890';
+            shareholder.street = String.valueOf(i) + ' Test Street';
+            shareholder.city = 'San Francisco';
+            shareholder.state = 'CA';
+            shareholder.postalCode = '9410' + i;
+            shareholder.country = 'United States';
             formData.shareholders.add(shareholder);
         }
         

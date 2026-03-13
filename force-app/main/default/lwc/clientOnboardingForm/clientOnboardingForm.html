@@ -402,7 +402,9 @@
                             </div>
                             <div class="slds-col slds-size_1-of-2">
                                 <div class="slds-form-element">
-                                    <label class="slds-form-element__label">Mobile</label>
+                                    <label class="slds-form-element__label">
+                                        <abbr class="slds-required" title="required">*</abbr> Mobile
+                                    </label>
                                     <div class="slds-form-element__help">
                                         Format: {phoneFormatHint}
                                     </div>
@@ -410,6 +412,7 @@
                                         <lightning-input
                                             type="tel"
                                             name="mobile"
+                                            required
                                             value={personalInfo.mobile}
                                             placeholder={phonePlaceholder}
                                             pattern={phonePattern}
@@ -1286,7 +1289,7 @@
                                     <div class="slds-col slds-size_1-of-2">
                                         <div class="slds-form-element">
                                             <label class="slds-form-element__label">
-                                                Mobile Number
+                                                <abbr class="slds-required" title="required">*</abbr> Mobile Number
                                             </label>
                                             <div class="slds-form-element__control">
                                                 <lightning-input
@@ -1358,7 +1361,7 @@
                                     <div class="slds-col slds-size_1-of-1">
                                         <div class="slds-form-element">
                                             <label class="slds-form-element__label">
-                                                Street Address
+                                                <abbr class="slds-required" title="required">*</abbr> Street Address
                                             </label>
                                             <div class="slds-form-element__control">
                                                 <lightning-input
@@ -1377,7 +1380,7 @@
                                     <div class="slds-col slds-size_1-of-3">
                                         <div class="slds-form-element">
                                             <label class="slds-form-element__label">
-                                                City
+                                                <abbr class="slds-required" title="required">*</abbr> City
                                             </label>
                                             <div class="slds-form-element__control">
                                                 <lightning-input
@@ -1396,7 +1399,7 @@
                                     <div class="slds-col slds-size_1-of-3">
                                         <div class="slds-form-element">
                                             <label class="slds-form-element__label">
-                                                State / Province
+                                                <abbr class="slds-required" title="required">*</abbr> State / Province
                                             </label>
                                             <div class="slds-form-element__control">
                                                 <lightning-input
@@ -1415,7 +1418,7 @@
                                     <div class="slds-col slds-size_1-of-3">
                                         <div class="slds-form-element">
                                             <label class="slds-form-element__label">
-                                                Postal Code
+                                                <abbr class="slds-required" title="required">*</abbr> Postal Code
                                             </label>
                                             <div class="slds-form-element__control">
                                                 <lightning-input
@@ -1434,17 +1437,16 @@
                                     <div class="slds-col slds-size_1-of-1">
                                         <div class="slds-form-element">
                                             <label class="slds-form-element__label">
-                                                Country
+                                                <abbr class="slds-required" title="required">*</abbr> Country
                                             </label>
                                             <div class="slds-form-element__control">
-                                                <lightning-input
-                                                    type="text"
+                                                <lightning-combobox
                                                     name="country"
                                                     data-id={shareholder.id}
                                                     value={shareholder.country}
-                                                    placeholder="Country"
+                                                    options={countryPicklistOptions}
                                                     onchange={handleShareholderChange}>
-                                                </lightning-input>
+                                                </lightning-combobox>
                                             </div>
                                         </div>
                                     </div>
@@ -1770,7 +1772,9 @@
                                     <!-- Street Address -->
                                     <div class="slds-col slds-size_1-of-1">
                                         <div class="slds-form-element">
-                                            <label class="slds-form-element__label">Street Address</label>
+                                            <label class="slds-form-element__label">
+                                                <abbr class="slds-required" title="required">*</abbr> Street Address
+                                            </label>
                                             <div class="slds-form-element__control">
                                                 <lightning-input
                                                     type="text"
@@ -1788,7 +1792,9 @@
                                     <!-- City -->
                                     <div class="slds-col slds-size_1-of-3">
                                         <div class="slds-form-element">
-                                            <label class="slds-form-element__label">City</label>
+                                            <label class="slds-form-element__label">
+                                                <abbr class="slds-required" title="required">*</abbr> City
+                                            </label>
                                             <div class="slds-form-element__control">
                                                 <lightning-input
                                                     type="text"
@@ -1806,7 +1812,9 @@
                                     <!-- State/Province -->
                                     <div class="slds-col slds-size_1-of-3">
                                         <div class="slds-form-element">
-                                            <label class="slds-form-element__label">State / Province</label>
+                                            <label class="slds-form-element__label">
+                                                <abbr class="slds-required" title="required">*</abbr> State / Province
+                                            </label>
                                             <div class="slds-form-element__control">
                                                 <lightning-input
                                                     type="text"
@@ -1824,7 +1832,9 @@
                                     <!-- Postal Code -->
                                     <div class="slds-col slds-size_1-of-3">
                                         <div class="slds-form-element">
-                                            <label class="slds-form-element__label">Postal Code</label>
+                                            <label class="slds-form-element__label">
+                                                <abbr class="slds-required" title="required">*</abbr> Postal Code
+                                            </label>
                                             <div class="slds-form-element__control">
                                                 <lightning-input
                                                     type="text"
@@ -1842,17 +1852,18 @@
                                     <!-- Country -->
                                     <div class="slds-col slds-size_1-of-1">
                                         <div class="slds-form-element">
-                                            <label class="slds-form-element__label">Country</label>
+                                            <label class="slds-form-element__label">
+                                                <abbr class="slds-required" title="required">*</abbr> Country
+                                            </label>
                                             <div class="slds-form-element__control">
-                                                <lightning-input
-                                                    type="text"
+                                                <lightning-combobox
                                                     name="country"
                                                     data-id={user.id}
                                                     value={user.country}
-                                                    placeholder="Country"
+                                                    options={countryPicklistOptions}
                                                     disabled={user.isCopiedFromShareholder}
                                                     onchange={handleAuthorisedUserChange}>
-                                                </lightning-input>
+                                                </lightning-combobox>
                                             </div>
                                         </div>
                                     </div>

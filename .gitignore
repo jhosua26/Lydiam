@@ -53,9 +53,8 @@ CLAUDE.md
 docs/
 # Husky git hooks
 .husky/
-# Scratch org config
+# Scratch org and user-specific config (but NOT Hardis branch config)
 config/project-scratch-def.json
-# Local user config
 config/user/
 # Debug logs
 debuglogs

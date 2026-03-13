@@ -21,7 +21,7 @@ private class OnboardingConversionServiceTest {
     private static Onboarding_Application__c createSubmittedApplication(String clientType, List<String> services) {
         Onboarding_Application__c app = new Onboarding_Application__c(
             Client_Type__c = clientType,
-            Status__c = 'Submitted',
+            Status__c = 'Approved',
             Services_Required__c = String.join(services, ';'),
             Channel__c = 'ExperienceCloud',
             Client_Name__c = clientType == CLIENT_CORPORATE ? 'Test Corp Ltd' : 'John Doe'
@@ -368,7 +368,7 @@ private class OnboardingConversionServiceTest {
         Test.stopTest();
 
         Assert.isFalse(result.isSuccess, 'Should fail for Draft status');
-        Assert.isTrue(result.message.contains('Submitted'), 'Error should mention required status');
+        Assert.isTrue(result.message.contains('Approved'), 'Error should mention required status');
     }
 
     @isTest
