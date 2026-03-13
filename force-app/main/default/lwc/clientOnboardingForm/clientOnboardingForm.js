@@ -1801,10 +1801,11 @@ export default class ClientOnboardingForm extends LightningElement {
         const hasCountryOfResidence = info.countryOfResidence && String(info.countryOfResidence).trim().length > 0;
         const hasGovernmentId = info.governmentIdNumber && String(info.governmentIdNumber).trim().length > 0;
         const hasEmail = info.email && String(info.email).trim().length > 0;
+        const hasMobile = info.mobile && String(info.mobile).trim().length > 0;
         const hasPEP = info.isPEP === 'Yes' || info.isPEP === 'No';
         
         const isValid = hasSalutation && hasFirstName && hasLastName && hasDateOfBirth && 
-                        hasNationality && hasCountryOfResidence && hasGovernmentId && hasEmail && hasPEP;
+                        hasNationality && hasCountryOfResidence && hasGovernmentId && hasEmail && hasMobile && hasPEP;
         
         return !isValid;
     }
@@ -2004,7 +2005,13 @@ export default class ClientOnboardingForm extends LightningElement {
                     !shareholder?.nationalityOrCountryOfIncorporation ||
                     !shareholder?.governmentIdOrRegistrationNumber ||
                     !shareholder?.isPEP ||
-                    !shareholder?.email
+                    !shareholder?.email ||
+                    !shareholder?.mobile ||
+                    !shareholder?.street ||
+                    !shareholder?.city ||
+                    !shareholder?.state ||
+                    !shareholder?.postalCode ||
+                    !shareholder?.country
                 ) {
                     return true;
                 }
@@ -2022,10 +2029,16 @@ export default class ClientOnboardingForm extends LightningElement {
                     !user?.firstName ||
                     !user?.lastName ||
                     !user?.email ||
+                    !user?.mobileNumber ||
                     !user?.dateOfBirth ||
                     !user?.countryOfResidence ||
                     !user?.nationality ||
-                    !user?.governmentIdNumber
+                    !user?.governmentIdNumber ||
+                    !user?.street ||
+                    !user?.city ||
+                    !user?.state ||
+                    !user?.postalCode ||
+                    !user?.country
                 ) {
                     return true;
                 }

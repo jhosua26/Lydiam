@@ -162,5 +162,3 @@ private class OnboardingWorkspaceControllerTest {
         System.assertEquals('Submitted', updated.status, 'Status should be updated to Submitted');
     }
 }
-
-

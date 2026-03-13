@@ -1,0 +1,47 @@
+.workspace-container {
+    background-color: var(--lwc-colorBackground, #ffffff);
+}
+
+.workspace-sticky-header {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
+
+.workspace-section {
+    border: 1px solid var(--lwc-colorBorder, #d8dde6);
+    border-radius: 0.25rem;
+    background-color: var(--lwc-colorBackgroundAlt, #ffffff);
+    padding: 1rem;
+}
+
+/* Strong contrast: labels muted gray, values dark navy/black. */
+.workspace-container p.slds-text-title,
+.workspace-container p.slds-text-title_caps {
+    color: #6b6d70 !important;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+}
+
+.workspace-container p.slds-text-title::after,
+.workspace-container p.slds-text-title_caps::after {
+    content: ':';
+    margin-left: 0.15rem;
+}
+
+.workspace-container p:not(.slds-text-title):not(.slds-text-title_caps) {
+    color: #032d60 !important;
+    font-weight: 700;
+}
+
+.workspace-container lightning-formatted-date-time {
+    color: #032d60 !important;
+    font-weight: 700;
+}
+
+.workspace-container a {
+    color: #0176d3;
+    font-weight: 700;
+}
