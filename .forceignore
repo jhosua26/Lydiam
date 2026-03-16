@@ -37,3 +37,13 @@ package.xml
 **/sharingRules/UnstructuredStorageSpace*
 # FlowDefinition is a deprecated metadata type — active version is managed directly in each org
 **/flowDefinitions/**
+# Standard org settings - don't retrieve
+settings/
+standardValueSets/
+globalValueSetTranslations/
+objectTranslations/
+moderation/
+topicsForObjects/
+profilePasswordPolicies/
+profileSessionSettings/
+installedPackages/
