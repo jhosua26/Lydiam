@@ -1,0 +1,78 @@
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    color: #000;
+  }
+  .container {
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  .header {
+    text-align: center;
+    font-size: 32px;
+    letter-spacing: 10px;
+    font-weight: bold;
+  }
+  .section-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 20px;
+  }
+  .line {
+    border-top: 1px solid #ccc;
+    margin: 15px 0;
+  }
+  .data-table {
+    width: 100%;
+    margin-top: 10px;
+  }
+  .data-table td {
+    padding: 6px 0;
+  }
+  .label {
+    font-weight: bold;
+  }
+  .footer {
+    font-size: 10px;
+    color: #666;
+    margin-top: 30px;
+  }
+</style>
+
+<div class="container">
+  <div class="header">LYDIAM</div>
+
+  <div class="section-title">Funds received</div>
+  <p>We have received funds that have been applied to your account. If you need further details log into your account using the link below.</p>
+
+  <div class="line"></div>
+
+  <div class="section-title">Funds received and applied</div>
+  <table class="data-table">
+    <tr>
+      <td class="label">Funds credited to</td>
+      <td>{!Payment__c.Account__c}</td> 
+    </tr>
+    <tr>
+      <td class="label">Account reference</td>
+      <td>{!Payment__c.Account_Client_Code__c}</td>
+    </tr>
+    <tr>
+      <td class="label">Amount received</td>
+      <td>{!Payment__c.Amount__c}</td>
+    </tr>
+  </table>
+
+  <div class="line"></div>
+
+  <div class="section-title">Description of funds received</div>
+  <p><span class="label">{!Payment__c.Account__r.Client_Code__c}</span> | {!Banking_Reference}</p>
+
+  <div class="footer">
+    Lydiam Group refers collectively to the operations of Lydiam Group LTD (United Kingdom, Company No. 14454132), Lydiam Group Sp. z o.o. (Poland, VASP Registration RDWW-1486), Lydiam Group L.L.C-FZ (United Arab Emirates, License No. 2417090.01), and Lydiam Pay Corp (Canada, FINTRAC MSB Registration C10001604).<br><br>
+Services are delivered by the relevant group entity or through appropriately licensed and authorized third-party partners. Where services are subject to regulation, they are provided by the applicable regulated entity or authorized partner.
+  </div>
+</div>

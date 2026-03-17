@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Received Email Template</name>
+    <style>none</style>
+    <textOnly>.
+
+.
+
+.
+
+Funds received
+
+We have received funds that have been applied to your account. If you need further details log into your account using the link below. 
+
+Funds received and applied 
+
+Funds credited to:{{ClientName}} 
+
+Account reference:{{ClientRefNo.}} 
+
+Amount received:{{Amount}} GBP 
+
+Description of funds received 
+
+{{Description}}
+
+.
+
+.
+
+Lydiam Group. All rights reserved. Lydiam Group 17 Hannover Square, London, W1S 1BN
+
+This email is intended for the named recipient only. It may contain privileged and confidential information. If you are not the intended recipient, notify the sender immediately and destroy this email. You must not copy, distribute or take action in reliance upon it.
+
+Whilst all efforts are made to safeguard emails, we cannot guarantee that attachments are virus free or compatible with your systems and does not accept liability in respect of viruses or computer problems experienced. We reserve the right to monitor all email communications through its internal and external networks.</textOnly>
+    <type>custom</type>
+    <uiType>SFX</uiType>
+</EmailTemplate>

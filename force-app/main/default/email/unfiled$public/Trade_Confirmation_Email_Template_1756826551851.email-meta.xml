@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Trade Confirmation Email Template</name>
+    <style>none</style>
+    <textOnly>.
+
+.
+
+..
+
+Ref #435426
+
+.
+
+**Details of your transaction
+----------------------------------------------------
+
+Here&apos;s a summary of your transaction. If you need further details you can view and download them from your account.
+
+Account name{{ClientName}}Account reference{{ClientRefNumber}}
+
+**Currency conversion details
+----------------------------------------------------
+
+Sell currency{{Amount}} {{TickerSell}}Exchange rate{{ExchangeRate}}Transaction fee{{TransactionFee}} {{Ticker}}Settlement date{{SettlementDate}}Buy currency{{Amount}} {{TickerBuy}}
+
+**
+----------------------------------------------------
+
+⚠ Action Required 
+
+Use your bank&apos;s online banking platform or mobile app to pay for your transaction. Remember to include the below reference.
+
+**
+----------------------------------------------------
+
+Amount to send us{{BuyAmount}} {{BuyTicker}}Add payment reference{{ClientDealNumber}}Payee nameLydiam GroupSort Code20-00-00IBANGB85BARC2000066235188Bank code (SWIFT/BIC)BARCGB22Our bank address1 Churchill Place London E14 5HP United Kingdom
+
+.
+
+.
+
+Lydiam Group. All rights reserved. Lydiam Group 17 Hannover Square, London, W1S 1BN
+
+This email is intended for the named recipient only. It may contain privileged and confidential information. If you are not the intended recipient, notify the sender immediately and destroy this email. You must not copy, distribute or take action in reliance upon it.
+
+Whilst all efforts are made to safeguard emails, we cannot guarantee that attachments are virus free or compatible with your systems and does not accept liability in respect of viruses or computer problems experienced. We reserve the right to monitor all email communications through its internal and external networks.</textOnly>
+    <type>custom</type>
+    <uiType>SFX</uiType>
+</EmailTemplate>
