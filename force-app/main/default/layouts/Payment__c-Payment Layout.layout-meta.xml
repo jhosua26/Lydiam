@@ -51,6 +51,10 @@
                 <behavior>Edit</behavior>
                 <field>Payment_Reference__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Crypto_Asset__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
