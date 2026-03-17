@@ -32,15 +32,10 @@ public with sharing class AccountSendWelcomeEmail {
 
         // Fetch the HTML body from template
         EmailTemplate template = [
-            SELECT Id, HtmlValue
-            FROM EmailTemplate
-            WHERE DeveloperName = 'Welcome_Email_Template_1756819238885'
+            SELECT Id, HtmlValue 
+            FROM EmailTemplate 
+            WHERE DeveloperName = 'Welcome_Email_Template_1756819238885' 
             LIMIT 1
-        ];
-
-        // Fetch Org-Wide Email Address for consistent, trusted sender
-        List<OrgWideEmailAddress> owas = [
-            SELECT Id FROM OrgWideEmailAddress WHERE Address = 'technology@lydiamgroup.com' LIMIT 1
         ];
 
         for (Account acc : accounts) {
@@ -71,27 +66,16 @@ public with sharing class AccountSendWelcomeEmail {
             email.setToAddresses(new String[] { toAddress });
             email.setCcAddresses(new List<String>{
                 'compliance@lydiamgroup.com',
-                'technology@lydiamgroup.com',
-                'joshua.flanagan@lydiamgroup.com',
                 'ayaz.khan@lydiamgroup.com'
             });
             email.setSubject('Welcome to Lydiam');
             email.setHtmlBody(htmlBody);
-            if (!owas.isEmpty()) {
-                email.setOrgWideEmailAddressId(owas[0].Id);
-            } else {
-                email.setSenderDisplayName('Lydiam');
-            }
 
             emails.add(email);
         }
 
         if (!emails.isEmpty()) {
-            try {
-                Messaging.sendEmail(emails);
-            } catch (Exception e) {
-                System.debug('Welcome email failed to send: ' + e.getMessage());
-            }
+            Messaging.sendEmail(emails);
         }
     }
 }

@@ -83,6 +83,3 @@ tmp/
 **/data/**/source/**
 **/data/**/target/**
 force-app/main/default/appMenus/AppSwitcher.appMenu-meta.xml
-package.xml
-package-full.xml
-force-app/main/default/profiles/
