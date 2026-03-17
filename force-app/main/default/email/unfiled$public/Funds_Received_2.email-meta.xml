@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Funds Received 2</name>
+    <style>none</style>
+    <subject>Payments Received</subject>
+    <textOnly>LYDIAM
+
+Funds received
+
+We have received funds that have been applied to your account.
+If you need further details, log into your account using the link below.
+
+Funds received and applied
+
+Funds credited to: {!Client_Name}
+Account reference: {!Client_Reference_Number}
+Amount received: {!Amount_Received}
+
+Description of funds received
+
+{!Client_Reference_Number} | {!Banking_Reference}
+
+Lydiam Group refers collectively to the operations of Lydiam Group LTD (United Kingdom, Company No. 14454132), Lydiam Group Sp. z o.o. (Poland, VASP Registration RDWW-1486), Lydiam Group L.L.C-FZ (United Arab Emirates, Licence No. 2417090.01), and Lydiam Pay Corp (Canada, FINTRAC MSB Registration C10001604). 
+
+Services are delivered by the relevant group entity or through appropriately licensed and authorised third-party partners. Where services are subject to regulation, they are provided by the applicable regulated entity or authorised partner.</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>
