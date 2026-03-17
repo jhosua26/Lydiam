@@ -15,10 +15,10 @@
             <name>recipientAddresses</name>
             <value>
                 <collectionElements>
-                    <stringValue>jhosuaarda@gmail.com</stringValue>
+                    <stringValue>technology@lydiamgroup.com</stringValue>
                 </collectionElements>
                 <collectionElements>
-                    <stringValue>sales@lydiamgroup.com</stringValue>
+                    <stringValue>Ayaz.khan@lydiamgroup.com</stringValue>
                 </collectionElements>
                 <collectionElements>
                     <stringValue>joshua.flanagan@lydiamgroup.com</stringValue>
@@ -71,19 +71,6 @@
     <apiVersion>65.0</apiVersion>
     <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <assignments>
-        <name>Handle_Email_Fault</name>
-        <label>Handle Email Fault</label>
-        <locationX>0</locationX>
-        <locationY>0</locationY>
-        <assignmentItems>
-            <assignToReference>onboardingId</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>onboardingId</elementReference>
-            </value>
-        </assignmentItems>
-    </assignments>
-    <assignments>
         <name>assign_onboarding_record_ID</name>
         <label>assign onboarding record ID</label>
         <locationX>0</locationX>
@@ -98,6 +85,19 @@
         <connector>
             <targetReference>Notify_Sales_Team</targetReference>
         </connector>
+    </assignments>
+    <assignments>
+        <name>Handle_Email_Fault</name>
+        <label>Handle Email Fault</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>onboardingId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>onboardingId</elementReference>
+            </value>
+        </assignmentItems>
     </assignments>
     <decisions>
         <name>Is_form_was_submitted</name>
