@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Crypto_Asset__c</fullName>
+    <label>Crypto Asset</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>BTC</fullName>
+                <default>false</default>
+                <label>BTC</label>
+            </value>
+            <value>
+                <fullName>USDT_ERC</fullName>
+                <default>false</default>
+                <label>USDT_ERC</label>
+            </value>
+            <value>
+                <fullName>USDT_TRC</fullName>
+                <default>false</default>
+                <label>USDT_TRC</label>
+            </value>
+            <value>
+                <fullName>ETH</fullName>
+                <default>false</default>
+                <label>ETH</label>
+            </value>
+            <value>
+                <fullName>XRP</fullName>
+                <default>false</default>
+                <label>XRP</label>
+            </value>
+            <value>
+                <fullName>USDC</fullName>
+                <default>false</default>
+                <label>USDC</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

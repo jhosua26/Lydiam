@@ -92,7 +92,7 @@ public class PaymentTriggerHelper {
         );
 
         Map<Id, Payment__c> paymentMap = new Map<Id, Payment__c>(
-            [SELECT Id, Name, Type__c, Amount__c, Date_Receivd__c, CurrencyIsoCode, Description__c,
+            [SELECT Id, Name, Type__c, Amount__c, Date_Receivd__c, CurrencyIsoCode, Crypto_Asset__c, Description__c,
                     Payment_Reference__c,
                     Account__c, Account_Client_Code__c, Trade__r.Wallet__r.Name,
                     Beneficiary__r.Name,
@@ -153,7 +153,7 @@ public class PaymentTriggerHelper {
             templateBody = templateBody
                 .replace('{{ClientName}}', acc.Name != null ? acc.Name : '')
                 .replace('{{ClientRefNo.}}', p.Account_Client_Code__c != null ? p.Account_Client_Code__c : '')
-                .replace('{{Amount}}', (p.Amount__c != null ? p.CurrencyIsoCode + ' ' + p.Amount__c.setScale(2) : ''))
+                .replace('{{Amount}}', (p.Amount__c != null ? getPaidOutDisplayCurrency(p) + ' ' + p.Amount__c.setScale(2) : ''))
                 .replace('{{Description}}', p.Description__c != null ? p.Description__c : '');
         }
         else if (templateApiName == 'Paid_Out_Email_Template_1756824508144') {
@@ -161,7 +161,7 @@ public class PaymentTriggerHelper {
             templateBody = templateBody
                 .replace('{{ClientName}}', acc.Name != null ? acc.Name : '')
                 .replace('{{ClientRefNo}}', p.Account_Client_Code__c != null ? p.Account_Client_Code__c : '')
-                .replace('{{PaymentAmount}}', (p.Amount__c != null ? p.CurrencyIsoCode + ' ' + p.Amount__c.setScale(2) : ''))
+                .replace('{{PaymentAmount}}', (p.Amount__c != null ? getPaidOutDisplayCurrency(p) + ' ' + p.Amount__c.setScale(2) : ''))
                 .replace('{{PaymentDate}}', p.Date_Receivd__c != null ? p.Date_Receivd__c.format() : '')
                 .replace('{{BeneficiaryName}}', (p.Beneficiary__r != null && p.Beneficiary__r.Beneficiary_Name__c != null) ? p.Beneficiary__r.Beneficiary_Name__c : '')
                 .replace('{{BeneficiaryAddress}}', (p.Beneficiary__r != null && p.Beneficiary__r.Bank_Address__c != null) ? p.Beneficiary__r.Bank_Address__c : '')
@@ -202,5 +202,12 @@ public class PaymentTriggerHelper {
 
 
         return templateBody;
+    }
+
+    private static String getPaidOutDisplayCurrency(Payment__c paymentRecord) {
+        if (String.isNotBlank(paymentRecord.Crypto_Asset__c)) {
+            return paymentRecord.Crypto_Asset__c;
+        }
+        return paymentRecord.CurrencyIsoCode != null ? paymentRecord.CurrencyIsoCode : '';
     }
 }
