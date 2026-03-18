@@ -1,7 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
-
-    <!-- Apex -->
     <types>
         <members>*</members>
         <name>ApexClass</name>
@@ -9,6 +7,10 @@
     <types>
         <members>*</members>
         <name>ApexComponent</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>ApexEmailNotifications</name>
     </types>
     <types>
         <members>*</members>
@@ -24,37 +26,19 @@
     </types>
     <types>
         <members>*</members>
-        <name>ApexEmailNotifications</name>
+        <name>AssignmentRules</name>
     </types>
-
-    <!-- UI Components -->
     <types>
         <members>*</members>
         <name>AuraDefinitionBundle</name>
     </types>
     <types>
         <members>*</members>
-        <name>LightningComponentBundle</name>
+        <name>AutoResponseRules</name>
     </types>
     <types>
         <members>*</members>
-        <name>FlexiPage</name>
-    </types>
-    <types>
-        <members>*</members>
-        <name>Layout</name>
-    </types>
-    <types>
-        <members>*</members>
-        <name>QuickAction</name>
-    </types>
-    <types>
-        <members>*</members>
-        <name>StaticResource</name>
-    </types>
-    <types>
-        <members>*</members>
-        <name>CustomTab</name>
+        <name>ConnectedApp</name>
     </types>
     <types>
         <members>*</members>
@@ -62,17 +46,18 @@
     </types>
     <types>
         <members>*</members>
-        <name>PathAssistant</name>
+        <name>CustomLabel</name>
     </types>
-
-    <!-- Objects: Custom -->
     <types>
         <members>*</members>
-        <name>CustomObject</name>
+        <name>CustomMetadata</name>
     </types>
-
-    <!-- Objects: Standard (with customizations) -->
     <types>
+        <members>*</members>
+        <name>CustomNotificationType</name>
+    </types>
+    <types>
+        <members>*</members>
         <members>Account</members>
         <members>AccountContactRelation</members>
         <members>AccountContactRole</members>
@@ -100,10 +85,37 @@
         <members>User</members>
         <name>CustomObject</name>
     </types>
-
-    <!-- Flows & Automation -->
     <types>
         <members>*</members>
+        <name>CustomPermission</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>CustomTab</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>DuplicateRule</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>EmailTemplate</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>EscalationRules</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>ExperienceBundle</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>FlexiPage</name>
+    </types>
+    <types>
+        <members>*</members>
+        <members>Record_Triggered_Flow_Onboarding_Application_After_Create_Update</members>
         <name>Flow</name>
     </types>
     <types>
@@ -112,25 +124,35 @@
     </types>
     <types>
         <members>*</members>
-        <name>WorkflowRule</name>
+        <name>GlobalValueSet</name>
     </types>
     <types>
         <members>*</members>
-        <name>AssignmentRules</name>
+        <name>Layout</name>
     </types>
     <types>
         <members>*</members>
-        <name>EscalationRules</name>
+        <name>LightningComponentBundle</name>
     </types>
     <types>
         <members>*</members>
-        <name>AutoResponseRules</name>
+        <name>MatchingRule</name>
     </types>
-
-    <!-- Security & Access -->
     <types>
         <members>*</members>
-        <name>CustomPermission</name>
+        <name>NamedCredential</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>Network</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>NetworkBranding</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>PathAssistant</name>
     </types>
     <types>
         <members>*</members>
@@ -142,31 +164,15 @@
     </types>
     <types>
         <members>*</members>
+        <name>QuickAction</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>RemoteSiteSetting</name>
+    </types>
+    <types>
+        <members>*</members>
         <name>SharingRules</name>
-    </types>
-
-    <!-- Data Quality -->
-    <types>
-        <members>*</members>
-        <name>DuplicateRule</name>
-    </types>
-    <types>
-        <members>*</members>
-        <name>MatchingRule</name>
-    </types>
-
-    <!-- Configuration -->
-    <types>
-        <members>*</members>
-        <name>CustomLabel</name>
-    </types>
-    <types>
-        <members>*</members>
-        <name>CustomMetadata</name>
-    </types>
-    <types>
-        <members>*</members>
-        <name>GlobalValueSet</name>
     </types>
     <types>
         <members>*</members>
@@ -174,42 +180,11 @@
     </types>
     <types>
         <members>*</members>
-        <name>CustomNotificationType</name>
-    </types>
-
-    <!-- Integrations -->
-    <types>
-        <members>*</members>
-        <name>RemoteSiteSetting</name>
+        <name>StaticResource</name>
     </types>
     <types>
         <members>*</members>
-        <name>NamedCredential</name>
+        <name>WorkflowRule</name>
     </types>
-    <types>
-        <members>*</members>
-        <name>ConnectedApp</name>
-    </types>
-
-    <!-- Email -->
-    <types>
-        <members>*</members>
-        <name>EmailTemplate</name>
-    </types>
-
-    <!-- Experience Cloud -->
-    <types>
-        <members>*</members>
-        <name>ExperienceBundle</name>
-    </types>
-    <types>
-        <members>*</members>
-        <name>Network</name>
-    </types>
-    <types>
-        <members>*</members>
-        <name>NetworkBranding</name>
-    </types>
-
     <version>65.0</version>
 </Package>
