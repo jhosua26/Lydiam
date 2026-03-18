@@ -5,8 +5,8 @@
     <assignments>
         <name>comma_seperated</name>
         <label>comma seperated</label>
-        <locationX>264</locationX>
-        <locationY>458</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <assignmentItems>
             <assignToReference>result</assignToReference>
             <operator>Assign</operator>
@@ -21,8 +21,8 @@
     <assignments>
         <name>count</name>
         <label>count</label>
-        <locationX>176</locationX>
-        <locationY>650</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <assignmentItems>
             <assignToReference>fileCount</assignToReference>
             <operator>AssignCount</operator>
@@ -43,8 +43,8 @@
     <decisions>
         <name>IsFileUploaded</name>
         <label>IsFileUploaded</label>
-        <locationX>176</locationX>
-        <locationY>758</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <defaultConnector>
             <targetReference>Crete_Account</targetReference>
         </defaultConnector>
@@ -81,8 +81,8 @@
     <loops>
         <name>get_versions</name>
         <label>get versions</label>
-        <locationX>176</locationX>
-        <locationY>350</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <collectionReference>versionIds</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -114,8 +114,8 @@
     <recordCreates>
         <name>Create_Bank</name>
         <label>Create Bank</label>
-        <locationX>308</locationX>
-        <locationY>1190</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <connector>
             <targetReference>create_opp</targetReference>
         </connector>
@@ -135,8 +135,8 @@
     <recordCreates>
         <name>Create_Contact</name>
         <label>Create Contact</label>
-        <locationX>308</locationX>
-        <locationY>974</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <connector>
             <targetReference>Create_Second_Contact</targetReference>
         </connector>
@@ -185,8 +185,8 @@
     <recordCreates>
         <name>Create_Event</name>
         <label>Create Event</label>
-        <locationX>308</locationX>
-        <locationY>1406</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <connector>
             <targetReference>Screen2</targetReference>
         </connector>
@@ -208,8 +208,8 @@
     <recordCreates>
         <name>create_opp</name>
         <label>create opp</label>
-        <locationX>308</locationX>
-        <locationY>1298</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <connector>
             <targetReference>Create_Event</targetReference>
         </connector>
@@ -247,8 +247,8 @@
     <recordCreates>
         <name>Create_Second_Contact</name>
         <label>Create Second Contacte</label>
-        <locationX>308</locationX>
-        <locationY>1082</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <connector>
             <targetReference>Create_Bank</targetReference>
         </connector>
@@ -282,8 +282,8 @@
     <recordCreates>
         <name>Crete_Account</name>
         <label>Crete Account</label>
-        <locationX>308</locationX>
-        <locationY>866</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <assignRecordIdToReference>AccIdText</assignRecordIdToReference>
         <connector>
             <targetReference>Create_Contact</targetReference>
@@ -310,8 +310,8 @@
     <screens>
         <name>label</name>
         <label>label</label>
-        <locationX>176</locationX>
-        <locationY>242</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -386,8 +386,8 @@
     <screens>
         <name>Screen2</name>
         <label>Screen2</label>
-        <locationX>308</locationX>
-        <locationY>1514</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -423,8 +423,8 @@
     <screens>
         <name>Upload_Test</name>
         <label>Upload Test</label>
-        <locationX>176</locationX>
-        <locationY>134</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -512,7 +512,7 @@
         <showHeader>true</showHeader>
     </screens>
     <start>
-        <locationX>50</locationX>
+        <locationX>0</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Upload_Test</targetReference>

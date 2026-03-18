@@ -5,8 +5,8 @@
     <assignments>
         <name>Get_Broker_Name</name>
         <label>Get Broker Name</label>
-        <locationX>182</locationX>
-        <locationY>395</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <assignmentItems>
             <assignToReference>BrokerName</assignToReference>
             <operator>Assign</operator>
@@ -21,8 +21,8 @@
     <assignments>
         <name>Set_Base_User</name>
         <label>Set Base User</label>
-        <locationX>50</locationX>
-        <locationY>827</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <assignmentItems>
             <assignToReference>userRecord</assignToReference>
             <operator>Assign</operator>
@@ -37,8 +37,8 @@
     <decisions>
         <name>Find_User</name>
         <label>Find User</label>
-        <locationX>182</locationX>
-        <locationY>611</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <defaultConnector>
             <targetReference>Update_Owner</targetReference>
         </defaultConnector>
@@ -84,8 +84,8 @@
     <recordLookups>
         <name>Get_Account</name>
         <label>Get Account</label>
-        <locationX>182</locationX>
-        <locationY>287</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Get_Broker_Name</targetReference>
@@ -105,8 +105,8 @@
     <recordLookups>
         <name>Get_Default_User</name>
         <label>Get Default User</label>
-        <locationX>50</locationX>
-        <locationY>719</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Set_Base_User</targetReference>
@@ -126,8 +126,8 @@
     <recordLookups>
         <name>Get_User</name>
         <label>Get User</label>
-        <locationX>182</locationX>
-        <locationY>503</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <assignNullValuesIfNoRecordsFound>true</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Find_User</targetReference>
@@ -148,8 +148,8 @@
     <recordUpdates>
         <name>Update_Owner</name>
         <label>Update Owner</label>
-        <locationX>182</locationX>
-        <locationY>1019</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <inputAssignments>
             <field>OwnerId</field>
             <value>
@@ -159,7 +159,7 @@
         <inputReference>$Record</inputReference>
     </recordUpdates>
     <start>
-        <locationX>56</locationX>
+        <locationX>0</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Get_Account</targetReference>

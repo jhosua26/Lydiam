@@ -3,8 +3,8 @@
     <actionCalls>
         <name>Client_Success_Email</name>
         <label>Client Success Email</label>
-        <locationX>572</locationX>
-        <locationY>2354</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
         <connector>
@@ -64,8 +64,8 @@
     <actionCalls>
         <name>Internal_Success_Email</name>
         <label>Internal Success Email</label>
-        <locationX>572</locationX>
-        <locationY>2138</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
         <connector>
@@ -126,8 +126,8 @@
     <assignments>
         <name>Assign_POF</name>
         <label>Assign POF</label>
-        <locationX>660</locationX>
-        <locationY>1322</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <assignmentItems>
             <assignToReference>SinglePOFVersion</assignToReference>
             <operator>Assign</operator>
@@ -142,8 +142,8 @@
     <assignments>
         <name>Assign_Receiver_Email</name>
         <label>Assign Receiver Email</label>
-        <locationX>572</locationX>
-        <locationY>2030</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <assignmentItems>
             <assignToReference>ReceiverEmails</assignToReference>
             <operator>Add</operator>
@@ -172,8 +172,8 @@
     <assignments>
         <name>Assign_Recipient_Address</name>
         <label>Assign Recipient Address</label>
-        <locationX>572</locationX>
-        <locationY>2246</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <assignmentItems>
             <assignToReference>RecipientEmailAddress</assignToReference>
             <operator>Add</operator>
@@ -188,8 +188,8 @@
     <assignments>
         <name>AssignId</name>
         <label>AssignId</label>
-        <locationX>660</locationX>
-        <locationY>1730</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <assignmentItems>
             <assignToReference>SingleDocVersion</assignToReference>
             <operator>Assign</operator>
@@ -204,8 +204,8 @@
     <assignments>
         <name>Count_Doc_Files</name>
         <label>Count Doc Files</label>
-        <locationX>176</locationX>
-        <locationY>242</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <assignmentItems>
             <assignToReference>docFileCount</assignToReference>
             <operator>AssignCount</operator>
@@ -220,8 +220,8 @@
     <assignments>
         <name>POFCount</name>
         <label>POFCount</label>
-        <locationX>176</locationX>
-        <locationY>350</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <assignmentItems>
             <assignToReference>POFNumberCount</assignToReference>
             <operator>AssignCount</operator>
@@ -274,8 +274,8 @@
     <decisions>
         <name>DocsUploaded</name>
         <label>DocsUploaded</label>
-        <locationX>176</locationX>
-        <locationY>458</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <defaultConnector>
             <targetReference>Create_application2</targetReference>
         </defaultConnector>
@@ -307,8 +307,8 @@
     <decisions>
         <name>TsandCs_Empty</name>
         <label>TsandCs Empty</label>
-        <locationX>396</locationX>
-        <locationY>890</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <defaultConnector>
             <targetReference>Create_Account_Record</targetReference>
         </defaultConnector>
@@ -450,8 +450,8 @@
     <loops>
         <name>Loop_POF_Upload</name>
         <label>Loop POF Upload</label>
-        <locationX>572</locationX>
-        <locationY>1214</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <collectionReference>POFVersions</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -464,8 +464,8 @@
     <loops>
         <name>LoopVersions</name>
         <label>LoopVersions</label>
-        <locationX>572</locationX>
-        <locationY>1622</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <collectionReference>identificationVersions</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -497,8 +497,8 @@
     <recordCreates>
         <name>Copy_1_of_Create_Opportunity</name>
         <label>Copy 1 of Create Opportunity</label>
-        <locationX>572</locationX>
-        <locationY>1106</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <connector>
             <targetReference>Loop_POF_Upload</targetReference>
         </connector>
@@ -586,8 +586,8 @@
     <recordCreates>
         <name>Copy_2_of_Create_Link_Event</name>
         <label>Copy 2 of Create Link Event</label>
-        <locationX>572</locationX>
-        <locationY>1922</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <connector>
             <targetReference>Assign_Receiver_Email</targetReference>
         </connector>
@@ -613,8 +613,8 @@
     <recordCreates>
         <name>Create_Account_Record</name>
         <label>Create Account</label>
-        <locationX>572</locationX>
-        <locationY>998</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <assignRecordIdToReference>AccountRecId</assignRecordIdToReference>
         <connector>
             <targetReference>Copy_1_of_Create_Opportunity</targetReference>
@@ -771,8 +771,8 @@
     <recordCreates>
         <name>Create_Link_Event</name>
         <label>Create Link Event</label>
-        <locationX>572</locationX>
-        <locationY>1514</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <connector>
             <targetReference>LoopVersions</targetReference>
         </connector>
@@ -797,21 +797,21 @@
     <recordRollbacks>
         <name>Roll_back_Account</name>
         <label>Roll back Account</label>
-        <locationX>1364</locationX>
-        <locationY>1106</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
     </recordRollbacks>
     <recordRollbacks>
         <name>Roll_back_from_Event</name>
         <label>Roll back from Event</label>
-        <locationX>1100</locationX>
-        <locationY>1622</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
     </recordRollbacks>
     <runInMode>SystemModeWithoutSharing</runInMode>
     <screens>
         <name>Create_application1</name>
         <label>Create application1</label>
-        <locationX>176</locationX>
-        <locationY>134</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -1295,8 +1295,8 @@
     <screens>
         <name>Create_application2</name>
         <label>Create application2</label>
-        <locationX>396</locationX>
-        <locationY>566</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -1507,8 +1507,8 @@
     <screens>
         <name>Create_application5</name>
         <label>Create application5</label>
-        <locationX>396</locationX>
-        <locationY>674</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -1820,8 +1820,8 @@
     <screens>
         <name>Create_application7</name>
         <label>Create application7</label>
-        <locationX>396</locationX>
-        <locationY>782</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -2033,8 +2033,8 @@
     <screens>
         <name>Thank_you_Screen</name>
         <label>Thank you Screen</label>
-        <locationX>572</locationX>
-        <locationY>2462</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -2097,7 +2097,7 @@
         <stageOrder>5</stageOrder>
     </stages>
     <start>
-        <locationX>50</locationX>
+        <locationX>0</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Create_application1</targetReference>
