@@ -36,7 +36,7 @@
             <name>senderAddress</name>
             <value>
                 <inputConfiguratorMode>Custom</inputConfiguratorMode>
-                <stringValue>itdev@lydiamgroup.com</stringValue>
+                <stringValue>technology@lydiamgroup.com</stringValue>
             </value>
         </inputParameters>
         <inputParameters>
