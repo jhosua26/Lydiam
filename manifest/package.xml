@@ -124,6 +124,7 @@
     </types>
     <types>
         <members>*</members>
+        <members>Country</members>
         <name>GlobalValueSet</name>
     </types>
     <types>
@@ -132,6 +133,7 @@
     </types>
     <types>
         <members>*</members>
+        <members>clientOnboardingForm</members>
         <name>LightningComponentBundle</name>
     </types>
     <types>

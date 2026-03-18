@@ -2067,13 +2067,12 @@
                                         <abbr class="slds-required" title="required">*</abbr> Country
                                     </label>
                                     <div class="slds-form-element__control">
-                                        <lightning-input
-                                            type="text"
+                                        <lightning-combobox
                                             name="registeredCountry"
                                             value={companyInfo.registeredCountry}
-                                            placeholder="Country"
+                                            options={countryPicklistOptions}
                                             onchange={handleCompanyInfoChange}>
-                                        </lightning-input>
+                                        </lightning-combobox>
                                     </div>
                                 </div>
                             </div>
