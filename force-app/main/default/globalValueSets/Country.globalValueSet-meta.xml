@@ -116,6 +116,11 @@
         <label>Brazil</label>
     </customValue>
     <customValue>
+        <fullName>British Virgin Islands</fullName>
+        <default>false</default>
+        <label>British Virgin Islands</label>
+    </customValue>
+    <customValue>
         <fullName>Brunei</fullName>
         <default>false</default>
         <label>Brunei</label>
