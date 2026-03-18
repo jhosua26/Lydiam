@@ -37,8 +37,8 @@
     <decisions>
         <name>TsandCs_Empty</name>
         <label>TsandCs Empty</label>
-        <locationX>176</locationX>
-        <locationY>458</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <defaultConnector>
             <targetReference>Create_Account_Record</targetReference>
         </defaultConnector>
@@ -190,8 +190,8 @@
     <recordCreates>
         <name>Create_Account_Record</name>
         <label>Create Account</label>
-        <locationX>308</locationX>
-        <locationY>566</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <assignRecordIdToReference>AccountRecId</assignRecordIdToReference>
         <connector>
             <targetReference>Create_Bank</targetReference>
@@ -327,8 +327,8 @@
     <recordCreates>
         <name>Create_Bank</name>
         <label>Create Bank</label>
-        <locationX>308</locationX>
-        <locationY>674</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <assignRecordIdToReference>bankAccountId</assignRecordIdToReference>
         <connector>
             <targetReference>Thank_you_Screen</targetReference>
@@ -396,8 +396,8 @@
     <recordRollbacks>
         <name>Roll_back_Account</name>
         <label>Roll back Account</label>
-        <locationX>836</locationX>
-        <locationY>674</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <connector>
             <targetReference>Error_Screen</targetReference>
         </connector>
@@ -406,8 +406,8 @@
     <screens>
         <name>Create_application1</name>
         <label>Create application1</label>
-        <locationX>176</locationX>
-        <locationY>134</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -815,8 +815,8 @@
     <screens>
         <name>Create_application6</name>
         <label>Create application6</label>
-        <locationX>176</locationX>
-        <locationY>242</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -1029,8 +1029,8 @@
     <screens>
         <name>Create_application7</name>
         <label>Create application7</label>
-        <locationX>176</locationX>
-        <locationY>350</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -1242,8 +1242,8 @@
     <screens>
         <name>Error_Screen</name>
         <label>Error Screen</label>
-        <locationX>836</locationX>
-        <locationY>782</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -1266,8 +1266,8 @@
     <screens>
         <name>Thank_you_Screen</name>
         <label>Thank you Screen</label>
-        <locationX>308</locationX>
-        <locationY>782</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -1330,7 +1330,7 @@
         <stageOrder>5</stageOrder>
     </stages>
     <start>
-        <locationX>50</locationX>
+        <locationX>0</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Create_application1</targetReference>

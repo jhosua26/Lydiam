@@ -3,8 +3,8 @@
     <actionCalls>
         <name>Send_Email_Alert</name>
         <label>Send Email Alert</label>
-        <locationX>176</locationX>
-        <locationY>323</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <actionName>Opportunity.Client_Coded_Confirmation</actionName>
         <actionType>emailAlert</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -42,7 +42,7 @@
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
     <start>
-        <locationX>50</locationX>
+        <locationX>0</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Send_Email_Alert</targetReference>

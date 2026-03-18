@@ -5,8 +5,8 @@
     <assignments>
         <name>Trade_Count</name>
         <label>Trade Count</label>
-        <locationX>176</locationX>
-        <locationY>395</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <assignmentItems>
             <assignToReference>TradeSequence</assignToReference>
             <operator>AssignCount</operator>
@@ -48,8 +48,8 @@
     <recordLookups>
         <name>Count_Trades</name>
         <label>Count Trades</label>
-        <locationX>176</locationX>
-        <locationY>287</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Trade_Count</targetReference>
@@ -69,8 +69,8 @@
     <recordUpdates>
         <name>Set_Reference_field</name>
         <label>Set Reference field</label>
-        <locationX>176</locationX>
-        <locationY>503</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <inputAssignments>
             <field>Trade_Reference_Number__c</field>
             <value>
@@ -80,7 +80,7 @@
         <inputReference>$Record</inputReference>
     </recordUpdates>
     <start>
-        <locationX>50</locationX>
+        <locationX>0</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Count_Trades</targetReference>

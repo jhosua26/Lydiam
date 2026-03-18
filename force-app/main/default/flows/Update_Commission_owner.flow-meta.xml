@@ -27,8 +27,8 @@
     <recordUpdates>
         <name>Update_Owner</name>
         <label>Update Owner</label>
-        <locationX>176</locationX>
-        <locationY>287</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <inputAssignments>
             <field>OwnerId</field>
             <value>
@@ -38,7 +38,7 @@
         <inputReference>$Record</inputReference>
     </recordUpdates>
     <start>
-        <locationX>50</locationX>
+        <locationX>0</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Update_Owner</targetReference>

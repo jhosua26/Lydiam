@@ -3,8 +3,8 @@
     <actionCalls>
         <name>Payment_Sent</name>
         <label>Payment Sent</label>
-        <locationX>308</locationX>
-        <locationY>647</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <actionName>Payment__c.Payment_Sent</actionName>
         <actionType>emailAlert</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -22,8 +22,8 @@
     <decisions>
         <name>Email_Found_on_Account</name>
         <label>Email Found on Account</label>
-        <locationX>176</locationX>
-        <locationY>431</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <defaultConnector>
             <targetReference>Update_Records_1</targetReference>
         </defaultConnector>
@@ -66,8 +66,8 @@
     <recordLookups>
         <name>Get_Account</name>
         <label>Get Account</label>
-        <locationX>176</locationX>
-        <locationY>323</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Email_Found_on_Account</targetReference>
@@ -89,8 +89,8 @@
     <recordUpdates>
         <name>Update_Records_1</name>
         <label>Update Records 1</label>
-        <locationX>308</locationX>
-        <locationY>539</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <connector>
             <targetReference>Payment_Sent</targetReference>
         </connector>
@@ -103,7 +103,7 @@
         <inputReference>$Record</inputReference>
     </recordUpdates>
     <start>
-        <locationX>50</locationX>
+        <locationX>0</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Get_Account</targetReference>
