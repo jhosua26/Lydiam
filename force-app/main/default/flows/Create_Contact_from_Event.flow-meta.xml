@@ -27,8 +27,8 @@
     <recordCreates>
         <name>Create_Bank</name>
         <label>Create Bank</label>
-        <locationX>176</locationX>
-        <locationY>170</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <connector>
             <targetReference>GetVersion</targetReference>
         </connector>
@@ -74,8 +74,8 @@
     <recordCreates>
         <name>Create_Link</name>
         <label>Create Link</label>
-        <locationX>176</locationX>
-        <locationY>386</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <inputAssignments>
             <field>ContentDocumentId</field>
             <value>
@@ -94,8 +94,8 @@
     <recordLookups>
         <name>GetVersion</name>
         <label>GetVersion</label>
-        <locationX>176</locationX>
-        <locationY>278</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Create_Link</targetReference>
@@ -113,7 +113,7 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <start>
-        <locationX>50</locationX>
+        <locationX>0</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Create_Bank</targetReference>

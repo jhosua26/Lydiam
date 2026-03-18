@@ -3,8 +3,8 @@
     <actionCalls>
         <name>Client_Success_Email</name>
         <label>Client Success Email</label>
-        <locationX>308</locationX>
-        <locationY>1862</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
         <connector>
@@ -64,8 +64,8 @@
     <actionCalls>
         <name>Success_Email</name>
         <label>Success Email</label>
-        <locationX>308</locationX>
-        <locationY>1646</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
         <connector>
@@ -126,8 +126,8 @@
     <assignments>
         <name>Assign_Email_Address</name>
         <label>Assign Email Address</label>
-        <locationX>308</locationX>
-        <locationY>1754</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <assignmentItems>
             <assignToReference>RecipientEmailAddressList</assignToReference>
             <operator>Add</operator>
@@ -142,8 +142,8 @@
     <assignments>
         <name>AssignEmailAddress</name>
         <label>AssignEmailAddress</label>
-        <locationX>308</locationX>
-        <locationY>1538</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <assignmentItems>
             <assignToReference>ReceiverEmails</assignToReference>
             <operator>Add</operator>
@@ -203,8 +203,8 @@
     <decisions>
         <name>CheckTerms</name>
         <label>CheckTerms</label>
-        <locationX>176</locationX>
-        <locationY>890</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <defaultConnector>
             <targetReference>Create_Account_Record</targetReference>
         </defaultConnector>
@@ -348,8 +348,8 @@
     <recordCreates>
         <name>Create_Account_Record</name>
         <label>Create Account</label>
-        <locationX>308</locationX>
-        <locationY>998</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <assignRecordIdToReference>AccIdText</assignRecordIdToReference>
         <connector>
             <targetReference>Create_Contact</targetReference>
@@ -494,8 +494,8 @@
     <recordCreates>
         <name>Create_Contact</name>
         <label>Create Contact</label>
-        <locationX>308</locationX>
-        <locationY>1106</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <connector>
             <targetReference>Create_Director_Contact</targetReference>
         </connector>
@@ -555,8 +555,8 @@
     <recordCreates>
         <name>Create_Director_Contact</name>
         <label>Create Director Contact</label>
-        <locationX>308</locationX>
-        <locationY>1214</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <connector>
             <targetReference>Create_Trader_Contact</targetReference>
         </connector>
@@ -616,8 +616,8 @@
     <recordCreates>
         <name>Create_Trader_Contact</name>
         <label>Create Trader Contact</label>
-        <locationX>308</locationX>
-        <locationY>1322</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <connector>
             <targetReference>CreateOpportunity</targetReference>
         </connector>
@@ -695,8 +695,8 @@
     <recordCreates>
         <name>CreateOpportunity</name>
         <label>Create Opportunity</label>
-        <locationX>308</locationX>
-        <locationY>1430</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <connector>
             <targetReference>AssignEmailAddress</targetReference>
         </connector>
@@ -787,8 +787,8 @@
     <recordRollbacks>
         <name>Roll_back_Account</name>
         <label>Roll back Account</label>
-        <locationX>1628</locationX>
-        <locationY>1106</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <connector>
             <isGoTo>true</isGoTo>
             <targetReference>Error_Screen</targetReference>
@@ -797,8 +797,8 @@
     <recordRollbacks>
         <name>Roll_back_contact</name>
         <label>Roll back contact</label>
-        <locationX>1364</locationX>
-        <locationY>1214</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <connector>
             <isGoTo>true</isGoTo>
             <targetReference>Error_Screen</targetReference>
@@ -807,8 +807,8 @@
     <recordRollbacks>
         <name>Roll_back_Director</name>
         <label>Roll back Director</label>
-        <locationX>1100</locationX>
-        <locationY>1322</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <connector>
             <isGoTo>true</isGoTo>
             <targetReference>Error_Screen</targetReference>
@@ -817,8 +817,8 @@
     <recordRollbacks>
         <name>Roll_Back_on_Error</name>
         <label>Roll Back on Error</label>
-        <locationX>572</locationX>
-        <locationY>1538</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <connector>
             <targetReference>Error_Screen</targetReference>
         </connector>
@@ -826,8 +826,8 @@
     <recordRollbacks>
         <name>Roll_back_Trader</name>
         <label>Roll back Trader</label>
-        <locationX>836</locationX>
-        <locationY>1430</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <connector>
             <isGoTo>true</isGoTo>
             <targetReference>Error_Screen</targetReference>
@@ -837,8 +837,8 @@
     <screens>
         <name>Create_application1</name>
         <label>Create application1</label>
-        <locationX>176</locationX>
-        <locationY>134</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -1251,8 +1251,8 @@
     <screens>
         <name>Create_application2</name>
         <label>Create application2</label>
-        <locationX>176</locationX>
-        <locationY>242</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -1385,8 +1385,8 @@
     <screens>
         <name>Create_application3</name>
         <label>Create application3</label>
-        <locationX>176</locationX>
-        <locationY>350</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -1556,8 +1556,8 @@
     <screens>
         <name>Create_application4</name>
         <label>Create application4</label>
-        <locationX>176</locationX>
-        <locationY>458</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -1774,8 +1774,8 @@
     <screens>
         <name>Create_application5</name>
         <label>Create application5</label>
-        <locationX>176</locationX>
-        <locationY>566</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -1949,8 +1949,8 @@
     <screens>
         <name>Create_application6</name>
         <label>Create application6</label>
-        <locationX>176</locationX>
-        <locationY>674</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -2146,8 +2146,8 @@
     <screens>
         <name>Create_application7</name>
         <label>Create application7</label>
-        <locationX>176</locationX>
-        <locationY>782</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -2376,8 +2376,8 @@
     <screens>
         <name>Error_Screen</name>
         <label>Error Screen</label>
-        <locationX>572</locationX>
-        <locationY>1646</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -2400,8 +2400,8 @@
     <screens>
         <name>Thx_Screen</name>
         <label>Thx Screen</label>
-        <locationX>308</locationX>
-        <locationY>1970</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -2464,7 +2464,7 @@
         <stageOrder>5</stageOrder>
     </stages>
     <start>
-        <locationX>50</locationX>
+        <locationX>0</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Create_application1</targetReference>

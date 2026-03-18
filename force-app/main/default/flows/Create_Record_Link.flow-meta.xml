@@ -27,8 +27,8 @@
     <recordCreates>
         <name>create_link</name>
         <label>create link</label>
-        <locationX>176</locationX>
-        <locationY>278</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <inputAssignments>
             <field>ContentDocumentId</field>
             <value>
@@ -47,8 +47,8 @@
     <recordLookups>
         <name>getVersion</name>
         <label>getVersion</label>
-        <locationX>176</locationX>
-        <locationY>170</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>create_link</targetReference>
@@ -66,7 +66,7 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <start>
-        <locationX>50</locationX>
+        <locationX>0</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>getVersion</targetReference>
