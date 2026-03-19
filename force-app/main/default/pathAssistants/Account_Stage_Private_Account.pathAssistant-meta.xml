@@ -3,7 +3,7 @@
     <active>true</active>
     <entityName>Account</entityName>
     <fieldName>Stage__c</fieldName>
-    <masterLabel>Account Stage - Corporate</masterLabel>
+    <masterLabel>Account Stage - Private Account</masterLabel>
     <pathAssistantSteps>
         <info>&lt;p&gt;&lt;span style=&quot;font-size: 13px;&quot;&gt;Account number assigned. Configure IBANs and bank accounts in the Bank Accounts related list. Send the confirmation letter to the client. Use the &lt;/span&gt;&lt;strong style=&quot;font-size: 13px;&quot;&gt;Confirm Go Live&lt;/strong&gt;&lt;span style=&quot;font-size: 13px;&quot;&gt; button when all three conditions are met.&lt;/span&gt;&lt;/p&gt;</info>
         <picklistValueName>Client coded</picklistValueName>
@@ -36,5 +36,5 @@
         <info>&lt;p&gt;&lt;span style=&quot;font-size: 13px;&quot;&gt;Client is live and actively trading. Monitor trade volume and ensure periodic review dates are met. Use the &lt;/span&gt;&lt;strong style=&quot;font-size: 13px;&quot;&gt;Close Account&lt;/strong&gt;&lt;span style=&quot;font-size: 13px;&quot;&gt; button if the account needs to be closed.&lt;/span&gt;&lt;/p&gt;</info>
         <picklistValueName>Trading</picklistValueName>
     </pathAssistantSteps>
-    <recordTypeName>Corporate</recordTypeName>
+    <recordTypeName>Private</recordTypeName>
 </PathAssistant>

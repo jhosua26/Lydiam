@@ -49,6 +49,7 @@ public class AccountStatusHandlerTest {
         // Step 3: Update Stage__c to "Client coded"
         for (Account acc : accountsToUpdate) {
             acc.Stage__c = 'Client coded';
+            acc.Compliance_Approved__c = true;
         }
         update accountsToUpdate;
 
@@ -93,6 +94,7 @@ public class AccountStatusHandlerTest {
 
         Account accBefore = accWithNoEmail.clone(false, true, false, false);
         accWithNoEmail.Stage__c = 'Client coded';
+        accWithNoEmail.Compliance_Approved__c = true;
         update accWithNoEmail;
 
         Account accAfter = [

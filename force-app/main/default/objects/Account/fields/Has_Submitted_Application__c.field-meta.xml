@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Has_Submitted_Application__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Set to TRUE by flow when a linked Onboarding Application is submitted. Used to gate the Lead to Opportunity stage transition.</description>
+    <inlineHelpText>Automatically managed. Do not edit manually.</inlineHelpText>
+    <label>Has Submitted Application</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

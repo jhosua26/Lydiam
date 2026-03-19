@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Confirmation_Letter_Sent__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Ticked when the account confirmation letter has been sent to the client. Required before Go Live.</description>
+    <label>Confirmation Letter Sent</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QuickAction xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionSubtype>ScreenAction</actionSubtype>
+    <description>Formal go-live confirmation. Verifies banking rails, confirmation letter, and welcome email before moving client to Trading status.</description>
+    <flowDefinition>Confirm_Go_Live_Flow</flowDefinition>
+    <label>Confirm Go Live</label>
+    <optionsCreateFeedItem>false</optionsCreateFeedItem>
+    <type>Flow</type>
+</QuickAction>

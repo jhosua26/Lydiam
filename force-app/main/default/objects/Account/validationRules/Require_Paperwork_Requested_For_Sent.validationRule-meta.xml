@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Require_Paperwork_Requested_For_Sent</fullName>
+    <active>true</active>
+    <description>Prevents moving from Opportunity to Paperwork Sent unless the Paperwork Requested checkbox is ticked.</description>
+    <errorConditionFormula>AND(
+    ISPICKVAL(Stage__c, 'Paperwork Sent'),
+    ISPICKVAL(PRIORVALUE(Stage__c), 'Opportunity'),
+    NOT(Paperwork_Requested__c)
+)</errorConditionFormula>
+    <errorMessage>Cannot move to Paperwork Sent — please add the required documents to the Document Checklist and tick "Paperwork Requested" to confirm the request has been sent to the client.</errorMessage>
+</ValidationRule>

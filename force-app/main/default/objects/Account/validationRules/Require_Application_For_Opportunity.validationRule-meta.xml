@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Require_Application_For_Opportunity</fullName>
+    <active>true</active>
+    <description>Prevents manual transition from Lead to Opportunity unless a submitted onboarding application exists.</description>
+    <errorConditionFormula>AND(
+    ISPICKVAL(Stage__c, 'Opportunity'),
+    ISPICKVAL(PRIORVALUE(Stage__c), 'Lead'),
+    NOT(Has_Submitted_Application__c)
+)</errorConditionFormula>
+    <errorMessage>Cannot move to Opportunity — the client must first submit an onboarding application form. Please send the client the onboarding form link and wait for submission.</errorMessage>
+</ValidationRule>

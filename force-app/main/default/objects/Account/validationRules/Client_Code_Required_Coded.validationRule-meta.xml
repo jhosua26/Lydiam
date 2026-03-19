@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Client_Code_Required_Coded</fullName>
+    <active>true</active>
+    <description>Prevents moving to Client Coded unless a Client Code has been assigned.</description>
+    <errorConditionFormula>AND(
+    ISPICKVAL(Stage__c, 'Client Coded'),
+    ISPICKVAL(PRIORVALUE(Stage__c), 'Client Onboarding'),
+    ISBLANK(Client_Code__c)
+)</errorConditionFormula>
+    <errorMessage>Cannot move to Client Coded — please use the "Approve and Assign Client Code" button to assign a client code first.</errorMessage>
+</ValidationRule>

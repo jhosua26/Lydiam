@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Paperwork_Requested__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Ticked by staff to confirm that the KYC document request has been sent to the client. Required before moving stage from Opportunity to Paperwork Sent.</description>
+    <inlineHelpText>Add all required documents to the Document Checklist first, then tick this box to confirm the request was sent to the client.</inlineHelpText>
+    <label>Paperwork Requested</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

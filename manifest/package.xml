@@ -83,7 +83,24 @@
         <members>QuoteLineItem</members>
         <members>Task</members>
         <members>User</members>
+        <members>Document_Checklist__c</members>
         <name>CustomObject</name>
+    </types>
+    <types>
+        <members>Account.Compliance_Signoff_By__c</members>
+        <members>Account.Compliance_Signoff_Date__c</members>
+        <members>Account.Compliance_Signoff_Notes__c</members>
+        <members>Account.Compliance_Signoff_Timestamp__c</members>
+        <members>Account.Has_Submitted_Application__c</members>
+        <members>Account.Outstanding_Documents__c</members>
+        <members>Account.Paperwork_Requested__c</members>
+        <members>Account.Confirmation_Letter_Sent__c</members>
+        <members>Account.Welcome_Email_Sent__c</members>
+        <members>Account.Banking_Rails_Configured__c</members>
+        <members>Account.Closure_Reason__c</members>
+        <members>Account.Closure_Date__c</members>
+        <members>Account.Closed_By__c</members>
+        <name>CustomField</name>
     </types>
     <types>
         <members>*</members>
@@ -115,7 +132,13 @@
     </types>
     <types>
         <members>*</members>
+        <members>Assign_Client_Code_Flow</members>
+        <members>Compliance_Signoff_Flow</members>
+        <members>Document_Checklist_Outstanding_Counter</members>
+        <members>Document_Checklist_Outstanding_Counter_Delete</members>
         <members>Record_Triggered_Flow_Onboarding_Application_After_Create_Update</members>
+        <members>Confirm_Go_Live_Flow</members>
+        <members>Close_Account_Flow</members>
         <name>Flow</name>
     </types>
     <types>
@@ -166,6 +189,10 @@
     </types>
     <types>
         <members>*</members>
+        <members>Account.Assign_Client_Code</members>
+        <members>Account.Compliance_Sign_Off</members>
+        <members>Account.Confirm_Go_Live</members>
+        <members>Account.Close_Account</members>
         <name>QuickAction</name>
     </types>
     <types>
@@ -187,6 +214,15 @@
     <types>
         <members>*</members>
         <name>WorkflowRule</name>
+    </types>
+    <types>
+        <members>Account.Client_Code_Required_Coded</members>
+        <members>Account.Require_All_Docs_For_Paperwork_Received</members>
+        <members>Account.Compliance_Signoff_Gate</members>
+        <members>Account.Require_Paperwork_Requested_For_Sent</members>
+        <members>Account.Go_Live_Gate</members>
+        <members>Account.Closure_Reason_Required</members>
+        <name>ValidationRule</name>
     </types>
     <version>65.0</version>
 </Package>

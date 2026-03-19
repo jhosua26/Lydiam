@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Go_Live_Gate</fullName>
+    <active>true</active>
+    <description>Prevents moving from Client Coded to Trading unless all go-live conditions are met.</description>
+    <errorConditionFormula>AND(
+    ISPICKVAL(Stage__c, 'Trading'),
+    ISPICKVAL(PRIORVALUE(Stage__c), 'Client Coded'),
+    OR(
+        NOT(Confirmation_Letter_Sent__c),
+        NOT(Welcome_Email_Sent__c),
+        NOT(Banking_Rails_Configured__c)
+    )
+)</errorConditionFormula>
+    <errorMessage>Cannot move to Trading — please use the "Confirm Go Live" button to complete the go-live checklist. All three conditions must be met: confirmation letter sent, welcome email sent, and banking rails configured.</errorMessage>
+</ValidationRule>

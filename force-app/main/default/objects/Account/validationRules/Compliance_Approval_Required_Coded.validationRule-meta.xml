@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Compliance_Approval_Required_Coded</fullName>
+    <active>true</active>
+    <description>Blocks stage transition to Client Coded unless Compliance Approved is ticked</description>
+    <errorConditionFormula>AND(
+    ISPICKVAL(Stage__c, &quot;Client coded&quot;),
+    NOT(Compliance_Approved__c)
+)</errorConditionFormula>
+    <errorDisplayField>Stage__c</errorDisplayField>
+    <errorMessage>Cannot move to Client Coded — Compliance Approved must be ticked first. Please contact the compliance team.</errorMessage>
+</ValidationRule>
