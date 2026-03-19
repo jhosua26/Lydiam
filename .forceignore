@@ -31,6 +31,8 @@ package.xml
 **/applications/**
 **/profiles/**
 **/emailservices/**
+# PathAssistants differ per org — manage Path guidance text manually in each environment
+**/pathAssistants/**
 # PermissionSets with cadmus_contract managed package dependency (not installed in UAT)
 **/permissionsets/CONTRACT_Butler_Admin_Local*
 **/permissionsets/CONTRACT_Butler_User_Local*
