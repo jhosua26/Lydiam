@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Compliance_Signoff_Gate</fullName>
+    <active>true</active>
+    <description>Prevents moving from Paperwork Received to Client Onboarding unless the formal compliance sign-off has been completed via the Compliance Sign-Off quick action.</description>
+    <errorConditionFormula>AND(
+    ISPICKVAL(Stage__c, 'Client Onboarding'),
+    ISPICKVAL(PRIORVALUE(Stage__c), 'Paperwork Received'),
+    OR(
+        ISNULL(Compliance_Signoff_Date__c),
+        ISBLANK(Compliance_Signoff_Notes__c)
+    )
+)</errorConditionFormula>
+    <errorMessage>Cannot move to Client Onboarding — formal compliance sign-off is required. Please use the "Compliance Sign-Off" button to complete the approval process.</errorMessage>
+</ValidationRule>

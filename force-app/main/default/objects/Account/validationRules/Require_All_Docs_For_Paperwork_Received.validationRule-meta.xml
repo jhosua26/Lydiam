@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Require_All_Docs_For_Paperwork_Received</fullName>
+    <active>true</active>
+    <description>Prevents moving from Paperwork Sent to Paperwork Received unless all document checklist items are marked as Received, Verified, or Waived (Outstanding_Documents__c = 0).</description>
+    <errorConditionFormula>AND(
+    ISPICKVAL(Stage__c, 'Paperwork Received'),
+    ISPICKVAL(PRIORVALUE(Stage__c), 'Paperwork Sent'),
+    Outstanding_Documents__c &gt; 0
+)</errorConditionFormula>
+    <errorMessage>Cannot move to Paperwork Received — there are still outstanding documents. Please ensure all required documents in the Document Checklist are marked as Received, Verified, or Waived before proceeding.</errorMessage>
+</ValidationRule>

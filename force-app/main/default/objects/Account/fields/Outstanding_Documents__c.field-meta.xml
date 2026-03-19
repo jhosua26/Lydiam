@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Outstanding_Documents__c</fullName>
+    <defaultValue>0</defaultValue>
+    <description>Count of Document Checklist records still at Required status. Maintained by flow. Must be 0 before moving to Paperwork Received.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Automatically updated. Shows how many documents are still outstanding.</inlineHelpText>
+    <label>Outstanding Documents</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

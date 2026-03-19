@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QuickAction xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionSubtype>ScreenAction</actionSubtype>
+    <description>Formal compliance sign-off to move client from Paperwork Received to Client Onboarding.</description>
+    <flowDefinition>Compliance_Signoff_Flow</flowDefinition>
+    <label>Compliance Sign-Off</label>
+    <optionsCreateFeedItem>false</optionsCreateFeedItem>
+    <type>Flow</type>
+</QuickAction>

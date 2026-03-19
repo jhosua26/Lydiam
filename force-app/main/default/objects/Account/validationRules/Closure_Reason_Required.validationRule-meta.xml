@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Closure_Reason_Required</fullName>
+    <active>true</active>
+    <description>Prevents moving to Closed stage without a documented closure reason.</description>
+    <errorConditionFormula>AND(
+    ISPICKVAL(Stage__c, 'Closed'),
+    ISBLANK(Closure_Reason__c)
+)</errorConditionFormula>
+    <errorMessage>Cannot close this account — please use the "Close Account" button and provide a reason for closure. A documented reason is required for audit purposes.</errorMessage>
+</ValidationRule>

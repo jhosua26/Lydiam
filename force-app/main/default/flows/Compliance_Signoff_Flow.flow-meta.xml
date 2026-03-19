@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>65.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <environments>Default</environments>
+    <interviewLabel>Compliance Sign-Off {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Compliance Sign-Off</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Flow</processType>
+    <recordUpdates>
+        <name>Update_Account_Signoff</name>
+        <label>Update Account Sign-Off</label>
+        <locationX>176</locationX>
+        <locationY>500</locationY>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Stage__c</field>
+            <value>
+                <stringValue>Client Onboarding</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Compliance_Signoff_Date__c</field>
+            <value>
+                <elementReference>Approval_Date</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Compliance_Signoff_Timestamp__c</field>
+            <value>
+                <elementReference>$Flow.CurrentDateTime</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Compliance_Signoff_By__c</field>
+            <value>
+                <elementReference>$User.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Compliance_Signoff_Notes__c</field>
+            <value>
+                <elementReference>Justification</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Account</object>
+    </recordUpdates>
+    <screens>
+        <name>Compliance_Signoff_Screen</name>
+        <label>Compliance Sign-Off</label>
+        <locationX>176</locationX>
+        <locationY>300</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <connector>
+            <targetReference>Update_Account_Signoff</targetReference>
+        </connector>
+        <fields>
+            <name>Approval_Date</name>
+            <dataType>Date</dataType>
+            <fieldText>Approval Date</fieldText>
+            <fieldType>InputField</fieldType>
+            <helpText>Enter today&apos;s date or the date compliance approval was granted.</helpText>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>Justification</name>
+            <dataType>String</dataType>
+            <fieldText>Justification / Notes</fieldText>
+            <fieldType>LargeTextArea</fieldType>
+            <helpText>Provide a clear justification for approving this client for onboarding. Minimum detail required.</helpText>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>Confirmation</name>
+            <dataType>Boolean</dataType>
+            <fieldText>I confirm I have reviewed all documents and approve this client to proceed to Client Onboarding</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <start>
+        <locationX>176</locationX>
+        <locationY>100</locationY>
+        <connector>
+            <targetReference>Compliance_Signoff_Screen</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <variables>
+        <name>recordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>

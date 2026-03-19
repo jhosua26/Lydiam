@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Compliance_Signoff_Date__c</fullName>
+    <description>Date compliance approved this client for onboarding. Set via Compliance Sign-Off screen flow.</description>
+    <label>Compliance Sign-Off Date</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <type>Date</type>
+</CustomField>

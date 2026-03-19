@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Banking_Rails_Configured__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Auto-ticked by the Confirm Go Live flow after verifying Bank Account records exist.</description>
+    <label>Banking Rails Configured</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <type>Checkbox</type>
+</CustomField>
