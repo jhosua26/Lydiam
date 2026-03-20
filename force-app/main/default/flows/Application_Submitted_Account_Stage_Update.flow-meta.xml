@@ -24,11 +24,47 @@
         </value>
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
+    <decisions>
+        <name>Is_Initial_Submission</name>
+        <label>Is Initial Submission?</label>
+        <locationX>176</locationX>
+        <locationY>200</locationY>
+        <defaultConnectorLabel>Not Initial Submission (skip conversion)</defaultConnectorLabel>
+        <rules>
+            <name>Prior_Was_Draft_Or_In_Progress</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record__Prior.Status__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Draft</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record__Prior.Status__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>In Progress</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record__Prior.Status__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Auto_Convert_Application</targetReference>
+            </connector>
+            <label>Prior Was Draft or In Progress</label>
+        </rules>
+    </decisions>
     <actionCalls>
         <name>Auto_Convert_Application</name>
         <label>Auto Convert Application to Account</label>
         <locationX>176</locationX>
-        <locationY>200</locationY>
+        <locationY>312</locationY>
         <actionName>AutoConvertApplicationAction</actionName>
         <actionType>apex</actionType>
         <faultConnector>
@@ -45,7 +81,7 @@
         <name>Conversion_Failed</name>
         <label>Auto Conversion Failed</label>
         <locationX>352</locationX>
-        <locationY>200</locationY>
+        <locationY>312</locationY>
         <customErrorMessages>
             <errorMessage>The onboarding application could not be automatically converted to an Account and Contacts. Please contact your Salesforce administrator. Detail: {!$Flow.FaultMessage}</errorMessage>
             <isFieldError>false</isFieldError>
@@ -55,7 +91,7 @@
         <locationX>176</locationX>
         <locationY>100</locationY>
         <connector>
-            <targetReference>Auto_Convert_Application</targetReference>
+            <targetReference>Is_Initial_Submission</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
