@@ -2,37 +2,7 @@
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>65.0</apiVersion>
     <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
-    <decisions>
-        <name>Has_Target_Account</name>
-        <label>Has Target Account?</label>
-        <locationX>0</locationX>
-        <locationY>0</locationY>
-        <defaultConnector>
-            <targetReference>Create_Stub_Account</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>No Target Account (Walk-in)</defaultConnectorLabel>
-        <rules>
-            <name>Yes_Staff_Initiated</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>$Record.Target_Account__c</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Update_Linked_Account</targetReference>
-            </connector>
-            <label>Yes - Staff Initiated</label>
-        </rules>
-    </decisions>
     <environments>Default</environments>
-    <formulas>
-        <name>Today_Date</name>
-        <dataType>Date</dataType>
-        <expression>TODAY()</expression>
-    </formulas>
     <interviewLabel>Application Submitted Account Stage Update {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Application Submitted Account Stage Update</label>
     <processMetadataValues>
@@ -54,100 +24,74 @@
         </value>
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
-    <recordCreates>
-        <name>Create_Stub_Account</name>
-        <label>Create Stub Account</label>
-        <locationX>0</locationX>
-        <locationY>0</locationY>
-        <connector>
-            <targetReference>Link_Account_To_Application</targetReference>
-        </connector>
-        <inputAssignments>
-            <field>Name</field>
-            <value>
-                <elementReference>$Record.Client_Name__c</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Stage__c</field>
-            <value>
-                <stringValue>Opportunity</stringValue>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Client_Type__c</field>
-            <value>
-                <elementReference>$Record.Client_Type__c</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Has_Submitted_Application__c</field>
-            <value>
-                <booleanValue>true</booleanValue>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Onboarding_Date__c</field>
-            <value>
-                <elementReference>Today_Date</elementReference>
-            </value>
-        </inputAssignments>
-        <object>Account</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </recordCreates>
-    <recordUpdates>
-        <name>Update_Linked_Account</name>
-        <label>Update Linked Account</label>
-        <locationX>0</locationX>
-        <locationY>0</locationY>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Id</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>$Record.Target_Account__c</elementReference>
-            </value>
-        </filters>
-        <inputAssignments>
-            <field>Stage__c</field>
-            <value>
-                <stringValue>Opportunity</stringValue>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Has_Submitted_Application__c</field>
-            <value>
-                <booleanValue>true</booleanValue>
-            </value>
-        </inputAssignments>
-        <object>Account</object>
-    </recordUpdates>
-    <recordUpdates>
-        <name>Link_Account_To_Application</name>
-        <label>Link Account To Application</label>
-        <locationX>0</locationX>
-        <locationY>0</locationY>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Id</field>
-            <operator>EqualTo</operator>
+    <decisions>
+        <name>Is_Initial_Submission</name>
+        <label>Is Initial Submission?</label>
+        <locationX>176</locationX>
+        <locationY>200</locationY>
+        <defaultConnectorLabel>Not Initial Submission (skip conversion)</defaultConnectorLabel>
+        <rules>
+            <name>Prior_Was_Draft_Or_In_Progress</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record__Prior.Status__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Draft</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record__Prior.Status__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>In Progress</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record__Prior.Status__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Auto_Convert_Application</targetReference>
+            </connector>
+            <label>Prior Was Draft or In Progress</label>
+        </rules>
+    </decisions>
+    <actionCalls>
+        <name>Auto_Convert_Application</name>
+        <label>Auto Convert Application to Account</label>
+        <locationX>176</locationX>
+        <locationY>312</locationY>
+        <actionName>AutoConvertApplicationAction</actionName>
+        <actionType>apex</actionType>
+        <faultConnector>
+            <targetReference>Conversion_Failed</targetReference>
+        </faultConnector>
+        <inputParameters>
+            <name>applicationId</name>
             <value>
                 <elementReference>$Record.Id</elementReference>
             </value>
-        </filters>
-        <inputAssignments>
-            <field>Target_Account__c</field>
-            <value>
-                <elementReference>Create_Stub_Account</elementReference>
-            </value>
-        </inputAssignments>
-        <object>Onboarding_Application__c</object>
-    </recordUpdates>
+        </inputParameters>
+    </actionCalls>
+    <customErrors>
+        <name>Conversion_Failed</name>
+        <label>Auto Conversion Failed</label>
+        <locationX>352</locationX>
+        <locationY>312</locationY>
+        <customErrorMessages>
+            <errorMessage>The onboarding application could not be automatically converted to an Account and Contacts. Please contact your Salesforce administrator. Detail: {!$Flow.FaultMessage}</errorMessage>
+            <isFieldError>false</isFieldError>
+        </customErrorMessages>
+    </customErrors>
     <start>
-        <locationX>0</locationX>
-        <locationY>0</locationY>
+        <locationX>176</locationX>
+        <locationY>100</locationY>
         <connector>
-            <targetReference>Has_Target_Account</targetReference>
+            <targetReference>Is_Initial_Submission</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>

@@ -24,7 +24,7 @@ public with sharing class OnboardingConversionController {
         }
 
         List<Onboarding_Application__c> apps = [
-            SELECT Id, Status__c, Client_Type__c, Client_Name__c
+            SELECT Id, Status__c, Client_Type__c, Client_Name__c, Target_Account__c
             FROM Onboarding_Application__c
             WHERE Id = :applicationId
             LIMIT 1
@@ -38,22 +38,16 @@ public with sharing class OnboardingConversionController {
 
         Onboarding_Application__c app = apps[0];
 
-        List<Account> existingAccounts = [
-            SELECT Id, Name FROM Account
-            WHERE Onboarding_Application__c = :applicationId
-            LIMIT 1
-        ];
-
-        if (!existingAccounts.isEmpty()) {
+        if (app.Status__c == 'Converted') {
             result.put('eligible', false);
-            result.put('reason', 'This application has already been converted to Account: ' + existingAccounts[0].Name);
-            result.put('alreadyConvertedAccountId', existingAccounts[0].Id);
+            result.put('reason', 'This application has already been converted.');
+            result.put('alreadyConvertedAccountId', app.Target_Account__c);
             return result;
         }
 
-        if (app.Status__c != 'Approved') {
+        if (app.Status__c != 'Approved' && app.Status__c != 'Submitted') {
             result.put('eligible', false);
-            result.put('reason', 'Only applications with Status "Approved" can be converted. Current status: ' + app.Status__c);
+            result.put('reason', 'Only applications with Status "Approved" or "Submitted" can be converted. Current status: ' + app.Status__c);
             return result;
         }
 

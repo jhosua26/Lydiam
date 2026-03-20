@@ -308,11 +308,15 @@
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
-        <recordType>PersonAccount.PersonAccount</recordType>
+        <recordType>Account.Private_Individual</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
+        <recordType>PersonAccount.PersonAccount</recordType>
+        <visible>false</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
         <recordType>PersonAccount.Private</recordType>
-        <visible>true</visible>
+        <visible>false</visible>
     </recordTypeVisibilities>
 </PermissionSet>

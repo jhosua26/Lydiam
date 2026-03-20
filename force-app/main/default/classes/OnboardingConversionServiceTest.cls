@@ -368,7 +368,112 @@ private class OnboardingConversionServiceTest {
         Test.stopTest();
 
         Assert.isFalse(result.isSuccess, 'Should fail for Draft status');
-        Assert.isTrue(result.message.contains('Approved'), 'Error should mention required status');
+        Assert.isTrue(result.message.contains('Approved') || result.message.contains('Submitted'), 'Error should mention required status');
+    }
+
+    @isTest
+    static void testConvert_SubmittedStatus_Succeeds() {
+        Onboarding_Application__c app = new Onboarding_Application__c(
+            Client_Type__c = CLIENT_PRIVATE,
+            Status__c = 'Submitted',
+            Services_Required__c = 'FX',
+            Channel__c = 'ExperienceCloud',
+            Client_Name__c = 'Submitted User'
+        );
+        insert app;
+
+        Party__c party = createIndividualParty('Submitted', 'User', 'submitted@test.com');
+        createPartyRole(app.Id, party.Id, 'Applicant', true);
+        createRiskAssessment(app.Id, true);
+
+        Test.startTest();
+        OnboardingConversionService service = new OnboardingConversionService();
+        OnboardingConversionService.ConversionResult result = service.convert(app.Id);
+        Test.stopTest();
+
+        Assert.isTrue(result.isSuccess, 'Submitted status should now be convertible: ' + result.message);
+        Assert.isNotNull(result.accountId, 'Account should be created');
+    }
+
+    @isTest
+    static void testConvert_WithPreExistingAccount_UsesExistingAccountNotNew() {
+        // Simulate staff-created Account linked before form submission
+        Account existingAcct = new Account(
+            Name = 'Staff Created Pre-existing',
+            RecordTypeId = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName()
+                               .get('Private_Individual').getRecordTypeId()
+        );
+        insert existingAcct;
+
+        Onboarding_Application__c app = new Onboarding_Application__c(
+            Client_Type__c = CLIENT_PRIVATE,
+            Status__c = 'Approved',
+            Services_Required__c = 'FX',
+            Channel__c = 'ExperienceCloud',
+            Client_Name__c = 'Staff Created',
+            Target_Account__c = existingAcct.Id
+        );
+        insert app;
+
+        Party__c party = createIndividualParty('Staff', 'Client', 'staffclient@test.com');
+        createPartyRole(app.Id, party.Id, 'Applicant', true);
+        createRiskAssessment(app.Id, true);
+
+        Test.startTest();
+        OnboardingConversionService service = new OnboardingConversionService();
+        OnboardingConversionService.ConversionResult result = service.convert(app.Id);
+        Test.stopTest();
+
+        Assert.isTrue(result.isSuccess, 'Conversion should succeed: ' + result.message);
+        Assert.areEqual(existingAcct.Id, result.accountId, 'Should use pre-existing Account, not create a new one');
+
+        Integer totalAccounts = [SELECT COUNT() FROM Account];
+        Assert.areEqual(1, totalAccounts, 'Only the pre-existing Account should exist — no duplicate was created');
+    }
+
+    @isTest
+    static void testConvert_WithExistingContacts_UpdatesNotDuplicates() {
+        Account existingAcct = new Account(
+            Name = 'Test Dedup',
+            RecordTypeId = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName()
+                               .get('Private_Individual').getRecordTypeId()
+        );
+        insert existingAcct;
+
+        // Staff pre-created a Contact with the same email as the applicant
+        Contact existingContact = new Contact(
+            AccountId = existingAcct.Id,
+            FirstName = 'Old',
+            LastName = 'Dedup',
+            Email = 'dedup@test.com'
+        );
+        insert existingContact;
+
+        Onboarding_Application__c app = new Onboarding_Application__c(
+            Client_Type__c = CLIENT_PRIVATE,
+            Status__c = 'Approved',
+            Services_Required__c = 'FX',
+            Channel__c = 'ExperienceCloud',
+            Client_Name__c = 'Dedup Test',
+            Target_Account__c = existingAcct.Id
+        );
+        insert app;
+
+        // Form data has the same email — should update existing Contact, not create a second
+        Party__c party = createIndividualParty('New', 'Dedup', 'dedup@test.com');
+        createPartyRole(app.Id, party.Id, 'Applicant', true);
+        createRiskAssessment(app.Id, true);
+
+        Test.startTest();
+        OnboardingConversionService service = new OnboardingConversionService();
+        OnboardingConversionService.ConversionResult result = service.convert(app.Id);
+        Test.stopTest();
+
+        Assert.isTrue(result.isSuccess, 'Conversion should succeed: ' + result.message);
+
+        List<Contact> contacts = [SELECT Id, FirstName FROM Contact WHERE AccountId = :existingAcct.Id];
+        Assert.areEqual(1, contacts.size(), 'Should be exactly 1 Contact — existing one updated, not a duplicate created');
+        Assert.areEqual('New', contacts[0].FirstName, 'Contact should have been updated with form data');
     }
 
     @isTest
@@ -402,12 +507,16 @@ private class OnboardingConversionServiceTest {
 
     @isTest
     static void testCheckEligibility_AlreadyConverted() {
-        Onboarding_Application__c app = createSubmittedApplication(CLIENT_PRIVATE, new List<String>{'FX'});
-        Account acct = new Account(
-            Name = 'Already Converted',
-            Onboarding_Application__c = app.Id
-        );
+        Account acct = new Account(Name = 'Already Converted');
         insert acct;
+
+        Onboarding_Application__c app = new Onboarding_Application__c(
+            Client_Type__c = CLIENT_PRIVATE,
+            Status__c = 'Converted',
+            Client_Name__c = 'Already Converted',
+            Target_Account__c = acct.Id
+        );
+        insert app;
 
         Test.startTest();
         Map<String, Object> result = OnboardingConversionController.checkConversionEligibility(app.Id);

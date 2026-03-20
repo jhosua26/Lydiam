@@ -103,6 +103,9 @@
         <label>Update Account Go Live</label>
         <locationX>50</locationX>
         <locationY>900</locationY>
+        <faultConnector>
+            <targetReference>Update_Failed_Screen</targetReference>
+        </faultConnector>
         <filterLogic>and</filterLogic>
         <filters>
             <field>Id</field>
@@ -143,6 +146,22 @@
         </inputAssignments>
         <object>Account</object>
     </recordUpdates>
+    <screens>
+        <name>Update_Failed_Screen</name>
+        <label>Unable to Confirm Go Live</label>
+        <locationX>302</locationX>
+        <locationY>900</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>Update_Failed_Message</name>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;color: rgb(194, 57, 52);&quot;&gt;Unable to Confirm Go Live&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;The account could not be moved to Trading. This is usually because one or more go-live requirements have not been met:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;The welcome email must have been sent (Welcome_Email_Sent__c)&lt;/li&gt;&lt;li&gt;Banking rails must be configured (Banking_Rails_Configured__c)&lt;/li&gt;&lt;li&gt;Confirmation letter must have been sent (Confirmation_Letter_Sent__c)&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;b&gt;Technical detail:&lt;/b&gt; {!$Flow.FaultMessage}&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
     <screens>
         <name>Error_Screen</name>
         <label>Cannot Proceed</label>
