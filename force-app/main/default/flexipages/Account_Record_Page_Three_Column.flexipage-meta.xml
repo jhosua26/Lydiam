@@ -348,6 +348,16 @@
                 <identifier>RecordRecordTypeIdField2</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Type</fieldItem>
+                <identifier>RecordTypeField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-eb7fcfa3-28c5-4df1-8ae7-85a5d07b96bd</name>
         <type>Facet</type>
     </flexiPageRegions>

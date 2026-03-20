@@ -68,6 +68,9 @@
         <label>Update Account Client Code</label>
         <locationX>176</locationX>
         <locationY>600</locationY>
+        <faultConnector>
+            <targetReference>Code_Failed_Screen</targetReference>
+        </faultConnector>
         <filterLogic>and</filterLogic>
         <filters>
             <field>Id</field>
@@ -134,6 +137,22 @@
             <fieldText>I confirm this client code is correct and the client is approved for Client Coded status</fieldText>
             <fieldType>InputField</fieldType>
             <isRequired>true</isRequired>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
+        <name>Code_Failed_Screen</name>
+        <label>Unable to Assign Client Code</label>
+        <locationX>350</locationX>
+        <locationY>600</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>Code_Failed_Message</name>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;color: rgb(194, 57, 52);&quot;&gt;Unable to Assign Client Code&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;The client code could not be assigned. Please check that:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;The compliance sign-off has been completed (Compliance_Approved__c must be true)&lt;/li&gt;&lt;li&gt;The account is in the correct stage (Client Onboarding)&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;b&gt;Technical detail:&lt;/b&gt; {!$Flow.FaultMessage}&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
         </fields>
         <showFooter>true</showFooter>
         <showHeader>true</showHeader>

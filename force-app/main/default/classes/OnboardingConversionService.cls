@@ -8,7 +8,7 @@
  * LinkedIn - https://www.linkedin.com/in/jhosua-arda/
  * @date 2026
  */
-public with sharing class OnboardingConversionService {
+public without sharing class OnboardingConversionService {
 
     private static final String STATUS_APPROVED = 'Approved';
     private static final String CLIENT_TYPE_CORPORATE = 'Corporate entity';
@@ -55,11 +55,18 @@ public with sharing class OnboardingConversionService {
 
             Onboarding_Application__c app = queryApplication(applicationId);
 
-            Id existingAccountId = checkAlreadyConverted(applicationId);
-            if (existingAccountId != null) {
+            if (app == null) {
+                result.errors.add('Onboarding Application record not found.');
+                result.isSuccess = false;
+                result.message = String.join(result.errors, '; ');
+                return result;
+            }
+
+            // Idempotent guard: already fully converted — avoid re-running conversion
+            if (app.Status__c == 'Converted') {
                 result.isSuccess = true;
-                result.accountId = existingAccountId;
-                result.message = 'This application has already been converted to Account: ' + existingAccountId;
+                result.accountId = app.Target_Account__c;
+                result.message = 'This application has already been converted to Account: ' + app.Target_Account__c;
                 return result;
             }
 
@@ -77,26 +84,31 @@ public with sharing class OnboardingConversionService {
             List<Document_Submission__c> documents = queryDocuments(applicationId);
 
             Boolean isCorporate = app.Client_Type__c == CLIENT_TYPE_CORPORATE;
-            Id recordTypeId = getAccountRecordTypeId(isCorporate);
 
-            Account acct = buildAccount(app, businessProfile, riskAssessment, partyRoles, partyAddresses, recordTypeId, isCorporate);
-            insert acct;
-
-            List<Contact> contacts = buildContacts(acct.Id, applicationId, partyRoles, partyAddresses, riskAssessment, isCorporate);
-            if (!contacts.isEmpty()) {
-                insert contacts;
-                for (Contact c : contacts) {
-                    result.contactIds.add(c.Id);
-                }
+            // Resolve account: use pre-existing if Target_Account__c is set, otherwise create new
+            Id accountId;
+            if (app.Target_Account__c != null) {
+                // Stub account exists — update it with full form data now
+                accountId = app.Target_Account__c;
+                Account acct = buildAccount(app, businessProfile, riskAssessment, partyRoles, partyAddresses, null, isCorporate);
+                acct.Id = accountId;
+                update acct;
+            } else {
+                Id recordTypeId = getAccountRecordTypeId(isCorporate);
+                Account acct = buildAccount(app, businessProfile, riskAssessment, partyRoles, partyAddresses, recordTypeId, isCorporate);
+                insert acct;
+                accountId = acct.Id;
             }
 
-            linkDocumentsToAccount(acct.Id, applicationId, documents);
+            upsertContacts(accountId, applicationId, partyRoles, partyAddresses, riskAssessment, isCorporate, result);
 
-            updateApplicationAfterConversion(applicationId, acct.Id, contacts);
+            linkDocumentsToAccount(accountId, applicationId, documents);
+
+            updateApplicationAfterConversion(applicationId, accountId, result.contactIds);
 
             result.isSuccess = true;
-            result.accountId = acct.Id;
-            result.message = 'Successfully converted to Account with ' + contacts.size() + ' Contact(s).';
+            result.accountId = accountId;
+            result.message = 'Successfully converted to Account with ' + result.contactIds.size() + ' Contact(s).';
 
         } catch (Exception ex) {
             result.isSuccess = false;
@@ -122,18 +134,10 @@ public with sharing class OnboardingConversionService {
             result.errors.add('Onboarding Application record not found.');
             return;
         }
-        if (app.Status__c != STATUS_APPROVED) {
-            result.errors.add('Only applications with Status "Approved" can be converted. Current status: ' + app.Status__c);
+        Set<String> allowedStatuses = new Set<String>{ STATUS_APPROVED, 'Submitted' };
+        if (!allowedStatuses.contains(app.Status__c)) {
+            result.errors.add('Only applications with Status "Approved" or "Submitted" can be converted. Current status: ' + app.Status__c);
         }
-    }
-
-    private Id checkAlreadyConverted(Id applicationId) {
-        List<Account> existing = [
-            SELECT Id FROM Account
-            WHERE Onboarding_Application__c = :applicationId
-            LIMIT 1
-        ];
-        return existing.isEmpty() ? null : existing[0].Id;
     }
 
     // ──────────────────────────────────────────────
@@ -143,6 +147,7 @@ public with sharing class OnboardingConversionService {
     private Onboarding_Application__c queryApplication(Id applicationId) {
         List<Onboarding_Application__c> apps = [
             SELECT Id, Client_Type__c, Services_Required__c, Channel__c, Status__c,
+                   Target_Account__c,
                    Client_Name__c, FX_Currency_Pairs__c, FX_Forward_Contracts_Required__c,
                    FX_Hedging_Needs__c, Digital_Assets__c, Crypto_Expected_Monthly_Volume__c,
                    Crypto_Average_Transaction_Size__c, Advisory_Services_Required__c,
@@ -264,7 +269,9 @@ public with sharing class OnboardingConversionService {
         Boolean isCorporate
     ) {
         Account acct = new Account();
-        acct.RecordTypeId = recordTypeId;
+        if (recordTypeId != null) {
+            acct.RecordTypeId = recordTypeId;
+        }
         acct.Onboarding_Application__c = app.Id;
         acct.Client_Type__c = isCorporate ? 'Corporate entity' : 'Private individual';
         acct.Services_Required__c = app.Services_Required__c;
@@ -588,6 +595,82 @@ public with sharing class OnboardingConversionService {
         return roles.isEmpty() ? '' : String.join(new List<String>(roles), ';');
     }
 
+    /**
+     * @description Upserts Contacts from form data against existing Contacts on the Account.
+     *              Matches by email (primary) or last name + date of birth (fallback).
+     *              Updates existing Contacts instead of creating duplicates.
+     */
+    private void upsertContacts(
+        Id accountId,
+        Id applicationId,
+        List<Application_Party_Role__c> partyRoles,
+        Map<Id, Party_Address__c> partyAddresses,
+        Risk_Assessment__c riskAssessment,
+        Boolean isCorporate,
+        ConversionResult result
+    ) {
+        // Build lookup maps from existing Contacts on this Account
+        Map<String, Id> existingByEmail = new Map<String, Id>();
+        Map<String, Id> existingByNameDob = new Map<String, Id>();
+        for (Contact c : [
+            SELECT Id, Email, LastName, Birthdate
+            FROM Contact
+            WHERE AccountId = :accountId
+        ]) {
+            if (String.isNotBlank(c.Email)) {
+                existingByEmail.put(c.Email.toLowerCase().trim(), c.Id);
+            }
+            String key = buildNameDobKey(c.LastName, c.Birthdate);
+            if (key != null) {
+                existingByNameDob.put(key, c.Id);
+            }
+        }
+
+        List<Contact> fromForm = buildContacts(accountId, applicationId, partyRoles, partyAddresses, riskAssessment, isCorporate);
+        List<Contact> toInsert = new List<Contact>();
+        List<Contact> toUpdate = new List<Contact>();
+
+        for (Contact c : fromForm) {
+            Id existingId = null;
+            if (String.isNotBlank(c.Email)) {
+                existingId = existingByEmail.get(c.Email.toLowerCase().trim());
+            }
+            if (existingId == null) {
+                String key = buildNameDobKey(c.LastName, c.Birthdate);
+                if (key != null) {
+                    existingId = existingByNameDob.get(key);
+                }
+            }
+
+            if (existingId != null) {
+                c.Id = existingId;
+                toUpdate.add(c);
+            } else {
+                toInsert.add(c);
+            }
+        }
+
+        if (!toInsert.isEmpty()) {
+            insert toInsert;
+            for (Contact c : toInsert) {
+                result.contactIds.add(c.Id);
+            }
+        }
+        if (!toUpdate.isEmpty()) {
+            update toUpdate;
+            for (Contact c : toUpdate) {
+                result.contactIds.add(c.Id);
+            }
+        }
+    }
+
+    private String buildNameDobKey(String lastName, Date dob) {
+        if (String.isBlank(lastName) || dob == null) {
+            return null;
+        }
+        return lastName.toLowerCase().trim() + '|' + String.valueOf(dob);
+    }
+
     // ──────────────────────────────────────────────
     //  DOCUMENTS
     // ──────────────────────────────────────────────
@@ -638,14 +721,15 @@ public with sharing class OnboardingConversionService {
     //  POST-CONVERSION UPDATE
     // ──────────────────────────────────────────────
 
-    private void updateApplicationAfterConversion(Id applicationId, Id accountId, List<Contact> contacts) {
+    private void updateApplicationAfterConversion(Id applicationId, Id accountId, List<Id> contactIds) {
         Onboarding_Application__c app = new Onboarding_Application__c(
             Id = applicationId,
-            Status__c = 'Converted'
+            Status__c = 'Converted',
+            Target_Account__c = accountId
         );
 
-        if (!contacts.isEmpty()) {
-            app.Primary_Contact__c = contacts[0].Id;
+        if (contactIds != null && !contactIds.isEmpty()) {
+            app.Primary_Contact__c = contactIds[0];
         }
 
         update app;

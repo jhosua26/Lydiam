@@ -29,6 +29,9 @@
         <label>Update Account Sign-Off</label>
         <locationX>176</locationX>
         <locationY>500</locationY>
+        <faultConnector>
+            <targetReference>Signoff_Failed_Screen</targetReference>
+        </faultConnector>
         <filterLogic>and</filterLogic>
         <filters>
             <field>Id</field>
@@ -102,6 +105,22 @@
             <fieldText>I confirm I have reviewed all documents and approve this client to proceed to Client Onboarding</fieldText>
             <fieldType>InputField</fieldType>
             <isRequired>true</isRequired>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
+        <name>Signoff_Failed_Screen</name>
+        <label>Unable to Complete Sign-Off</label>
+        <locationX>350</locationX>
+        <locationY>500</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>Signoff_Failed_Message</name>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;color: rgb(194, 57, 52);&quot;&gt;Unable to Complete Compliance Sign-Off&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;The account could not be moved to Client Onboarding. Please verify that all required documents have been received and the account is in the correct stage (Paperwork Received) before signing off.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;b&gt;Technical detail:&lt;/b&gt; {!$Flow.FaultMessage}&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
         </fields>
         <showFooter>true</showFooter>
         <showHeader>true</showHeader>
