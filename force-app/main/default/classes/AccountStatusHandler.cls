@@ -76,6 +76,15 @@ public class AccountStatusHandler {
         if (!emails.isEmpty()) {
             try {
                 Messaging.sendEmail(emails);
+
+                List<Account> accountsToUpdate = new List<Account>();
+                for (Account acc : accounts) {
+                    accountsToUpdate.add(new Account(
+                        Id = acc.Id,
+                        Welcome_Email_Sent__c = true
+                    ));
+                }
+                update accountsToUpdate;
             } catch (Exception e) {
                 System.debug('Welcome email failed to send: ' + e.getMessage());
             }
