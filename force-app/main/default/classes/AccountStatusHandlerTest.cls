@@ -8,8 +8,7 @@ public class AccountStatusHandlerTest {
 
         accounts.add(new Account(
             RecordTypeId = privateRtId,
-            FirstName = 'Test',
-            LastName = 'Account1',
+            Name = 'Test Account1',
             Stage__c = 'Lead',
             Email_for_Notifications__c = 'client1@example.com',
             Client_Code__c = 'LYD123'
@@ -17,8 +16,7 @@ public class AccountStatusHandlerTest {
 
         accounts.add(new Account(
             RecordTypeId = privateRtId,
-            FirstName = 'Test',
-            LastName = 'Account2',
+            Name = 'Test Account2',
             Stage__c = 'Lead',
             Email_for_Notifications__c = 'client2@example.com',
             Client_Code__c = 'LYD456'
@@ -26,8 +24,7 @@ public class AccountStatusHandlerTest {
 
         accounts.add(new Account(
             RecordTypeId = privateRtId,
-            FirstName = 'Missing',
-            LastName = 'EmailAccount',
+            Name = 'Missing EmailAccount',
             Stage__c = 'Lead',
             Email_for_Notifications__c = null,
             Client_Code__c = 'LYD789'
