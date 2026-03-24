@@ -507,7 +507,10 @@ private class OnboardingConversionServiceTest {
 
     @isTest
     static void testCheckEligibility_AlreadyConverted() {
-        Account acct = new Account(Name = 'Already Converted');
+        Account acct = new Account(
+            Name = 'Already Converted',
+            RecordTypeId = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get('Corporate').getRecordTypeId()
+        );
         insert acct;
 
         Onboarding_Application__c app = new Onboarding_Application__c(

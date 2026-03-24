@@ -96,8 +96,17 @@ public without sharing class OnboardingConversionService {
             } else {
                 Id recordTypeId = getAccountRecordTypeId(isCorporate);
                 Account acct = buildAccount(app, businessProfile, riskAssessment, partyRoles, partyAddresses, recordTypeId, isCorporate);
-                insert acct;
-                accountId = acct.Id;
+                Id existingAccountId = findExistingAccountByName(acct.Name, recordTypeId);
+                if (existingAccountId != null) {
+                    acct.Id = existingAccountId;
+                    update acct;
+                    accountId = existingAccountId;
+                } else {
+                    Database.DMLOptions acctOpts = new Database.DMLOptions();
+                    acctOpts.DuplicateRuleHeader.allowSave = true;
+                    Database.insert(acct, acctOpts);
+                    accountId = acct.Id;
+                }
             }
 
             upsertContacts(accountId, applicationId, partyRoles, partyAddresses, riskAssessment, isCorporate, result);
@@ -276,6 +285,7 @@ public without sharing class OnboardingConversionService {
         acct.Client_Type__c = isCorporate ? 'Corporate entity' : 'Private individual';
         acct.Services_Required__c = app.Services_Required__c;
         acct.Onboarding_Channel__c = app.Channel__c;
+        acct.Has_Submitted_Application__c = true;
 
         if (isCorporate) {
             populateCorporateAccountFields(acct, partyRoles, partyAddresses, bp);
@@ -306,9 +316,6 @@ public without sharing class OnboardingConversionService {
         acct.Legal_Entity_Type__c = applicant.Legal_Entity_Type__c;
         acct.Company_Registration_Number__c = applicant.Registration_Number__c;
         acct.Country_of_Incorporation_or_Domicile__c = applicant.Country_of_Incorporation__c;
-        acct.Nationality__c = resolveRestrictedPicklistValue(
-            applicant.Country_of_Incorporation__c, Account.Nationality__c
-        );
         acct.Email_for_Notifications__c = applicant.Email__c;
         acct.Website = applicant.Website__c;
         acct.Phone = applicant.Phone__c;
@@ -651,7 +658,9 @@ public without sharing class OnboardingConversionService {
         }
 
         if (!toInsert.isEmpty()) {
-            insert toInsert;
+            Database.DMLOptions contactOpts = new Database.DMLOptions();
+            contactOpts.DuplicateRuleHeader.allowSave = true;
+            Database.insert(toInsert, contactOpts);
             for (Contact c : toInsert) {
                 result.contactIds.add(c.Id);
             }
@@ -766,6 +775,23 @@ public without sharing class OnboardingConversionService {
      *              at runtime. Returns null if the value is not in the allowed set to
      *              prevent INVALID_OR_NULL_FOR_RESTRICTED_PICKLIST errors.
      */
+    /**
+     * @description Looks for an existing Account with the same name and record type
+     *              to prevent duplicates when a compliance-created Account already exists.
+     */
+    private Id findExistingAccountByName(String accountName, Id recordTypeId) {
+        if (String.isBlank(accountName) || recordTypeId == null) {
+            return null;
+        }
+        List<Account> existing = [
+            SELECT Id FROM Account
+            WHERE Name = :accountName
+            AND RecordTypeId = :recordTypeId
+            LIMIT 1
+        ];
+        return existing.isEmpty() ? null : existing[0].Id;
+    }
+
     private String resolveRestrictedPicklistValue(String value, Schema.SObjectField targetField) {
         if (String.isBlank(value)) {
             return null;

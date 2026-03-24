@@ -106,15 +106,11 @@
                     <value>NONE</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>rowsToDisplay</name>
-                    <value>10</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
                     <name>showActionBar</name>
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
-                <identifier>force_relatedListSingleContainer</identifier>
+                <identifier>force_relatedListSingleContainer_contacts</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -422,6 +418,16 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
+                <fieldItem>Record.Email_for_Notifications__c</fieldItem>
+                <identifier>RecordEmail_for_Notifications__cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
                 <fieldItem>Record.Company_Registration_Number__c</fieldItem>
                 <identifier>RecordCompany_Registration_Number__cField</identifier>
             </fieldInstance>
@@ -442,16 +448,6 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Nationality__c</fieldItem>
-                <identifier>RecordNationality_cField2</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
                 <fieldItem>Record.Date_of_Incorporation__c</fieldItem>
                 <identifier>RecordDate_of_Incorporation__cField</identifier>
             </fieldInstance>
@@ -462,48 +458,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Client_Status__c</fieldItem>
-                <identifier>RecordClient_Status__cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Incorporation_Date__c</fieldItem>
-                <identifier>RecordIncorporation_Date_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
                 <fieldItem>Record.PEP_Flag__c</fieldItem>
                 <identifier>RecordPEP_Flag_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Liquidity_venue_in_the_prior_30_days__c</fieldItem>
-                <identifier>RecordLiquidity_venue_in_the_prior_30_days__cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Email_for_Notifications__c</fieldItem>
-                <identifier>RecordEmail_for_Notifications__cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -526,6 +482,16 @@
                 <identifier>RecordNumberOfEmployeesField</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.BillingAddress</fieldItem>
+                <identifier>RecordBillingAddressField_corporate</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-9317228b-9000-4df5-9218-7d1560529bcc</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -536,18 +502,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Purpose_of_Account__c</fieldItem>
-                <identifier>RecordPurpose_of_Account__cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Purpose_of_Account_Other__c</fieldItem>
-                <identifier>RecordPurpose_of_Account_Other__cField</identifier>
+                <fieldItem>Record.Client_Code__c</fieldItem>
+                <identifier>RecordClient_Code__cField_top</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -566,28 +522,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.ParentId</fieldItem>
-                <identifier>RecordParentIdField2</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
                 <fieldItem>Record.Type</fieldItem>
                 <identifier>RecordTypeField2</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Client_Code__c</fieldItem>
-                <identifier>RecordClient_Code__cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -616,26 +552,6 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.ID_Passport_Number__c</fieldItem>
-                <identifier>RecordID_Passport_Number__cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Total_Unallocated_Payments__c</fieldItem>
-                <identifier>RecordTotal_Unallocated_Payments__cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
                 <fieldItem>Record.Website</fieldItem>
                 <identifier>RecordWebsiteField</identifier>
             </fieldInstance>
@@ -648,16 +564,6 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.OwnerId</fieldItem>
                 <identifier>RecordOwnerIdField2</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>readonly</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.RecordTypeId</fieldItem>
-                <identifier>RecordRecordTypeIdField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-7694101d-91be-4643-bfaa-6b6ef83dbb25</name>
@@ -760,6 +666,16 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.Review_Date__c</fieldItem>
                 <identifier>RecordReview_Date_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Has_Submitted_Application__c</fieldItem>
+                <identifier>RecordHas_Submitted_Application_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-cs-right-j0k1l2m3n4o5p6q7r8s9</name>
@@ -976,16 +892,6 @@
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Description</fieldItem>
-                <identifier>RecordDescriptionField2</identifier>
-            </fieldInstance>
-        </itemInstances>
         <itemInstances>
             <fieldInstance>
                 <fieldInstanceProperties>
@@ -1324,36 +1230,6 @@
                 <identifier>RecordAdvisory_Services_Required_cField</identifier>
             </fieldInstance>
         </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Investment_Objectives__c</fieldItem>
-                <identifier>RecordInvestment_Objectives_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Time_Horizon_Years__c</fieldItem>
-                <identifier>RecordTime_Horizon_Years_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Existing_Advisory_Relationships__c</fieldItem>
-                <identifier>RecordExisting_Advisory_Relationships_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
         <name>Facet-c8ba2aa1-467b-45e1-9744-88e39dbb0584</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -1412,16 +1288,6 @@
                 <identifier>RecordLegal_Entity_Identifier_LEI__cField</identifier>
             </fieldInstance>
         </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Bank_Accounts__c</fieldItem>
-                <identifier>RecordBank_Accounts__cField</identifier>
-            </fieldInstance>
-        </itemInstances>
         <name>Facet-c4d8a41f-3c71-4252-9abb-2582988963f7</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -1432,28 +1298,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Does_the_largest_shareholder__c</fieldItem>
-                <identifier>RecordDoes_the_largest_shareholder__cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
                 <fieldItem>Record.Source_of_Wealth_of_Owners__c</fieldItem>
                 <identifier>RecordSource_of_Wealth_of_Owners__cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Tax_Identification_Number__c</fieldItem>
-                <identifier>RecordTax_Identification_Number__cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-b5114906-aff5-45ea-8b75-bb2b2ff14765</name>
@@ -1708,6 +1554,13 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
                 <identifier>flexipage_fieldSection4</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.RecordType.Name}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>Corporate</rightValue>
+                    </criteria>
+                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -1776,7 +1629,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>label</name>
-                    <value>Additional Information</value>
+                    <value>Directors &amp; Shareholders</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
                 <identifier>flexipage_fieldSection2</identifier>

@@ -4,25 +4,27 @@ public class AccountStatusHandlerTest {
     static void setupData() {
         List<Account> accounts = new List<Account>();
 
+        Id privateRtId = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get('Private_Individual').getRecordTypeId();
+
         accounts.add(new Account(
-            FirstName = 'Test',
-            LastName = 'Account1',
+            RecordTypeId = privateRtId,
+            Name = 'Test Account1',
             Stage__c = 'Lead',
             Email_for_Notifications__c = 'client1@example.com',
             Client_Code__c = 'LYD123'
         ));
 
         accounts.add(new Account(
-            FirstName = 'Test',
-            LastName = 'Account2',
+            RecordTypeId = privateRtId,
+            Name = 'Test Account2',
             Stage__c = 'Lead',
             Email_for_Notifications__c = 'client2@example.com',
             Client_Code__c = 'LYD456'
         ));
 
         accounts.add(new Account(
-            FirstName = 'Missing',
-            LastName = 'EmailAccount',
+            RecordTypeId = privateRtId,
+            Name = 'Missing EmailAccount',
             Stage__c = 'Lead',
             Email_for_Notifications__c = null,
             Client_Code__c = 'LYD789'
