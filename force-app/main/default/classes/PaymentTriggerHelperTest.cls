@@ -82,7 +82,8 @@ private class PaymentTriggerHelperTest {
     @isTest
     static void testHandleAfterInsert_shouldNotSendEmail_dueToMissingEmail() {
         Account accNoEmail = new Account(
-            LastName = 'No Email Account',
+            RecordTypeId = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get('Private_Individual').getRecordTypeId(),
+            Name = 'No Email Account',
             Type = 'Corporate Crypto'
         );
         insert accNoEmail;
