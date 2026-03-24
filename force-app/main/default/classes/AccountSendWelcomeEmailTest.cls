@@ -5,8 +5,8 @@ private class AccountSendWelcomeEmailTest {
     static void testSendEmailFromFlow() {
         // Create a test Account with required fields
         Account acc = new Account(
-            FirstName = 'Test',
-            LastName = 'User',
+            RecordTypeId = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get('Private_Individual').getRecordTypeId(),
+            Name = 'Test User',
             Client_Code__c = 'LYD123',
             Email_for_Notifications__c = 'testclient@example.com'
         );
@@ -26,8 +26,8 @@ private class AccountSendWelcomeEmailTest {
     static void testNoEmailIfNoNotificationAddress() {
         // Create an Account without Email_for_Notifications__c
         Account acc = new Account(
-            FirstName = 'No',
-            LastName = 'Client',
+            RecordTypeId = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get('Private_Individual').getRecordTypeId(),
+            Name = 'No Client',
             Client_Code__c = 'LYD999'
         );
         insert acc;

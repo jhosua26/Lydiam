@@ -50,6 +50,9 @@
         <label>Update Account Close</label>
         <locationX>176</locationX>
         <locationY>500</locationY>
+        <faultConnector>
+            <targetReference>Close_Failed_Screen</targetReference>
+        </faultConnector>
         <filterLogic>and</filterLogic>
         <filters>
             <field>Id</field>
@@ -119,6 +122,22 @@
             <fieldText>I confirm I want to close this account. This action will be logged and is not easily reversible.</fieldText>
             <fieldType>InputField</fieldType>
             <isRequired>true</isRequired>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
+        <name>Close_Failed_Screen</name>
+        <label>Unable to Close Account</label>
+        <locationX>350</locationX>
+        <locationY>500</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>Close_Failed_Message</name>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;color: rgb(194, 57, 52);&quot;&gt;Unable to Close Account&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;The account could not be closed. Please check that a closure reason has been provided and that the account meets all requirements for closure.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;b&gt;Technical detail:&lt;/b&gt; {!$Flow.FaultMessage}&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
         </fields>
         <showFooter>true</showFooter>
         <showHeader>true</showHeader>
