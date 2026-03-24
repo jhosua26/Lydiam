@@ -5,6 +5,7 @@ private class TradeTriggerHandlerTest {
     static void setupData() {
         // Create an Account with email for notifications
         Account acc = new Account(
+            RecordTypeId = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get('Private_Individual').getRecordTypeId(),
             LastName = 'Test User',
             Email_for_Notifications__c = 'testuser@example.com',
             Type = 'Corporate Crypto',

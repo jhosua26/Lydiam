@@ -3,6 +3,11 @@
     <description>Access to Create, Read/ View, Modify and Delete records</description>
     <hasActivationRequired>false</hasActivationRequired>
     <label>LG-Account-Full Access</label>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Account.PEP_Flag__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <objectPermissions>
         <allowCreate>true</allowCreate>
         <allowDelete>true</allowDelete>

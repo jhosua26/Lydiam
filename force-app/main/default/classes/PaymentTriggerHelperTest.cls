@@ -5,6 +5,7 @@ private class PaymentTriggerHelperTest {
     static void setupTestData() {
         // Account with notification email
         Account acc = new Account(
+            RecordTypeId = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get('Private_Individual').getRecordTypeId(),
             LastName = 'Test User',
             Email_for_Notifications__c = 'testuser@example.com',
             Type = 'Corporate Crypto',
