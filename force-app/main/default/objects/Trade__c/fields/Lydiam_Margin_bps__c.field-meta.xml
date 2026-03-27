@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Lydiam_Margin_bps__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(
+    OR(ISBLANK(Market_Rate__c), Market_Rate__c = 0),
+    0,
+    ((Client_rate__c - Cost_Rate__c) / Market_Rate__c) * 10000
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Lydiam Margin (bps)</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>
