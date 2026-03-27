@@ -85,12 +85,14 @@ public with sharing class AccountBalanceCalculator implements Database.Batchable
     private Map<Id, Map<String, Decimal>> aggregateByCurrency(Set<Id> accountIds, String currencyField) {
         Map<Id, Map<String, Decimal>> result = new Map<Id, Map<String, Decimal>>();
 
+        // Exclude crypto trades — those are aggregated separately into Balance_Crypto__c
         String query =
             'SELECT Account__c, ' + currencyField + ', SUM(Total_Amount__c) total ' +
             'FROM Trade__c ' +
             'WHERE Status__c = \'Settled\' ' +
             'AND Account__c IN :accountIds ' +
             'AND Total_Amount__c != NULL ' +
+            'AND Trade_Type__c NOT IN :CRYPTO_TRADE_TYPES ' +
             'GROUP BY Account__c, ' + currencyField;
 
         for (AggregateResult ar : Database.query(query)) {
