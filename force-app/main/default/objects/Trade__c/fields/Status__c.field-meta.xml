@@ -40,6 +40,26 @@
                 <default>false</default>
                 <label>Cancelled</label>
             </value>
+            <value>
+                <fullName>Pending</fullName>
+                <default>false</default>
+                <label>Pending</label>
+            </value>
+            <value>
+                <fullName>Funds Received</fullName>
+                <default>false</default>
+                <label>Funds Received</label>
+            </value>
+            <value>
+                <fullName>Settled</fullName>
+                <default>false</default>
+                <label>Settled</label>
+            </value>
+            <value>
+                <fullName>Failed</fullName>
+                <default>false</default>
+                <label>Failed</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

@@ -3,3 +3,6 @@ developmentBranch: uat
 autoCleanTypes:
   - destructivechanges
   - flowPositions
+# Sandboxes do not support source tracking — use manifest-based retrieve
+useSfdxGitDelta: false
+retrievePackages: true
